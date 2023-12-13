@@ -50,24 +50,34 @@ export const SideNavigation = styled.nav`
 export const ButtonIcon = styled.img``;
 
 export const ContentSection = styled.section`
-  width: 100%;
-  height: 100vh;
+  position: relative;
+
+  width: 100vw;
 
   @media (min-width: 801px) {
+    width: 50vw;
     margin: 0 25vw;
   }
 
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
   background-color: ${(props) => props.theme.schemes.light.background};
 `;
+
 export const ContentSectionInner = styled.div`
-  height: 100%;
+  padding: 100px 20px 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+
+  @media (min-width: 801px) {
+    padding: 20px;
+  }
 `;
 
 export const Header = styled.header`
+  position: fixed;
+  top: 0;
+  z-index: 5;
+
   width: 100%;
 
   display: none;
@@ -78,16 +88,24 @@ export const Header = styled.header`
     ${(props) => props.theme.schemes.light.surfaceVariant};
   padding: 10px;
 
+  background-color: ${(props) => props.theme.schemes.light.background};
+
   @media (max-width: 800px) {
     display: flex;
   }
 `;
 
 export const ButtomNavigation = styled.nav`
+  position: fixed;
+  bottom: 0;
+  z-index: 5;
+
   width: 100%;
 
   display: none;
   justify-content: space-between;
+
+  background-color: ${(props) => props.theme.schemes.light.background};
 
   border-top: 1px solid ${(props) => props.theme.schemes.light.surfaceVariant};
   padding: 10px;
