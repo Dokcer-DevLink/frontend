@@ -39,6 +39,7 @@ export const theme = {
       onErrorContainer: '#410002',
       background: '#fdfcff',
       onBackground: '#1a1c1e',
+      hoveredBackground: '#f1f0f4',
       outline: '#73777f',
       inverseOnSurface: '#f1f0f4',
       inverseSurface: '#2f3033',
