@@ -8,6 +8,9 @@ interface Wrapper {
   size: 'large' | 'medium' | 'small';
   flexdirection?: 'column' | 'row';
   fontweight?: Number;
+  isoutlined: Boolean;
+  justifycontent: 'start' | 'center' | 'space-between' | 'space-around';
+  border: string | undefined;
 }
 
 export const Wrapper = styled.button<Wrapper>`
@@ -15,15 +18,28 @@ export const Wrapper = styled.button<Wrapper>`
 
   display: flex;
   flex-direction: ${(props) => props.flexdirection};
+  justify-content: ${(props) => props.justifycontent};
   gap: 15px;
   align-items: center;
 
-  border: none;
+  border: ${(props) =>
+    props.border
+      ? props.border
+      : props.isoutlined
+      ? `1px solid ${props.theme.schemes.light[props.variant]}`
+      : 'none'};
   border-radius: 5px;
-  padding: 10px;
+  padding: ${(props) =>
+    props.border || props.isoutlined ? '9px 10px' : '10px'};
 
-  background-color: ${(props) => props.theme.schemes.light[props.variant]};
-  color: ${(props) => props.theme.schemes.light[getTextColor(props.variant)]};
+  background-color: ${(props) =>
+    props.isoutlined
+      ? props.theme.schemes.light[getTextColor(props.variant)]
+      : props.theme.schemes.light[props.variant]};
+  color: ${(props) =>
+    props.isoutlined
+      ? props.theme.schemes.light[props.variant]
+      : props.theme.schemes.light[getTextColor(props.variant)]};
   font-size: ${(props) =>
     props.theme.styles[props.type][props.size].fontSize}px;
   font-weight: ${(props) =>
@@ -35,10 +51,15 @@ export const Wrapper = styled.button<Wrapper>`
   letter-spacing: ${(props) =>
     props.theme.styles[props.type][props.size].letterSpacing}px;
 
+  white-space: nowrap;
   cursor: pointer;
 
   &:hover {
     background-color: ${(props) =>
-      props.theme.schemes.light[getHoveredColor(props.variant)]};
+      props.isoutlined
+        ? props.theme.schemes.light[
+            getHoveredColor(getTextColor(props.variant))
+          ]
+        : props.theme.schemes.light[getHoveredColor(props.variant)]};
   }
 `;

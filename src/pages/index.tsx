@@ -1,11 +1,10 @@
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
 import { Button, Slider } from '@/components/Elements';
-import { MainLayout } from '@/components/Layout';
+import { Header, MainLayout } from '@/components/Layout';
 import { Post } from '@/features/posts';
 import { User } from '@/features/users';
-import { PostSeeAll, PostSeeAllContent, UserSeeAll } from './index.style';
+import { Inner, PostSeeAll, UserSeeAll } from './index.style';
 import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,76 +19,92 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
-        <Slider title="추천 멘토 게시물" link="/posts">
-          <>
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Link href="/posts">
-              <PostSeeAll>추천멘토 게시물 모두 보기</PostSeeAll>
-            </Link>
-          </>
-        </Slider>
-        <Slider title="추천 멘티 게시물" link="/posts">
-          <>
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Link href="/posts">
-              <PostSeeAll>추천멘티 게시물 모두 보기</PostSeeAll>
-            </Link>
-          </>
-        </Slider>
-        <Slider title="추천 멘토" link="/users">
-          <>
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <Link href="/users">
-              <UserSeeAll>추천 멘토 모두 보기</UserSeeAll>
-            </Link>
-          </>
-        </Slider>
-        <Slider title="추천 멘티" link="/user">
-          <>
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <User />
-            <Link href="/users">
-              <UserSeeAll>추천 멘티 모두 보기</UserSeeAll>
-            </Link>
-          </>
-        </Slider>
+        <Header
+          rightbuttons={
+            <>
+              <Link href="/auth/login">
+                <Button>로그인</Button>
+              </Link>
+              <Link href="/auth/regist">
+                <Button variant="primary" isoutlined={true}>
+                  회원가입
+                </Button>
+              </Link>
+            </>
+          }
+        />{' '}
+        <Inner>
+          <Slider title="추천 멘토 게시물" link="/posts">
+            <>
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Link href="/posts">
+                <PostSeeAll>추천멘토 게시물 모두 보기</PostSeeAll>
+              </Link>
+            </>
+          </Slider>
+          <Slider title="추천 멘티 게시물" link="/posts">
+            <>
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Link href="/posts">
+                <PostSeeAll>추천멘티 게시물 모두 보기</PostSeeAll>
+              </Link>
+            </>
+          </Slider>
+          <Slider title="추천 멘토" link="/users">
+            <>
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <Link href="/users">
+                <UserSeeAll>추천 멘토 모두 보기</UserSeeAll>
+              </Link>
+            </>
+          </Slider>
+          <Slider title="추천 멘티" link="/user">
+            <>
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <Link href="/users">
+                <UserSeeAll>추천 멘티 모두 보기</UserSeeAll>
+              </Link>
+            </>
+          </Slider>
+        </Inner>
       </MainLayout>
     </>
   );

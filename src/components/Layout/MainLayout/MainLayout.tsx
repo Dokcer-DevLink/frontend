@@ -1,11 +1,9 @@
 import React from 'react';
 import {
   ButtomNavigation,
-  ButtonIcon,
   ContentSection,
-  ContentSectionInner,
-  Header,
   Logo,
+  SectionHeader,
   SideNavigation,
   SideSection,
   Wrapper,
@@ -13,7 +11,6 @@ import {
 import { Button } from '@/components/Elements';
 
 import LogoSidename from '@/assets/images/logo-sidename.png';
-import LogoSquare from '@/assets/images/logo.png';
 import Link from 'next/link';
 
 import { HiHome } from 'react-icons/hi';
@@ -24,6 +21,7 @@ import { IoIosChatbubbles } from 'react-icons/io';
 import { RiUser3Fill } from 'react-icons/ri';
 import { useRouter } from 'next/router';
 import { OnBoarding } from '@/features/misc';
+import { Header } from './Header';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -57,10 +55,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         </SideNavigation>
       </SideSection>
       <ContentSection>
-        <Header>
-          <Logo src={LogoSquare.src} width="50px" />
-        </Header>
-        <ContentSectionInner>{children}</ContentSectionInner>
+        {children}
         <ButtomNavigation>
           {navigationButtons.map((button, i) => {
             if (button.name === '검색') {
@@ -86,6 +81,16 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         </ButtomNavigation>
       </ContentSection>
       <SideSection right="0">
+        <SectionHeader>
+          <Link href="/auth/login" style={{ width: '100%' }}>
+            <Button justifycontent="center">로그인</Button>
+          </Link>
+          <Link href="/auth/regist" style={{ width: '100%' }}>
+            <Button variant="primary" isoutlined={true} justifycontent="center">
+              회원가입
+            </Button>
+          </Link>
+        </SectionHeader>
         <OnBoarding />
       </SideSection>
     </Wrapper>

@@ -1,6 +1,17 @@
 import { getTextColor } from '@/utils/getColor';
 import styled from 'styled-components';
 
+export const Inner = styled.div`
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+
+  @media (min-width: 801px) {
+    padding: 0;
+  }
+`;
+
 export const PostSeeAll = styled.div`
   width: 200px;
   height: 200px;

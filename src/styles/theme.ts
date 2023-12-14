@@ -10,7 +10,9 @@ export const theme = {
   schemes: {
     light: {
       primary: '#0061a3',
+      hoveredPrimary: '#007bcc',
       onPrimary: '#ffffff',
+      hoveredOnPrimary: '#f1f0f4',
       primaryContainer: '#d1e4ff',
       onPrimaryContainer: '#001d36',
       primaryFixed: '#d1e4ff',
@@ -38,8 +40,9 @@ export const theme = {
       onError: '#ffffff',
       onErrorContainer: '#410002',
       background: '#fdfcff',
-      onBackground: '#1a1c1e',
       hoveredBackground: '#f1f0f4',
+      onBackground: '#1a1c1e',
+      hoveredOnBackground: '#2f3033',
       outline: '#73777f',
       inverseOnSurface: '#f1f0f4',
       inverseSurface: '#2f3033',

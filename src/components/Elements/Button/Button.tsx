@@ -9,16 +9,22 @@ type ButtonProps = {
   startIcon?: React.ReactElement;
   flexdirection?: 'column' | 'row';
   fontweight?: Number;
+  isoutlined?: Boolean;
+  justifycontent?: 'start' | 'center' | 'space-between' | 'space-around';
+  border?: string;
 };
 
 export const Button = ({
-  variant = 'primary',
   children,
+  variant = 'primary',
   type = 'label',
   size = 'medium',
   startIcon,
   flexdirection = 'row',
   fontweight,
+  isoutlined = false,
+  justifycontent = 'start',
+  border,
 }: ButtonProps) => {
   return (
     <Wrapper
@@ -27,6 +33,9 @@ export const Button = ({
       size={size}
       flexdirection={flexdirection}
       fontweight={fontweight}
+      isoutlined={isoutlined}
+      justifycontent={justifycontent}
+      border={border}
     >
       {startIcon}
       {children}
