@@ -29,11 +29,12 @@ pipeline {
         }
         stage('Docker Build and Push') {
             steps {
-                     {
-                    // Login to DockerHub
-                    withDockerRegistry([ credentialsId: DOCKERHUB_CREDENTIALS, url: "" ]){
-                    sh "docker push $IMAGE_NAME:$IMAGE_TAG"
-                    }
+                // Docker 이미지 빌드
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
+        
+            steps {
+                withDockerRegistry([ credentialsId: DOCKERHUB_CREDENTIALS, url: "" ]){
+                    sh "docker push $IMAGE_NAME:$IMAGE_TAG"                
                 }
             }
         }
@@ -42,7 +43,7 @@ pipeline {
     
     post {
         always {
-            // Any cleanup steps or post-build actions
+            sh "docker logout $REGISTRY"
         }
     }
 }
