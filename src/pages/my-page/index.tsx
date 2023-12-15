@@ -1,7 +1,33 @@
-import { MainLayout } from '@/components/Layout';
+import { Button } from '@/components/Elements';
+import { Header, MainLayout } from '@/components/Layout';
 import Head from 'next/head';
+import Link from 'next/link';
+import {
+  Buttons,
+  Email,
+  Infomations,
+  Inner,
+  Nickname,
+  Profile,
+  Request,
+  RequestInfomation,
+  RequestPostImage,
+  RequestPostTitle,
+  RequestState,
+  RequestTag,
+  RequestUserImage,
+  Requests,
+  TextInfomations,
+  UserImage,
+} from './index.style';
+
+import k8s from '@/assets/images/k8s.png';
+import NoProfileUser from '@/assets/icons/no-profile-user.svg';
+import { useState } from 'react';
+import { DeleteAccount, Logout } from '@/features/auth';
 
 export default function MyPage() {
+  const [selectedList, setSelectedList] = useState('sended');
   return (
     <>
       <Head>
@@ -10,7 +36,151 @@ export default function MyPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MainLayout>My Page</MainLayout>
+      <MainLayout>
+        <Header title="마이페이지" rightbuttons={<></>} />
+        <Inner>
+          <Profile>
+            <Infomations>
+              <UserImage src={NoProfileUser.src} />
+              <TextInfomations>
+                <Nickname>김재만</Nickname>
+                <Email>daga4242@gmail.com</Email>
+              </TextInfomations>
+            </Infomations>
+            <Link href="/my-page/profile">
+              <Button>프로필 보기</Button>
+            </Link>
+          </Profile>
+          <Buttons>
+            <Button
+              isoutlined={selectedList === 'sended' ? false : true}
+              onclick={() => setSelectedList('sended')}
+              justifycontent="center"
+            >
+              보낸 멘토링 신청
+            </Button>
+            <Button
+              isoutlined={selectedList === 'sended' ? true : false}
+              onclick={() => setSelectedList('received')}
+              justifycontent="center"
+            >
+              받은 멘토링 신청
+            </Button>
+          </Buttons>
+          <Requests>
+            {selectedList === 'sended'
+              ? sendedRequests.map((request, i) => (
+                  <Request key={i}>
+                    <RequestPostImage src={request.image} />
+                    <RequestInfomation>
+                      <RequestPostTitle>{request.title}</RequestPostTitle>
+                      <RequestTag>{request.skill}</RequestTag>
+                      <RequestTag>{request.region}</RequestTag>
+                    </RequestInfomation>
+                    <RequestState>{request.status}</RequestState>
+                  </Request>
+                ))
+              : receivedRequests.map((request, i) => (
+                  <Request key={i}>
+                    <RequestUserImage src={request.image} />
+                    <RequestInfomation>
+                      <RequestPostTitle>{request.nickname}</RequestPostTitle>
+                      <RequestTag>{request.skill}</RequestTag>
+                      <RequestTag>{request.region}</RequestTag>
+                    </RequestInfomation>
+                    <RequestState>{request.status}</RequestState>
+                  </Request>
+                ))}
+          </Requests>
+          <Buttons>
+            <Logout />
+            <DeleteAccount />
+          </Buttons>
+        </Inner>
+      </MainLayout>
     </>
   );
 }
+
+const sendedRequests = [
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+];
+
+const receivedRequests = [
+  {
+    image: NoProfileUser.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: NoProfileUser.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: NoProfileUser.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: NoProfileUser.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: NoProfileUser.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+];

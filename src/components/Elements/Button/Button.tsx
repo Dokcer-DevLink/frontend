@@ -12,6 +12,7 @@ type ButtonProps = {
   isoutlined?: Boolean;
   justifycontent?: 'start' | 'center' | 'space-between' | 'space-around';
   border?: string;
+  onclick?: () => void;
 };
 
 export const Button = ({
@@ -25,6 +26,7 @@ export const Button = ({
   isoutlined = false,
   justifycontent = 'start',
   border,
+  onclick,
 }: ButtonProps) => {
   return (
     <Wrapper
@@ -36,6 +38,7 @@ export const Button = ({
       isoutlined={isoutlined}
       justifycontent={justifycontent}
       border={border}
+      onClick={onclick}
     >
       {startIcon}
       {children}

@@ -149,7 +149,7 @@ const navigationButtons = [
     url: '/chat',
   },
   {
-    name: '내 정보',
+    name: '마이페이지',
     icons: [
       <RiUser3Fill key={0} size="30" />,
       <RiUser3Fill key={1} size="26" />,

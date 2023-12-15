@@ -32,7 +32,6 @@ export const Inner = styled.div`
   gap: 30px;
 
   overflow-x: scroll;
-  //   scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;

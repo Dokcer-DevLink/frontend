@@ -29,6 +29,18 @@ export const Buttons = styled.div`
   margin: 0 0 0 auto;
 `;
 
+export const Title = styled.h2`
+  margin: 0 auto;
+
+  color: ${(props) => props.theme.schemes.light.onBackground};
+
+  font-size: ${(props) => props.theme.styles.headline.small.fontSize}px;
+  font-weight: ${(props) => props.theme.styles.headline.small.fontWeight};
+  line-height: ${(props) => props.theme.styles.headline.small.lineHeight}px;
+  letter-spacing: ${(props) =>
+    props.theme.styles.headline.small.letterSpacing}px;
+`;
+
 export const Logo = styled.img`
   margin: 0 auto;
   width: ${(props) => props.width};

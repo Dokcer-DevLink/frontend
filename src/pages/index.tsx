@@ -32,7 +32,7 @@ export default function Home() {
               </Link>
             </>
           }
-        />{' '}
+        />
         <Inner>
           <Slider title="추천 멘토 게시물" link="/posts">
             <>

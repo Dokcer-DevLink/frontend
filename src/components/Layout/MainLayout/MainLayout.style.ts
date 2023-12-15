@@ -72,6 +72,10 @@ export const ContentSection = styled.section`
   background-color: ${(props) => props.theme.schemes.light.background};
 
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ButtomNavigation = styled.nav`

@@ -1,11 +1,11 @@
 import { Image, Nickname, Tag, Tags, Wrapper } from './User.style';
 
-import k8s from '@/assets/images/k8s.png';
+import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 
 export const User = () => {
   return (
     <Wrapper>
-      <Image src={k8s.src} />
+      <Image src={NoProfileUser.src} alt="User Profile Image" />
       <Nickname>김재만</Nickname>
       <Tags>
         <Tag>React</Tag>
