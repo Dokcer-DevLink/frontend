@@ -1,10 +1,10 @@
-import { FieldError } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { ErrorMessage, Label, Wrapper } from './FieldWrapper.style';
 
 type FieldWrapperProps = {
-  label?: string;
+  label?: string | React.ReactNode;
   children: React.ReactNode;
-  error?: FieldError | undefined;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
 };
 
 export type FieldWrapperPassThroughProps = Omit<FieldWrapperProps, 'children'>;
@@ -14,10 +14,11 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
   return (
     <Wrapper>
       <Label>
-        {label}
-        {children}
+        {label} {children}
       </Label>
-      {error?.message && <ErrorMessage>{error.message}</ErrorMessage>}
+      {error?.message && (
+        <ErrorMessage>{error.message.toString()}</ErrorMessage>
+      )}
     </Wrapper>
   );
 };

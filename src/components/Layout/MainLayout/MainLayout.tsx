@@ -29,7 +29,7 @@ type MainLayoutProps = {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const { route } = useRouter();
-  console.log(route);
+  // console.log(route);
   return (
     <Wrapper>
       <SideSection left="0">
@@ -44,7 +44,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                   route === button.url ? button.icons[0] : button.icons[1]
                 }
                 variant="background"
-                type="title"
+                textstyle="title"
                 size="medium"
                 fontweight={route === button.url ? 500 : 400}
               >
@@ -68,7 +68,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                     route === button.url ? button.icons[2] : button.icons[3]
                   }
                   variant="background"
-                  type="label"
+                  textstyle="label"
                   size="medium"
                   flexdirection="column"
                   fontweight={route === button.url ? 500 : 400}

@@ -4,8 +4,9 @@ import styled from 'styled-components';
 
 interface Wrapper {
   variant: string;
-  type: keyof typeof theme.styles;
+  textstyle: keyof typeof theme.styles;
   size: 'large' | 'medium' | 'small';
+  padding: string | undefined;
   flexdirection?: 'column' | 'row';
   fontweight?: Number;
   isoutlined: Boolean;
@@ -30,7 +31,11 @@ export const Wrapper = styled.button<Wrapper>`
       : 'none'};
   border-radius: 5px;
   padding: ${(props) =>
-    props.border || props.isoutlined ? '9px 10px' : '10px'};
+    props.padding
+      ? props.padding
+      : props.border || props.isoutlined
+      ? '9px 10px'
+      : '10px'};
 
   background-color: ${(props) =>
     props.isoutlined
@@ -41,15 +46,15 @@ export const Wrapper = styled.button<Wrapper>`
       ? props.theme.schemes.light[props.variant]
       : props.theme.schemes.light[getTextColor(props.variant)]};
   font-size: ${(props) =>
-    props.theme.styles[props.type][props.size].fontSize}px;
+    props.theme.styles[props.textstyle][props.size].fontSize}px;
   font-weight: ${(props) =>
     props.fontweight
       ? props.fontweight
-      : props.theme.styles[props.type][props.size].fontWeight};
+      : props.theme.styles[props.textstyle][props.size].fontWeight};
   line-height: ${(props) =>
-    props.theme.styles[props.type][props.size].lineHeight}px;
+    props.theme.styles[props.textstyle][props.size].lineHeight}px;
   letter-spacing: ${(props) =>
-    props.theme.styles[props.type][props.size].letterSpacing}px;
+    props.theme.styles[props.textstyle][props.size].letterSpacing}px;
 
   white-space: nowrap;
   cursor: pointer;

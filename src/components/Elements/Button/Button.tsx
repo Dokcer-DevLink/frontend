@@ -1,10 +1,12 @@
 import { theme } from '@/styles/theme';
 import { Wrapper } from './Button.style';
+import { MutableRefObject } from 'react';
 
 type ButtonProps = {
   variant?: keyof typeof theme.schemes.light;
-  type?: keyof typeof theme.styles;
+  textstyle?: keyof typeof theme.styles;
   size?: 'large' | 'medium' | 'small';
+  padding?: string;
   children?: React.ReactNode;
   startIcon?: React.ReactElement;
   flexdirection?: 'column' | 'row';
@@ -13,13 +15,16 @@ type ButtonProps = {
   justifycontent?: 'start' | 'center' | 'space-between' | 'space-around';
   border?: string;
   onclick?: () => void;
+  type?: 'button' | 'reset' | 'submit';
+  form?: string;
 };
 
 export const Button = ({
   children,
   variant = 'primary',
-  type = 'label',
+  textstyle = 'label',
   size = 'medium',
+  padding,
   startIcon,
   flexdirection = 'row',
   fontweight,
@@ -27,18 +32,23 @@ export const Button = ({
   justifycontent = 'start',
   border,
   onclick,
+  type = 'button',
+  form,
 }: ButtonProps) => {
   return (
     <Wrapper
       variant={variant}
-      type={type}
+      textstyle={textstyle}
       size={size}
+      padding={padding}
       flexdirection={flexdirection}
       fontweight={fontweight}
       isoutlined={isoutlined}
       justifycontent={justifycontent}
       border={border}
       onClick={onclick}
+      type={type}
+      form={form}
     >
       {startIcon}
       {children}

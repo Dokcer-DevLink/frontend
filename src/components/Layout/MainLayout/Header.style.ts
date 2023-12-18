@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface Buttons {
+  margin: string;
+}
+
 export const Wrapper = styled.header`
   position: fixed;
   top: 0;
@@ -21,12 +25,12 @@ export const Wrapper = styled.header`
   }
 `;
 
-export const Buttons = styled.div`
+export const Buttons = styled.div<Buttons>`
   display: flex;
   align-items: center;
   gap: 5px;
 
-  margin: 0 0 0 auto;
+  margin: ${(props) => props.margin};
 `;
 
 export const Title = styled.h2`

@@ -61,7 +61,7 @@ export const ContentSection = styled.section`
   flex-direction: column;
   gap: 70px;
 
-  padding: 100px 0 150px;
+  padding: 70px 0 150px;
 
   @media (min-width: 801px) {
     width: 50vw;
