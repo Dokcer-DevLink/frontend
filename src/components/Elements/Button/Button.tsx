@@ -6,6 +6,7 @@ type ButtonProps = {
   variant?: keyof typeof theme.schemes.light;
   textstyle?: keyof typeof theme.styles;
   size?: 'large' | 'medium' | 'small';
+  borderradius?: string;
   padding?: string;
   children?: React.ReactNode;
   startIcon?: React.ReactElement;
@@ -24,6 +25,7 @@ export const Button = ({
   variant = 'primary',
   textstyle = 'label',
   size = 'medium',
+  borderradius = '5px',
   padding,
   startIcon,
   flexdirection = 'row',
@@ -40,6 +42,7 @@ export const Button = ({
       variant={variant}
       textstyle={textstyle}
       size={size}
+      borderradius={borderradius}
       padding={padding}
       flexdirection={flexdirection}
       fontweight={fontweight}

@@ -25,6 +25,7 @@ import k8s from '@/assets/images/k8s.png';
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import { useState } from 'react';
 import { DeleteAccount, Logout } from '@/features/auth';
+import { VerticalPost } from '@/features/posts';
 
 export default function MyPage() {
   const [selectedList, setSelectedList] = useState('sended');
@@ -69,16 +70,15 @@ export default function MyPage() {
           </Buttons>
           <Requests>
             {selectedList === 'sended'
-              ? sendedRequests.map((request, i) => (
-                  <Request key={i}>
-                    <RequestPostImage src={request.image} />
-                    <RequestInfomation>
-                      <RequestPostTitle>{request.title}</RequestPostTitle>
-                      <RequestTag>{request.skill}</RequestTag>
-                      <RequestTag>{request.region}</RequestTag>
-                    </RequestInfomation>
-                    <RequestState>{request.status}</RequestState>
-                  </Request>
+              ? sendedRequests.map((post, i) => (
+                  <VerticalPost
+                    key={i}
+                    title={post.title}
+                    image={post.image}
+                    skill={post.skill}
+                    region={post.region}
+                    rightElement={<RequestState>{post.status}</RequestState>}
+                  />
                 ))
               : receivedRequests.map((request, i) => (
                   <Request key={i}>

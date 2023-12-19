@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   align-items: center;
   gap: 30px;
 
-  padding: 40px 20px;
+  padding: 20px 20px;
 
   background-color: color-mix(
     in srgb,
@@ -21,7 +21,8 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 150px;
+  height: 120px;
+  width: 120px;
   background: ${(props) => props.theme.schemes.light.surfaceVariant};
 
   border-radius: 50%;

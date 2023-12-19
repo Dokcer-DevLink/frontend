@@ -7,6 +7,9 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { Buttons, Inner } from './profile.style';
 import { useState } from 'react';
 import { Profile } from '@/features/users';
+import { MyPosts } from '@/features/posts';
+
+import k8s from '@/assets/images/k8s.png';
 
 export default function MyProfile() {
   const [selectedTap, setSelectedTap] = useState('profile');
@@ -58,9 +61,120 @@ export default function MyProfile() {
               멘토링 목록
             </Button>
           </Buttons>
-          {selectedTap === 'profile' ? <Profile /> : <></>}
+          {selectedTap === 'profile' ? (
+            <Profile />
+          ) : (
+            <MyPosts
+              postsAsMentor={postsAsMentor}
+              postsAsMentee={postsAsMentee}
+            />
+          )}
         </Inner>
       </MainLayout>
     </>
   );
 }
+
+const postsAsMentor = [
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: null,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+];
+
+const postsAsMentee = [
+  {
+    image: k8s.src,
+    title: '멘토 급구! ',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: null,
+    title: '멘토 급구! ',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: null,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+    status: '수락 대기 중',
+  },
+];

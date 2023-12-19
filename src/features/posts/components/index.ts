@@ -1,1 +1,4 @@
-export * from './Post';
+export * from './HorizontalPost';
+export * from './MyPosts';
+
+export * from './VerticalPost';

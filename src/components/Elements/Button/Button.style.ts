@@ -6,6 +6,7 @@ interface Wrapper {
   variant: string;
   textstyle: keyof typeof theme.styles;
   size: 'large' | 'medium' | 'small';
+  borderradius: string;
   padding: string | undefined;
   flexdirection?: 'column' | 'row';
   fontweight?: Number;
@@ -29,7 +30,7 @@ export const Wrapper = styled.button<Wrapper>`
       : props.isoutlined
       ? `1px solid ${props.theme.schemes.light[props.variant]}`
       : 'none'};
-  border-radius: 5px;
+  border-radius: ${(props) => props.borderradius};
   padding: ${(props) =>
     props.padding
       ? props.padding

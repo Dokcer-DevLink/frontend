@@ -152,6 +152,8 @@ export const RequestState = styled.span`
   font-weight: ${(props) => props.theme.styles.body.small.fontWeight};
   line-height: ${(props) => props.theme.styles.body.small.lineHeight}px;
   letter-spacing: ${(props) => props.theme.styles.body.small.letterSpacing}px;
+
+  white-space: nowrap;
 `;
 
 export const RequestUserImage = styled.img`

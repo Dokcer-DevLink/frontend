@@ -1,12 +1,21 @@
-import { Contents, Image, Tag, Tags, Title, Wrapper } from './Post.style';
+import {
+  Contents,
+  Image,
+  Tag,
+  Tags,
+  Title,
+  Wrapper,
+} from './HorizontalPost.style';
 
 import Logo from '@/assets/images/logo.png';
 
-export const Post = () => {
+export type HorizontalPostProps = {};
+
+export const HorizontalPost = () => {
   return (
     <Wrapper>
       <Contents>
-        <Image src={Logo.src} />
+        <Image src={Logo.src} alt="게시물 이미지" />
         <Tags>
           <Tag>React</Tag>
           <Tag>동작구</Tag>

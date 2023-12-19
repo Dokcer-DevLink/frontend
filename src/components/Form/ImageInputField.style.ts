@@ -5,8 +5,8 @@ export const Input = styled.input`
 `;
 
 export const Image = styled.img`
-  width: 150px;
-  height: 150px;
+  height: 120px;
+  width: 120px;
 
   background: ${(props) => props.theme.schemes.light.surfaceVariant};
 
