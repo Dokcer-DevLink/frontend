@@ -7,9 +7,11 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { Buttons, Inner } from './profile.style';
 import { useState } from 'react';
 import { Profile } from '@/features/users';
-import { MyPosts } from '@/features/posts';
+import { MyPosts, VerticalPostProps } from '@/features/posts';
 
 import k8s from '@/assets/images/k8s.png';
+import { MyMentorings } from '@/features/mentorings';
+import { MentoringProps } from '@/features/mentorings/components/Mentoring';
 
 export default function MyProfile() {
   const [selectedTap, setSelectedTap] = useState('profile');
@@ -47,9 +49,9 @@ export default function MyProfile() {
               내 프로필
             </Button>
             <Button
-              isoutlined={selectedTap === 'postlist' ? false : true}
+              isoutlined={selectedTap === 'posts' ? false : true}
               justifycontent="center"
-              onclick={() => setSelectedTap('postlist')}
+              onclick={() => setSelectedTap('posts')}
             >
               게시물 목록
             </Button>
@@ -63,10 +65,15 @@ export default function MyProfile() {
           </Buttons>
           {selectedTap === 'profile' ? (
             <Profile />
-          ) : (
+          ) : selectedTap === 'posts' ? (
             <MyPosts
               postsAsMentor={postsAsMentor}
               postsAsMentee={postsAsMentee}
+            />
+          ) : (
+            <MyMentorings
+              mentoringsAsMentor={mentoringsAsMentor}
+              mentoringsAsMentee={mentoringsAsMentee}
             />
           )}
         </Inner>
@@ -75,106 +82,150 @@ export default function MyProfile() {
   );
 }
 
-const postsAsMentor = [
+const postsAsMentor: VerticalPostProps[] = [];
+
+const postsAsMentee: VerticalPostProps[] = [
+  {
+    image: k8s.src,
+    title: '멘토 급구! ',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: null,
+    title: '멘토 급구! ',
+    skill: 'React',
+    region: '동작구',
+  },
   {
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
-    status: '수락 대기 중',
   },
   {
     image: null,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
-    status: '수락 대기 중',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
   },
 ];
 
-const postsAsMentee = [
+const mentoringsAsMentor: MentoringProps[] = [];
+
+const mentoringsAsMentee: MentoringProps[] = [
   {
-    image: k8s.src,
-    title: '멘토 급구! ',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: null,
-    title: '멘토 급구! ',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: null,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
+    title: '동작구 멘토 구합니다',
+    promisedAt: '2023-12-19',
+    region: '서울특별시 동작구 노량진동',
+    status: '완료',
   },
 ];

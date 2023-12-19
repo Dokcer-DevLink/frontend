@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { HorizontalPostProps, VerticalPost, VerticalPostProps } from '.';
-import { Buttons, Posts, Wrapper } from './MyPosts.style';
 import { Button, Empty } from '@/components/Elements';
+import { Mentoring, MentoringProps } from './Mentoring';
+import { Buttons, Mentorings, Wrapper } from './MyMentorings.style';
+import { useEffect, useState } from 'react';
 
-type PostsProps = {
-  postsAsMentor: VerticalPostProps[];
-  postsAsMentee: VerticalPostProps[];
+type MyMentoringsProps = {
+  mentoringsAsMentor: MentoringProps[];
+  mentoringsAsMentee: MentoringProps[];
 };
 
-export const MyPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
+export const MyMentorings = ({
+  mentoringsAsMentor,
+  mentoringsAsMentee,
+}: MyMentoringsProps) => {
   const [isSelectedRoleEqualsMentor, setIsSelectedRoleEqualsMentor] =
     useState(true);
-
-  const [posts, setPosts] = useState(postsAsMentor);
+  const [mentorings, setMentorings] = useState(mentoringsAsMentor);
 
   useEffect(() => {
     if (isSelectedRoleEqualsMentor) {
-      setPosts(postsAsMentor);
+      setMentorings(mentoringsAsMentor);
     } else {
-      setPosts(postsAsMentee);
+      setMentorings(mentoringsAsMentee);
     }
   }, [isSelectedRoleEqualsMentor]);
 
@@ -32,7 +34,7 @@ export const MyPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
           isoutlined={!isSelectedRoleEqualsMentor}
           borderradius="0"
         >
-          멘토로 작성한 게시글
+          내가 한 멘토링
         </Button>
         <Button
           onclick={() => setIsSelectedRoleEqualsMentor(false)}
@@ -41,21 +43,21 @@ export const MyPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
           isoutlined={isSelectedRoleEqualsMentor}
           borderradius="0"
         >
-          멘티로 작성한 게시글
+          내가 받은 멘토링
         </Button>
       </Buttons>
-      {posts.length ? (
-        <Posts>
-          {posts.map((post, i) => (
-            <VerticalPost
+      {mentorings.length ? (
+        <Mentorings>
+          {mentorings.map((mentoring, i) => (
+            <Mentoring
               key={i}
-              title={post.title}
-              image={post.image}
-              skill={post.skill}
-              region={post.region}
+              title={mentoring.title}
+              promisedAt={mentoring.promisedAt}
+              region={mentoring.region}
+              status={mentoring.status}
             />
           ))}
-        </Posts>
+        </Mentorings>
       ) : (
         <Empty />
       )}
