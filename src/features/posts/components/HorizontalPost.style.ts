@@ -1,4 +1,3 @@
-import { getTextColor } from '@/utils/getColor';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -28,7 +27,7 @@ export const Tag = styled.li`
   padding: 3px 10px;
 
   background: ${(props) => props.theme.schemes.light.secondary};
-  color: ${(props) => props.theme.schemes.light[getTextColor('secondary')]};
+  color: ${(props) => props.theme.schemes.light.onSecondary};
   font-size: ${(props) => props.theme.styles.label.small.fontSize}px;
   font-weight: ${(props) => props.theme.styles.label.small.fontWeight};
   line-height: ${(props) => props.theme.styles.label.small.lineHeight}px;
@@ -40,7 +39,7 @@ export const Tag = styled.li`
 
 export const Title = styled.h5`
   background: ${(props) => props.theme.schemes.light.background};
-  color: ${(props) => props.theme.schemes.light[getTextColor('background')]};
+  color: ${(props) => props.theme.schemes.light.onBackground};
   font-size: ${(props) => props.theme.styles.label.large.fontSize}px;
   font-weight: ${(props) => props.theme.styles.label.large.fontWeight};
   line-height: ${(props) => props.theme.styles.label.large.lineHeight}px;

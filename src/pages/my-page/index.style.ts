@@ -94,13 +94,13 @@ export const Request = styled.div`
   cursor: pointer;
   padding: 10px;
 
-  background-color: color-mix(
-    in srgb,
-    ${(props) => props.theme.schemes.light.primaryContainer} 8%,
-    ${(props) => props.theme.schemes.light.background}
-  );
+  background-color: ${(props) => props.theme.schemes.light.background};
 
-  filter: drop-shadow(0px 6px 2px rgba(0, 0, 0, 0.15));
+  &:hover {
+    background-color: ${(props) => props.theme.schemes.light.hoveredBackground};
+  }
+
+  // filter: drop-shadow(0px 6px 2px rgba(0, 0, 0, 0.15));
 `;
 
 export const RequestPostImage = styled.img`
@@ -157,7 +157,7 @@ export const RequestState = styled.span`
 `;
 
 export const RequestUserImage = styled.img`
-  width: 100px;
+  width: 80px;
 
   border-radius: 50%;
 

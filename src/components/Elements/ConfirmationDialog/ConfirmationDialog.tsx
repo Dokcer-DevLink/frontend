@@ -12,7 +12,7 @@ import {
 export type ConfirmationDialogProps = {
   triggerButton: React.ReactElement;
   confirmationButton: React.ReactElement;
-  title: string;
+  title?: string;
   description?: string;
   isDone?: boolean;
   cancelButtonText?: string;

@@ -19,17 +19,3 @@ export const Wrapper = styled.div`
     display: none;
   }
 `;
-
-export const Posts = styled.div``;
-
-export const Buttons = styled.div`
-  position: sticky;
-  top: 0;
-  z-index: 10;
-
-  width: 100%;
-
-  display: flex;
-
-  background-color: ${(props) => props.theme.schemes.light.background};
-`;

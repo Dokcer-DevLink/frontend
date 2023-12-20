@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
 
   padding: 20px;
 
+  background-color: ${(props) => props.theme.schemes.light.background};
   cursor: pointer;
 
   &:hover {

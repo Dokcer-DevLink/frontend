@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
 
   background-color: color-mix(
     in srgb,

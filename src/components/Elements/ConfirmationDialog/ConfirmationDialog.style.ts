@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  max-width: 330px;
+
   position: relative;
 
   min-width: 300px;

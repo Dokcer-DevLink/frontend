@@ -6,6 +6,7 @@ interface Wrapper {
   variant: string;
   textstyle: keyof typeof theme.styles;
   size: 'large' | 'medium' | 'small';
+  width: string | undefined;
   borderradius: string;
   padding: string | undefined;
   flexdirection?: 'column' | 'row';
@@ -16,7 +17,7 @@ interface Wrapper {
 }
 
 export const Wrapper = styled.button<Wrapper>`
-  width: 100%;
+  width: ${(props) => (props.width ? props.width : '100%')};
 
   display: flex;
   flex-direction: ${(props) => props.flexdirection};

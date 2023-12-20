@@ -29,7 +29,6 @@ type MainLayoutProps = {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const { route } = useRouter();
-  // console.log(route);
   return (
     <Wrapper>
       <SideSection left="0">
