@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import { Button, Slider } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
-import { HorizontalPost } from '@/features/posts';
+import { HorizontalPost, WritePost } from '@/features/posts';
 import { User } from '@/features/users';
 import { Inner, PostSeeAll, UserSeeAll } from './index.style';
 import Link from 'next/link';
@@ -34,7 +34,7 @@ export default function Home() {
           }
         />
         <Inner>
-          <Slider title="추천 멘토 게시물" link="/posts">
+          <Slider title="추천 멘토 게시물" link="/search?list=posts">
             <>
               <HorizontalPost />
               <HorizontalPost />
@@ -45,12 +45,12 @@ export default function Home() {
               <HorizontalPost />
               <HorizontalPost />
               <HorizontalPost />
-              <Link href="/posts">
+              <Link href="/post">
                 <PostSeeAll>추천멘토 게시물 모두 보기</PostSeeAll>
               </Link>
             </>
           </Slider>
-          <Slider title="추천 멘티 게시물" link="/posts">
+          <Slider title="추천 멘티 게시물" link="/search?list=users">
             <>
               <HorizontalPost />
               <HorizontalPost />
@@ -62,12 +62,12 @@ export default function Home() {
               <HorizontalPost />
               <HorizontalPost />
               <HorizontalPost />
-              <Link href="/posts">
+              <Link href="/post">
                 <PostSeeAll>추천멘티 게시물 모두 보기</PostSeeAll>
               </Link>
             </>
           </Slider>
-          <Slider title="추천 멘토" link="/users">
+          <Slider title="추천 멘토" link="/search?list=users">
             <>
               <User />
               <User />
@@ -105,6 +105,7 @@ export default function Home() {
           </Slider>
         </Inner>
       </MainLayout>
+      <WritePost />
     </>
   );
 }

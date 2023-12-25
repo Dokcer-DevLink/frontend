@@ -12,13 +12,7 @@ export const ChatHamburgerMenu = () => {
   return (
     <Menu
       triggerButton={
-        <Button
-          textstyle="title"
-          size="large"
-          variant="background"
-          padding="2px"
-          startIcon={<FaEllipsisV />}
-        />
+        <Button variant="background" startIcon={<FaEllipsisV />} />
       }
       buttons={
         <Buttons>

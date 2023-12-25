@@ -1,17 +1,22 @@
 import styled from 'styled-components';
 
+interface Wrapper {
+  isDisplayInMobile: boolean;
+}
+
 interface Buttons {
   margin: string;
 }
 
-export const Wrapper = styled.header`
+export const Wrapper = styled.header<Wrapper>`
   position: fixed;
   top: 0;
   z-index: 5;
 
   width: 100%;
 
-  display: none;
+  display: ${(props) => (props.isDisplayInMobile ? 'grid' : 'none')};
+  grid-template-columns: repeat(3, 1fr);
 
   border-bottom: 1px solid
     ${(props) => props.theme.schemes.light.surfaceVariant};
@@ -21,7 +26,6 @@ export const Wrapper = styled.header`
 
   @media (max-width: 800px) {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
@@ -43,6 +47,8 @@ export const Title = styled.h2`
   line-height: ${(props) => props.theme.styles.headline.small.lineHeight}px;
   letter-spacing: ${(props) =>
     props.theme.styles.headline.small.letterSpacing}px;
+
+  white-space: nowrap;
 `;
 
 export const Logo = styled.img`

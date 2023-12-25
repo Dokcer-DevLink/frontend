@@ -8,6 +8,7 @@ type ButtonProps = {
   size?: 'large' | 'medium' | 'small';
   borderradius?: string;
   width?: string;
+  height?: string;
   padding?: string;
   children?: React.ReactNode;
   startIcon?: React.ReactElement;
@@ -27,6 +28,7 @@ export const Button = ({
   textstyle = 'label',
   size = 'medium',
   width,
+  height,
   borderradius = '5px',
   padding,
   startIcon,
@@ -45,6 +47,7 @@ export const Button = ({
       textstyle={textstyle}
       size={size}
       width={width}
+      height={height}
       borderradius={borderradius}
       padding={padding}
       flexdirection={flexdirection}

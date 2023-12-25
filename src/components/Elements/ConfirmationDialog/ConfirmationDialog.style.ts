@@ -1,7 +1,10 @@
 import styled from 'styled-components';
+interface Wrapper {
+  maxWidth?: string;
+}
 
-export const Wrapper = styled.div`
-  max-width: 330px;
+export const Wrapper = styled.div<Wrapper>`
+  max-width: ${(props) => props.maxWidth};
 
   position: relative;
 

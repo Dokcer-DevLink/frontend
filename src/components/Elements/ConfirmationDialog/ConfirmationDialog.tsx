@@ -16,6 +16,7 @@ export type ConfirmationDialogProps = {
   description?: string;
   isDone?: boolean;
   cancelButtonText?: string;
+  maxWidth?: string;
 };
 
 export const ConfirmationDialog = ({
@@ -25,6 +26,7 @@ export const ConfirmationDialog = ({
   description = '',
   isDone = false,
   cancelButtonText = '닫기',
+  maxWidth,
 }: ConfirmationDialogProps) => {
   const { close, open, isOpen } = useDisclosure();
   useEffect(() => {
@@ -40,7 +42,7 @@ export const ConfirmationDialog = ({
     <>
       {trigger}
       <Dialog isOpen={isOpen} onClose={close}>
-        <Wrapper>
+        <Wrapper maxWidth={maxWidth}>
           <TextBox>
             <Title>{title}</Title>
             <Description>{description}</Description>

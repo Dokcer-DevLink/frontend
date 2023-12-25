@@ -8,6 +8,7 @@ export const ReportChat = () => {
   };
   return (
     <ConfirmationDialog
+      maxWidth="330px"
       triggerButton={
         <Button variant="background" justifycontent="center">
           차단하기

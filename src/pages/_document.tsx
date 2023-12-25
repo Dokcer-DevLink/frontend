@@ -34,7 +34,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="ko">
         <Head>
           <link rel="icon" href="/favicon.ico" />
         </Head>

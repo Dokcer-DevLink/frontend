@@ -1,19 +1,22 @@
 import styled from 'styled-components';
-import { Menu as UIMenu } from '@headlessui/react';
+
+interface Buttons {
+  isShowing: boolean;
+}
 
 export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const Button = styled(UIMenu.Button)`
-  border: none;
-`;
+export const Trigger = styled.span``;
 
-export const Items = styled(UIMenu.Items)`
+export const Buttons = styled.div<Buttons>`
   position: absolute;
   top: 100%;
   right: 0;
   z-index: 5;
+
+  display: ${(props) => (props.isShowing ? 'block' : 'none')};
 
   padding: 10px;
 

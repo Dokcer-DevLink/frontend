@@ -1,23 +1,24 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { FieldWrapper, FieldWrapperPassThroughProps } from './FieldWrapper';
-import { Image, Input } from './ImageInputField.style';
+import { Input } from './ImageInputField.style';
 
-import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import { ChangeEvent, useState } from 'react';
 
-type ImageInputFieldProps = FieldWrapperPassThroughProps & {
-  defaultUrl?: string;
+export type ImageInputFieldProps = FieldWrapperPassThroughProps & {
+  label?: React.ReactNode;
   registration: Partial<UseFormRegisterReturn>;
+  setImageUrl?: (props: string) => void;
 };
 
 type Event = { target: { files: Blob[] } };
 
 export const ImageInputField = ({
   registration,
-  defaultUrl,
+  label,
   error,
+  labelTextAlign,
+  setImageUrl,
 }: ImageInputFieldProps) => {
-  const [url, setUrl] = useState(defaultUrl);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event?.target?.files) {
       return;
@@ -32,20 +33,13 @@ export const ImageInputField = ({
       if (typeof progressEvent.target.result === 'object') {
         return;
       }
-      setUrl(progressEvent.target.result);
+      if (setImageUrl) {
+        setImageUrl(progressEvent.target.result);
+      }
     };
   };
   return (
-    <FieldWrapper
-      label={
-        url ? (
-          <Image src={url} alt="user-profile-image" />
-        ) : (
-          <Image src={NoProfileUser.src} alt="none-profile-image" />
-        )
-      }
-      error={error}
-    >
+    <FieldWrapper label={label} error={error} labelTextAlign={labelTextAlign}>
       <Input
         type="file"
         accept="image/*"

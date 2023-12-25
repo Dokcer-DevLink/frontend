@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Option, SelectField, Event } from '.';
+import { Option, SelectField, Event, SelectFieldProps } from '.';
 import { addressRequest } from '@/libraries/axios';
+import { Wrapper } from './RegionSelectField.style';
+import { FormState, UseFormRegister } from 'react-hook-form';
 
 type Regcode = {
   code: string;
   name: string;
 };
 
-export const RegionSelectField = () => {
+type RegionSelectFieldProps = {
+  register: UseFormRegister<any>;
+  formState: FormState<any>;
+};
+
+export const RegionSelectField = ({
+  register,
+  formState,
+}: RegionSelectFieldProps) => {
   const [cities, setCities] = useState<Option[]>();
   const [towns, setTowns] = useState<Option[]>();
   const [villages, setVillages] = useState<Option[]>();
@@ -23,7 +33,7 @@ export const RegionSelectField = () => {
           let shiftRegcode = regcode.name.split(' ');
           shiftRegcode.shift();
           return {
-            label: shiftRegcode.join(' '),
+            key: shiftRegcode.join(' '),
             value: regcode.code,
           };
         });
@@ -47,7 +57,7 @@ export const RegionSelectField = () => {
           shiftRegcode.shift();
           shiftRegcode.shift();
           return {
-            label: shiftRegcode.join(' '),
+            key: shiftRegcode.join(' '),
             value: regcode.code,
           };
         });
@@ -62,7 +72,7 @@ export const RegionSelectField = () => {
       .get('/v1/regcodes?regcode_pattern=*00000000')
       .then((res) => {
         const regcodes = res.data.regcodes.map((regcode: Regcode) => {
-          return { label: regcode.name, value: regcode.code };
+          return { key: regcode.name, value: regcode.code };
         });
         setCities(regcodes);
       })
@@ -73,13 +83,17 @@ export const RegionSelectField = () => {
     if (cities) {
       const cityCode = cities[0].value;
       addressRequest
-        .get(`/v1/regcodes?regcode_pattern=${cityCode.slice(0, 2)}*000000`)
+        .get(
+          `/v1/regcodes?regcode_pattern=${
+            typeof cityCode === 'string' && cityCode.slice(0, 2)
+          }*000000`
+        )
         .then((res) => {
           const regcodes = res.data.regcodes.map((regcode: Regcode) => {
             let shiftRegcode = regcode.name.split(' ');
             shiftRegcode.shift();
             return {
-              label: shiftRegcode.join(' '),
+              key: shiftRegcode.join(' '),
               value: regcode.code,
             };
           });
@@ -88,20 +102,25 @@ export const RegionSelectField = () => {
         })
         .catch((error) => console.error('Error', error));
     }
+    console.log(cities);
   }, [cities]);
 
   useEffect(() => {
     if (towns) {
       const townCode = towns[0].value;
       addressRequest
-        .get(`/v1/regcodes?regcode_pattern=${townCode.slice(0, 4)}*`)
+        .get(
+          `/v1/regcodes?regcode_pattern=${
+            typeof townCode === 'string' && townCode.slice(0, 4)
+          }*`
+        )
         .then((res) => {
           const regcodes = res.data.regcodes.map((regcode: Regcode) => {
             let shiftRegcode = regcode.name.split(' ');
             shiftRegcode.shift();
             shiftRegcode.shift();
             return {
-              label: shiftRegcode.join(' '),
+              key: shiftRegcode.join(' '),
               value: regcode.code,
             };
           });
@@ -113,23 +132,31 @@ export const RegionSelectField = () => {
   }, [towns]);
 
   return (
-    <>
+    <Wrapper>
       <SelectField
         options={cities ? cities : mockCities}
         label="시/도"
-        onchange={getTowns}
+        error={formState.errors['city']?.root}
+        registration={register('city', {
+          onChange: (event) => getTowns(event),
+        })}
       />
       <SelectField
         options={towns ? towns : mockCities}
         label="시/군/구"
-        onchange={getVillages}
+        error={formState.errors['town']?.root}
+        registration={register('town', {
+          onChange: (event) => getVillages(event),
+        })}
       />
       <SelectField
         options={villages ? villages : mockCities}
         label="읍/면/동"
+        error={formState.errors['village']?.root}
+        registration={register('village')}
       />
-    </>
+    </Wrapper>
   );
 };
 
-const mockCities = [{ label: 'label', value: 'value' }];
+const mockCities = [{ key: 'key', value: 'value' }];

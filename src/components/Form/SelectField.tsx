@@ -1,33 +1,30 @@
-import { HTMLInputTypeAttribute, SelectHTMLAttributes } from 'react';
+import { HTMLInputTypeAttribute, SelectHTMLAttributes, useEffect } from 'react';
 import { FieldWrapper, FieldWrapperPassThroughProps } from './FieldWrapper';
 import { Option, Select } from './SelectField.style';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 export type Option = {
-  label: React.ReactNode;
-  value: string;
+  key: React.ReactNode | string;
+  value: string | number;
 };
 
 export type Event = { target: { value: String } };
 
-type SelectFieldProps = FieldWrapperPassThroughProps & {
+export type SelectFieldProps = FieldWrapperPassThroughProps & {
   options: Option[];
-  onchange?: (event: Event) => void;
+  registration: Partial<UseFormRegisterReturn>;
+  value?: string;
 };
 
 export const SelectField = (props: SelectFieldProps) => {
-  const { label, options = [], error, onchange } = props;
-  const handleChange = (event: Event) => {
-    if (!onchange) {
-      return;
-    }
-    onchange(event);
-  };
+  const { label, options = [], error, registration, value } = props;
+
   return (
     <FieldWrapper label={label} error={error}>
-      <Select onChange={handleChange}>
-        {options.map(({ label, value }, i) => (
+      <Select {...registration} value={value}>
+        {options.map(({ key, value }, i) => (
           <Option key={i} value={value}>
-            {label}
+            {key}
           </Option>
         ))}
       </Select>

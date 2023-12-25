@@ -11,6 +11,7 @@ export const ChatForm = () => {
         <Inner>
           <InputField
             registration={register('message')}
+            error={formState.errors['message']?.root}
             placeholder="메세지를 입력해주세요"
           />
           <Button startIcon={<FaPaperPlane />} width="35px" />

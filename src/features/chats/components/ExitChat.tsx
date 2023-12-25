@@ -8,6 +8,7 @@ export const ExitChat = () => {
   };
   return (
     <ConfirmationDialog
+      maxWidth="330px"
       triggerButton={
         <Button variant="background" justifycontent="center">
           채팅방 나가기

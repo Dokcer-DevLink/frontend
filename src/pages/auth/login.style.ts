@@ -21,6 +21,7 @@ export const Inner = styled.div`
   gap: 40px;
 
   margin: 0 auto;
+  padding-top: 50px;
 `;
 
 export const Guide = styled.p`

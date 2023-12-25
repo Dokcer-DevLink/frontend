@@ -10,11 +10,11 @@ import {
   Tags,
   Title,
   Wrapper,
-} from './Protile.style';
+} from './Profile.style';
 
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import { useState } from 'react';
-import { EditProfile } from '.';
+import { EditProfile, ProfileImageInputField } from '.';
 import { HiPencil } from 'react-icons/hi';
 import {
   Form,
@@ -27,6 +27,7 @@ export const Profile = () => {
   const [isEditable, setIsEditable] = useState(false);
 
   const handleSubmit = (values: any) => {
+    console.log(values);
     setIsEditable(false);
   };
 
@@ -47,9 +48,9 @@ export const Profile = () => {
             </ButtonWrapper>
           )}
           {isEditable ? (
-            <ImageInputField
-              error={formState.errors['userImage']}
+            <ProfileImageInputField
               registration={register('userImage')}
+              error={formState.errors['userImage']}
             />
           ) : (
             <Image src={NoProfileUser.src} alt="프로필이미지" />
@@ -90,9 +91,7 @@ export const Profile = () => {
           <Box>
             <Title>지역</Title>
             {isEditable ? (
-              <Tags>
-                <RegionSelectField />
-              </Tags>
+              <RegionSelectField register={register} formState={formState} />
             ) : (
               <Tags>
                 <Tag>서울시</Tag>

@@ -8,11 +8,17 @@ type HeaderProps = {
   leftbuttons?: React.ReactNode;
   rightbuttons?: React.ReactNode;
   title?: string;
+  isDisplayInMobile?: boolean;
 };
 
-export const Header = ({ leftbuttons, title, rightbuttons }: HeaderProps) => {
+export const Header = ({
+  leftbuttons,
+  title,
+  rightbuttons,
+  isDisplayInMobile = false,
+}: HeaderProps) => {
   return (
-    <Wrapper>
+    <Wrapper isDisplayInMobile={isDisplayInMobile}>
       <Buttons margin="0 auto 0 0">{leftbuttons}</Buttons>
       {title ? (
         <Title>{title}</Title>

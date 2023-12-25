@@ -11,6 +11,7 @@ type InputFieldProps = FieldWrapperPassThroughProps & {
   placeholder?: string;
   registration: Partial<UseFormRegisterReturn>;
   autocomplete?: 'on' | 'off' | 'new-password';
+  value?: string;
 };
 
 export const InputField = (props: InputFieldProps) => {
@@ -25,6 +26,7 @@ export const InputField = (props: InputFieldProps) => {
     registration,
     error,
     autocomplete = 'on',
+    value,
   } = props;
   return (
     <FieldWrapper label={label} error={error}>
@@ -35,6 +37,7 @@ export const InputField = (props: InputFieldProps) => {
         placeholder={placeholder}
         type={type}
         autoComplete={autocomplete}
+        value={value}
         {...registration}
       />
     </FieldWrapper>

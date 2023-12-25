@@ -8,7 +8,7 @@ export const Inner = styled.div`
   gap: 70px;
 
   @media (min-width: 801px) {
-    padding: 0;
+    padding: 0 0 60px;
   }
 `;
 

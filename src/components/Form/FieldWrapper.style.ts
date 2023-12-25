@@ -1,9 +1,16 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+interface Wrapper {
+  textAlign: 'start' | 'center' | 'end';
+}
+
+export const Wrapper = styled.div<Wrapper>`
   width: 100%;
+  text-align: ${(props) => props.textAlign};
 `;
 
-export const Label = styled.label``;
+export const Label = styled.label`
+  cursor: pointer;
+`;
 
 export const ErrorMessage = styled.span``;
