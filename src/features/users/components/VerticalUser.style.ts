@@ -11,21 +11,23 @@ export const Wrapper = styled.div`
   &:hover {
     background-color: ${(props) => props.theme.schemes.light.hoveredBackground};
   }
+
+  // filter: drop-shadow(0px 6px 2px rgba(0, 0, 0, 0.15));
 `;
 
 export const Image = styled.img`
-  width: 100px;
+  width: 80px;
 
-  border-radius: 5px;
+  border-radius: 50%;
 
   background-color: ${(props) => props.theme.schemes.light.surfaceVariant};
 `;
 
-export const Contents = styled.div`
+export const Infomations = styled.div`
   padding: 10px;
 `;
 
-export const Title = styled.h5`
+export const Nickname = styled.h5`
   margin-bottom: 10px;
 
   color: ${(props) => props.theme.schemes.light.onBackground};

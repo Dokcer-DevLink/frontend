@@ -1,3 +1,4 @@
+import { Post } from '../type';
 import {
   Contents,
   Image,
@@ -9,15 +10,12 @@ import {
 
 import Logo from '@/assets/images/logo.png';
 
-export type VerticalPostProps = {
-  image?: string | null;
-  title: string;
-  skill: string;
-  region: string;
+export type VerticalPostProps = Post & {
   rightElement?: React.ReactNode;
 };
 
 export const VerticalPost = ({
+  id,
   image = null,
   title,
   skill,

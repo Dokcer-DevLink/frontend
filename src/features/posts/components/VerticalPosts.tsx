@@ -10,6 +10,7 @@ export const VerticalPosts = () => {
         posts.map((post, i) => (
           <Link key={i} href={`/post/${post.id}`}>
             <VerticalPost
+              id={post.id}
               title={post.title}
               skill={post.skill}
               region={post.region}

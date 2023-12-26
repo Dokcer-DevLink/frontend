@@ -14,6 +14,8 @@ export const Inner = styled.div`
   }
 `;
 
+export const ButtonBox = styled.div``;
+
 export const Buttons = styled.div`
   display: flex;
 `;

@@ -26,6 +26,7 @@ import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import { useState } from 'react';
 import { DeleteAccount, Logout } from '@/features/auth';
 import { VerticalPost } from '@/features/posts';
+import { VerticalUser } from '@/features/users';
 
 export default function MyPage() {
   const [selectedList, setSelectedList] = useState('sended');
@@ -80,16 +81,15 @@ export default function MyPage() {
                     rightElement={<RequestState>{post.status}</RequestState>}
                   />
                 ))
-              : receivedRequests.map((request, i) => (
-                  <Request key={i}>
-                    <RequestUserImage src={request.image} />
-                    <RequestInfomation>
-                      <RequestPostTitle>{request.nickname}</RequestPostTitle>
-                      <RequestTag>{request.skill}</RequestTag>
-                      <RequestTag>{request.region}</RequestTag>
-                    </RequestInfomation>
-                    <RequestState>{request.status}</RequestState>
-                  </Request>
+              : receivedRequests.map((user, i) => (
+                  <VerticalUser
+                    key={i}
+                    nickname={user.nickname}
+                    image={user.image}
+                    skill={user.skill}
+                    region={user.region}
+                    rightElement={<RequestState>{user.status}</RequestState>}
+                  />
                 ))}
           </Requests>
           <Buttons>

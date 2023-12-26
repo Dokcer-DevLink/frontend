@@ -7,7 +7,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { Buttons, Inner } from './profile.style';
 import { useState } from 'react';
 import { Profile } from '@/features/users';
-import { MyPosts, VerticalPostProps } from '@/features/posts';
+import { UserPosts, VerticalPostProps } from '@/features/posts';
 
 import k8s from '@/assets/images/k8s.png';
 import { MyMentorings } from '@/features/mentorings';
@@ -66,7 +66,7 @@ export default function MyProfile() {
           {selectedTap === 'profile' ? (
             <Profile />
           ) : selectedTap === 'posts' ? (
-            <MyPosts
+            <UserPosts
               postsAsMentor={postsAsMentor}
               postsAsMentee={postsAsMentee}
             />
@@ -86,72 +86,70 @@ const postsAsMentor: VerticalPostProps[] = [];
 
 const postsAsMentee: VerticalPostProps[] = [
   {
+    id: '1',
     image: k8s.src,
     title: '멘토 급구! ',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '2',
     image: null,
     title: '멘토 급구! ',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '3',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '4',
     image: null,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '5',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '6',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '7',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '8',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
   },
   {
+    id: '9',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
     region: '동작구',
   },
   {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
+    id: '10',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',

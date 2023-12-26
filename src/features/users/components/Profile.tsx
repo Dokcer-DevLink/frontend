@@ -23,7 +23,11 @@ import {
   RegionSelectField,
 } from '@/components/Form';
 
-export const Profile = () => {
+type ProfileProps = {
+  isMine?: boolean;
+};
+
+export const Profile = ({ isMine = true }: ProfileProps) => {
   const [isEditable, setIsEditable] = useState(false);
 
   const handleSubmit = (values: any) => {
@@ -35,7 +39,7 @@ export const Profile = () => {
     <Form onSubmit={handleSubmit} id="edit-profile">
       {({ register, formState }) => (
         <Wrapper>
-          {!isEditable && (
+          {!isEditable && isMine && (
             <ButtonWrapper>
               <Button
                 textstyle="title"

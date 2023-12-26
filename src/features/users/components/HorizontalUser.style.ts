@@ -2,12 +2,22 @@ import { getTextColor } from '@/utils/getColor';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  width: 150px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 
+  padding: 10px;
+
+  background-color: ${(props) => props.theme.schemes.light.background};
+
   cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.theme.schemes.light.hoveredBackground};
+  }
 `;
 
 export const Image = styled.img`
@@ -29,6 +39,7 @@ export const Tags = styled.ul`
 `;
 
 export const Tag = styled.li`
+  max-width: 60px;
   border-radius: 10px;
   padding: 3px 10px;
 
@@ -43,4 +54,7 @@ export const Tag = styled.li`
 
   opacity: 0.8;
   list-style: none;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;

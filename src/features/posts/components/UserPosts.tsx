@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { HorizontalPostProps, VerticalPost, VerticalPostProps } from '.';
-import { Buttons, Posts, Wrapper } from './MyPosts.style';
+import { Buttons, Posts, Wrapper } from './UserPosts.style';
 import { Button, Empty } from '@/components/Elements';
+import Link from 'next/link';
 
 type PostsProps = {
   postsAsMentor: VerticalPostProps[];
   postsAsMentee: VerticalPostProps[];
 };
 
-export const MyPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
+export const UserPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
   const [isSelectedRoleEqualsMentor, setIsSelectedRoleEqualsMentor] =
     useState(true);
 
@@ -47,13 +48,16 @@ export const MyPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
       {posts.length ? (
         <Posts>
           {posts.map((post, i) => (
-            <VerticalPost
-              key={i}
-              title={post.title}
-              image={post.image}
-              skill={post.skill}
-              region={post.region}
-            />
+            <Link key={i} href={`/post/${post.id}`}>
+              <VerticalPost
+                key={i}
+                id={post.id}
+                title={post.title}
+                image={post.image}
+                skill={post.skill}
+                region={post.region}
+              />
+            </Link>
           ))}
         </Posts>
       ) : (

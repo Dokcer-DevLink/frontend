@@ -5,19 +5,19 @@ import { FaArrowLeft } from 'react-icons/fa';
 
 import { Button } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
-import { Buttons, Inner } from './index.style';
+import { ButtonBox, Buttons, Inner } from './index.style';
 import { SearchForm, VerticalPosts, WritePost } from '@/features/posts';
 import { useSearchParams } from 'next/navigation';
+import { VerticalUsers } from '@/features/users';
 
 export default function Search() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const list = searchParams.get('list');
+  const role = searchParams.get('role');
 
-  const [isMentor, setIsMentor] = useState<boolean>(true);
-  const [isPosts, setIsPosts] = useState<boolean>(
-    list === 'users' ? false : true
-  );
+  const [isMentor, setIsMentor] = useState<boolean>(role !== 'mentee');
+  const [isPosts, setIsPosts] = useState<boolean>(list !== 'users');
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function Search() {
         />
         <Inner>
           <SearchForm />
-          <div>
+          <ButtonBox>
             <Buttons>
               <Button
                 borderradius="0"
@@ -80,8 +80,8 @@ export default function Search() {
                 유저 목록
               </Button>
             </Buttons>
-          </div>
-          <VerticalPosts />
+          </ButtonBox>
+          {isPosts ? <VerticalPosts /> : <VerticalUsers />}
         </Inner>
       </MainLayout>
       <WritePost />

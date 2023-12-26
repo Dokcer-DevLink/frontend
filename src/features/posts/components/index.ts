@@ -3,7 +3,7 @@ export * from './EditPostStatus';
 export * from './HorizontalPost';
 
 export * from './MyActions';
-export * from './MyPosts';
+export * from './UserPosts';
 export * from './OpponentActions';
 export * from './PostDetail';
 export * from './PostForm';
