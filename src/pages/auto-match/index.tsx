@@ -1,5 +1,7 @@
+import { Spinner } from '@/components/Elements';
 import { MainLayout } from '@/components/Layout';
 import Head from 'next/head';
+import { Waitting, WaittingText } from './index.style';
 
 export default function AutoMatch() {
   return (
@@ -10,7 +12,13 @@ export default function AutoMatch() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MainLayout>Auto Match</MainLayout>
+      <MainLayout>
+        <Waitting>
+          <WaittingText>자동매칭이 진행 중입니다</WaittingText>
+          <WaittingText>잠시만 기다려주세요</WaittingText>
+          <Spinner />
+        </Waitting>
+      </MainLayout>
     </>
   );
 }

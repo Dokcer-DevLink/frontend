@@ -7,3 +7,4 @@ export * from './FormDialog';
 export * from './Menu';
 
 export * from './Slider';
+export * from './Spinner';
