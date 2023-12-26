@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Inner = styled.div`
   height: 100%;
-  padding: 0px 20px;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 30px;

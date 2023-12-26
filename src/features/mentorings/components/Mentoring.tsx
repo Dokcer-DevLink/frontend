@@ -8,13 +8,19 @@ import {
 } from './Mentoring.style';
 
 export type MentoringProps = {
+  id: string;
   title: string;
   region: string;
   promisedAt: string;
-  status: '완료' | '예정';
+  status: string;
 };
 
-export const Mentoring = ({ title, region, promisedAt }: MentoringProps) => {
+export const Mentoring = ({
+  title,
+  region,
+  promisedAt,
+  status,
+}: MentoringProps) => {
   return (
     <Wrapper>
       <Contents>
@@ -22,7 +28,7 @@ export const Mentoring = ({ title, region, promisedAt }: MentoringProps) => {
         <PromisedAt>{promisedAt}</PromisedAt>
         <Region>{region}</Region>
       </Contents>
-      <Status>완료</Status>
+      <Status>{status}</Status>
     </Wrapper>
   );
 };

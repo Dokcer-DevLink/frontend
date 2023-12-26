@@ -5,16 +5,25 @@ import { useRouter } from 'next/router';
 
 import { FaArrowLeft } from 'react-icons/fa';
 import { Buttons, Inner } from './profile.style';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Profile } from '@/features/users';
 import { UserPosts, VerticalPostProps } from '@/features/posts';
 
 import k8s from '@/assets/images/k8s.png';
 import { MyMentorings } from '@/features/mentorings';
 import { MentoringProps } from '@/features/mentorings/components/Mentoring';
+import { useSearchParams } from 'next/navigation';
 
 export default function MyProfile() {
+  const searchParams = useSearchParams();
   const [selectedTap, setSelectedTap] = useState('profile');
+
+  const tap = searchParams.get('tap');
+  useEffect(() => {
+    if (tap === 'mentoring') {
+      setSelectedTap('mentoring');
+    }
+  }, [tap]);
   const router = useRouter();
 
   return (
@@ -49,23 +58,23 @@ export default function MyProfile() {
               내 프로필
             </Button>
             <Button
-              isoutlined={selectedTap === 'posts' ? false : true}
+              isoutlined={selectedTap === 'post' ? false : true}
               justifycontent="center"
-              onclick={() => setSelectedTap('posts')}
+              onclick={() => setSelectedTap('post')}
             >
               게시물 목록
             </Button>
             <Button
-              isoutlined={selectedTap === 'mentorings' ? false : true}
+              isoutlined={selectedTap === 'mentoring' ? false : true}
               justifycontent="center"
-              onclick={() => setSelectedTap('mentorings')}
+              onclick={() => setSelectedTap('mentoring')}
             >
               멘토링 목록
             </Button>
           </Buttons>
           {selectedTap === 'profile' ? (
             <Profile />
-          ) : selectedTap === 'posts' ? (
+          ) : selectedTap === 'post' ? (
             <UserPosts
               postsAsMentor={postsAsMentor}
               postsAsMentee={postsAsMentee}
@@ -161,66 +170,77 @@ const mentoringsAsMentor: MentoringProps[] = [];
 
 const mentoringsAsMentee: MentoringProps[] = [
   {
+    id: '1',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '2',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '3',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '4',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '5',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '6',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '7',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '8',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '9',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '10',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',
     status: '완료',
   },
   {
+    id: '11',
     title: '동작구 멘토 구합니다',
     promisedAt: '2023-12-19',
     region: '서울특별시 동작구 노량진동',

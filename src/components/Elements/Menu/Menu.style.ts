@@ -27,3 +27,16 @@ export const Buttons = styled.div<Buttons>`
   );
   filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.3));
 `;
+
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  opacity: 0.4;
+
+  width: 100vw;
+  height: 100vh;
+  background-color: ${(props) => props.theme.schemes.light.shadow};
+  transition: opacity;
+`;

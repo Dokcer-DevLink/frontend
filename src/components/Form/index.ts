@@ -1,3 +1,5 @@
+export * from './AudioFileInputField';
+
 export * from './DatePicker';
 export * from './Form';
 export * from './ImageInputField';

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Buttons, Trigger, Wrapper } from './Menu.style';
+import { Buttons, Overlay, Trigger, Wrapper } from './Menu.style';
 import { useDisclosure } from '@/hooks/useDisclosure';
+import { Transition } from '@headlessui/react';
 
 type MenuProps = {
   triggerButton: React.ReactElement;
@@ -8,11 +9,16 @@ type MenuProps = {
 };
 
 export const Menu = ({ triggerButton, buttons }: MenuProps) => {
-  const { isOpen, toggle } = useDisclosure(false);
+  const { isOpen, toggle, close } = useDisclosure(false);
   return (
-    <Wrapper>
-      <Trigger onClick={toggle}>{triggerButton}</Trigger>
-      <Buttons isShowing={isOpen}>{buttons}</Buttons>
-    </Wrapper>
+    <>
+      <Transition.Root show={isOpen}>
+        <Overlay onClick={close} />
+      </Transition.Root>
+      <Wrapper>
+        <Trigger onClick={toggle}>{triggerButton}</Trigger>
+        <Buttons isShowing={isOpen}>{buttons}</Buttons>
+      </Wrapper>
+    </>
   );
 };

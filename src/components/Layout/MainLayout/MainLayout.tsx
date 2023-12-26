@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ButtomNavigation,
   ContentSection,
@@ -22,6 +22,7 @@ import { RiUser3Fill } from 'react-icons/ri';
 import { useRouter } from 'next/router';
 import { OnBoarding } from '@/features/misc';
 import { Header } from './Header';
+import { Alerts } from '@/features/alert';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ type MainLayoutProps = {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const { route } = useRouter();
+  const [isAuthorized, setIsAuthorized] = useState(true);
   return (
     <Wrapper>
       <SideSection left="0">
@@ -80,17 +82,27 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         </ButtomNavigation>
       </ContentSection>
       <SideSection right="0">
-        <SectionHeader>
-          <Link href="/auth/login" style={{ width: '100%' }}>
-            <Button justifycontent="center">로그인</Button>
-          </Link>
-          <Link href="/auth/regist" style={{ width: '100%' }}>
-            <Button variant="primary" isoutlined={true} justifycontent="center">
-              회원가입
-            </Button>
-          </Link>
-        </SectionHeader>
-        <OnBoarding />
+        {isAuthorized ? (
+          <Alerts />
+        ) : (
+          <>
+            <SectionHeader>
+              <Link href="/auth/login" style={{ width: '100%' }}>
+                <Button justifycontent="center">로그인</Button>
+              </Link>
+              <Link href="/auth/regist" style={{ width: '100%' }}>
+                <Button
+                  variant="primary"
+                  isoutlined={true}
+                  justifycontent="center"
+                >
+                  회원가입
+                </Button>
+              </Link>
+            </SectionHeader>
+            <OnBoarding />
+          </>
+        )}
       </SideSection>
     </Wrapper>
   );
@@ -125,7 +137,7 @@ const navigationButtons = [
       <FaHandshake key={2} size="24" />,
       <FaHandshake key={3} size="20" />,
     ],
-    url: '/my-page/my-mentoring',
+    url: '/my-page/profile?tap=mentoring',
   },
   {
     name: '자동 매칭',

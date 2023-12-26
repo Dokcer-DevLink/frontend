@@ -2,6 +2,7 @@ import { Button, Empty } from '@/components/Elements';
 import { Mentoring, MentoringProps } from './Mentoring';
 import { Buttons, Mentorings, Wrapper } from './MyMentorings.style';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type MyMentoringsProps = {
   mentoringsAsMentor: MentoringProps[];
@@ -49,13 +50,15 @@ export const MyMentorings = ({
       {mentorings.length ? (
         <Mentorings>
           {mentorings.map((mentoring, i) => (
-            <Mentoring
-              key={i}
-              title={mentoring.title}
-              promisedAt={mentoring.promisedAt}
-              region={mentoring.region}
-              status={mentoring.status}
-            />
+            <Link href={`/mentoring/${mentoring.id}`} key={i}>
+              <Mentoring
+                id={mentoring.id}
+                title={mentoring.title}
+                promisedAt={mentoring.promisedAt}
+                region={mentoring.region}
+                status={mentoring.status}
+              />
+            </Link>
           ))}
         </Mentorings>
       ) : (

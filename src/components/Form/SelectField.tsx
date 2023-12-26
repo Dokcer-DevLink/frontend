@@ -8,7 +8,12 @@ export type Option = {
   value: string | number;
 };
 
-export type Event = { target: { value: String } };
+export type Event = {
+  target: {
+    files: any;
+    value: String;
+  };
+};
 
 export type SelectFieldProps = FieldWrapperPassThroughProps & {
   options: Option[];

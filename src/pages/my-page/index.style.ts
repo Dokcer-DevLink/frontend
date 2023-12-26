@@ -111,10 +111,6 @@ export const RequestPostImage = styled.img`
   background-color: ${(props) => props.theme.schemes.light.surfaceVariant};
 `;
 
-export const RequestInfomation = styled.div`
-  padding: 10px;
-`;
-
 export const RequestPostTitle = styled.h5`
   margin-bottom: 10px;
 

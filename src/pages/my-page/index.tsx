@@ -9,13 +9,7 @@ import {
   Inner,
   Nickname,
   Profile,
-  Request,
-  RequestInfomation,
-  RequestPostImage,
-  RequestPostTitle,
   RequestState,
-  RequestTag,
-  RequestUserImage,
   Requests,
   TextInfomations,
   UserImage,
@@ -27,6 +21,10 @@ import { useState } from 'react';
 import { DeleteAccount, Logout } from '@/features/auth';
 import { VerticalPost } from '@/features/posts';
 import { VerticalUser } from '@/features/users';
+import {
+  CancelMentoringRequest,
+  RecieveMentoring,
+} from '@/features/mentorings';
 
 export default function MyPage() {
   const [selectedList, setSelectedList] = useState('sended');
@@ -72,23 +70,38 @@ export default function MyPage() {
           <Requests>
             {selectedList === 'sended'
               ? sendedRequests.map((post, i) => (
-                  <VerticalPost
+                  <CancelMentoringRequest
                     key={i}
-                    title={post.title}
-                    image={post.image}
-                    skill={post.skill}
-                    region={post.region}
-                    rightElement={<RequestState>{post.status}</RequestState>}
+                    id={post.id}
+                    triggerButton={
+                      <VerticalPost
+                        id={post.id}
+                        title={post.title}
+                        image={post.image}
+                        skill={post.skill}
+                        region={post.region}
+                        rightElement={
+                          <RequestState>{post.status}</RequestState>
+                        }
+                      />
+                    }
                   />
                 ))
               : receivedRequests.map((user, i) => (
-                  <VerticalUser
+                  <RecieveMentoring
                     key={i}
-                    nickname={user.nickname}
-                    image={user.image}
-                    skill={user.skill}
-                    region={user.region}
-                    rightElement={<RequestState>{user.status}</RequestState>}
+                    id={user.id}
+                    triggerButton={
+                      <VerticalUser
+                        nickname={user.nickname}
+                        image={user.image}
+                        skill={user.skill}
+                        region={user.region}
+                        rightElement={
+                          <RequestState>{user.status}</RequestState>
+                        }
+                      />
+                    }
                   />
                 ))}
           </Requests>
@@ -104,6 +117,7 @@ export default function MyPage() {
 
 const sendedRequests = [
   {
+    id: '1',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
@@ -111,6 +125,7 @@ const sendedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '2',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
@@ -118,6 +133,7 @@ const sendedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '3',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
@@ -125,6 +141,7 @@ const sendedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '4',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
@@ -132,6 +149,7 @@ const sendedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '5',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
@@ -139,6 +157,7 @@ const sendedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '6',
     image: k8s.src,
     title: '멘토 급구! 멘토멘토',
     skill: 'React',
@@ -149,6 +168,7 @@ const sendedRequests = [
 
 const receivedRequests = [
   {
+    id: '1',
     image: NoProfileUser.src,
     nickname: '김재만',
     skill: 'React',
@@ -156,6 +176,7 @@ const receivedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '2',
     image: NoProfileUser.src,
     nickname: '김재만',
     skill: 'React',
@@ -163,6 +184,7 @@ const receivedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '3',
     image: NoProfileUser.src,
     nickname: '김재만',
     skill: 'React',
@@ -170,6 +192,7 @@ const receivedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '4',
     image: NoProfileUser.src,
     nickname: '김재만',
     skill: 'React',
@@ -177,6 +200,7 @@ const receivedRequests = [
     status: '수락 대기 중',
   },
   {
+    id: '5',
     image: NoProfileUser.src,
     nickname: '김재만',
     skill: 'React',

@@ -8,10 +8,14 @@ import { Inner, PostSeeAll, UserSeeAll } from './index.style';
 import Link from 'next/link';
 
 import k8s from '@/assets/images/k8s.png';
+import { MdOutlineSearch } from 'react-icons/md';
+import { useState } from 'react';
+import { AlertsMenu } from '@/features/alert';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const [isAuthorized, setIsAuthorized] = useState(true);
   return (
     <>
       <Head>
@@ -23,16 +27,29 @@ export default function Home() {
       <MainLayout>
         <Header
           rightbuttons={
-            <>
-              <Link href="/auth/login">
-                <Button>로그인</Button>
-              </Link>
-              <Link href="/auth/regist">
-                <Button variant="primary" isoutlined={true}>
-                  회원가입
-                </Button>
-              </Link>
-            </>
+            isAuthorized ? (
+              <AlertsMenu />
+            ) : (
+              <>
+                <Link href="/auth/login">
+                  <Button>로그인</Button>
+                </Link>
+                <Link href="/auth/regist">
+                  <Button variant="primary" isoutlined={true}>
+                    회원가입
+                  </Button>
+                </Link>
+              </>
+            )
+          }
+          leftbuttons={
+            <Link href="/search">
+              <Button
+                startIcon={<MdOutlineSearch size="30" />}
+                variant="background"
+                padding="2px"
+              />
+            </Link>
           }
         />
         <Inner>

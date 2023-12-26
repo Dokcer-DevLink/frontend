@@ -1,7 +1,6 @@
 import { Button, Menu } from '@/components/Elements';
 import { FaEllipsisV } from 'react-icons/fa';
 import { Buttons } from './MyActions.style';
-import { DeletePost } from '.';
 import { RequestMentoring } from '@/features/mentorings';
 
 export const OpponentActions = () => {

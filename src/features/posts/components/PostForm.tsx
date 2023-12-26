@@ -23,9 +23,9 @@ export const PostForm = () => {
   >('online');
 
   const router = useRouter();
-  const handleSubmit = () => {
-    console.log('Submit');
-    router.replace('/');
+  const handleSubmit = (values: any) => {
+    console.log(values);
+    // router.replace('/');
   };
 
   return (

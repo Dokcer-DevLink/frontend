@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  width: 100%;
+
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -11,8 +13,6 @@ export const Wrapper = styled.div`
   &:hover {
     background-color: ${(props) => props.theme.schemes.light.hoveredBackground};
   }
-
-  // filter: drop-shadow(0px 6px 2px rgba(0, 0, 0, 0.15));
 `;
 
 export const Image = styled.img`
