@@ -1,12 +1,21 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
-import { Button } from '@/components/Elements';
+import { Button, Slider } from '@/components/Elements';
+import { Header, MainLayout } from '@/components/Layout';
+import { HorizontalPost, WritePost } from '@/features/posts';
+import { HorizontalUser } from '@/features/users';
+import { Inner, PostSeeAll, UserSeeAll } from './index.style';
+import Link from 'next/link';
+
+import k8s from '@/assets/images/k8s.png';
+import { MdOutlineSearch } from 'react-icons/md';
+import { useState } from 'react';
+import { AlertsMenu } from '@/features/alert';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const [isAuthorized, setIsAuthorized] = useState(true);
   return (
     <>
       <Head>
@@ -15,9 +24,248 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <Button>버튼</Button>
-      </main>
+      <MainLayout>
+        <Header
+          rightbuttons={
+            isAuthorized ? (
+              <AlertsMenu />
+            ) : (
+              <>
+                <Link href="/auth/login">
+                  <Button>로그인</Button>
+                </Link>
+                <Link href="/auth/regist">
+                  <Button variant="primary" isoutlined={true}>
+                    회원가입
+                  </Button>
+                </Link>
+              </>
+            )
+          }
+          leftbuttons={
+            <Link href="/search">
+              <Button
+                startIcon={<MdOutlineSearch size="30" />}
+                variant="background"
+                padding="2px"
+              />
+            </Link>
+          }
+        />
+        <Inner>
+          <Slider
+            title="추천 멘토 게시물"
+            link="/search?list=posts&role=mentor"
+          >
+            <>
+              {posts.map((post, i) => (
+                <Link href={`/post/${post.id}`} key={i}>
+                  <HorizontalPost />
+                </Link>
+              ))}
+              <Link href="/search?list=posts&role=mentor">
+                <PostSeeAll>추천멘토 게시물 모두 보기</PostSeeAll>
+              </Link>
+            </>
+          </Slider>
+          <Slider
+            title="추천 멘티 게시물"
+            link="/search?list=posts&role=mentee"
+          >
+            <>
+              {posts.map((post, i) => (
+                <Link href={`/post/${post.id}`} key={i}>
+                  <HorizontalPost />
+                </Link>
+              ))}
+              <Link href="/search?list=posts&role=mentee">
+                <PostSeeAll>추천멘티 게시물 모두 보기</PostSeeAll>
+              </Link>
+            </>
+          </Slider>
+          <Slider title="추천 멘토" link="/search?list=users&role=mentor">
+            <>
+              {users.map((user, i) => (
+                <Link key={i} href={`/user/${user.id}`}>
+                  <HorizontalUser
+                    image={user.image}
+                    nickname={user.nickname}
+                    skill={user.skill}
+                    region={user.region}
+                  />
+                </Link>
+              ))}
+              <Link href="/search?list=users&role=mentor">
+                <UserSeeAll>추천 멘토 모두 보기</UserSeeAll>
+              </Link>
+            </>
+          </Slider>
+          <Slider title="추천 멘티" link="/search?list=users&role=mentee">
+            <>
+              {users.map((user, i) => (
+                <Link key={i} href={`/user/${user.id}`}>
+                  <HorizontalUser
+                    image={user.image}
+                    nickname={user.nickname}
+                    skill={user.skill}
+                    region={user.region}
+                  />
+                </Link>
+              ))}
+              <Link href="/search?list=users&role=mentee">
+                <UserSeeAll>추천 멘티 모두 보기</UserSeeAll>
+              </Link>
+            </>
+          </Slider>
+        </Inner>
+      </MainLayout>
+      <WritePost />
     </>
   );
 }
+
+const posts = [
+  {
+    id: '1',
+    image: k8s.src,
+    title: '멘토 급구! ',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '2',
+    image: null,
+    title: '멘토 급구! ',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '3',
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '4',
+    image: null,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '5',
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '6',
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '7',
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '8',
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '9',
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+  {
+    id: '10',
+    image: k8s.src,
+    title: '멘토 급구! 멘토멘토',
+    skill: 'React',
+    region: '동작구',
+  },
+];
+
+const users = [
+  {
+    id: '1',
+    image: k8s.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '2',
+    image: null,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '3',
+    image: k8s.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '4',
+    image: null,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '5',
+    image: k8s.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '6',
+    image: null,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '7',
+    image: k8s.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '8',
+    image: null,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '9',
+    image: k8s.src,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+  {
+    id: '10',
+    image: null,
+    nickname: '김재만',
+    skill: 'React',
+    region: '서울특별시 동작구 노량진동',
+  },
+];

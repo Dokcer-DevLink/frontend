@@ -10,8 +10,8 @@ type AppProviderProps = {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
-    <ReduxProvider store={store}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
-    </ReduxProvider>
+    // <ReduxProvider store={store}>
+    // </ReduxProvider>
+    <ThemeProvider theme={theme}>{children}</ThemeProvider>
   );
 };

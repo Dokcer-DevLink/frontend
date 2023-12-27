@@ -1,4 +1,4 @@
-import { API_URL } from '@/configurations';
+import { ADDRESS_API_URL, API_URL } from '@/configurations';
 import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 const axiosRequestInterceptor = (config: InternalAxiosRequestConfig) => {
@@ -12,3 +12,7 @@ export const axios = Axios.create({
 });
 
 axios.interceptors.request.use(axiosRequestInterceptor);
+
+export const addressRequest = Axios.create({
+  baseURL: ADDRESS_API_URL,
+});
