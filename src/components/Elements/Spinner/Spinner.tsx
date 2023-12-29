@@ -1,4 +1,4 @@
-import Lottie from 'react-lottie';
+// import Lottie from 'react-lottie';
 
 import loadingAnimation from '@/assets/animations/loading.json';
 import { Wrapper } from './Spinner.style';
@@ -18,7 +18,7 @@ export const Spinner = () => {
   };
   return (
     <Wrapper>
-      <Lottie options={defaultOptions} isClickToPauseDisabled={true} />;
+      {/* <Lottie options={defaultOptions} isClickToPauseDisabled={true} />; */}
     </Wrapper>
   );
 };

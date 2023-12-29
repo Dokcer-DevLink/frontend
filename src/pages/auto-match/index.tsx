@@ -1,5 +1,6 @@
-import { Button, Spinner } from '@/components/Elements';
+import { Button } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
+// import { Spinner } from '@/components/Elements';
 import Head from 'next/head';
 import {
   Waitting,
@@ -67,11 +68,11 @@ export default function AutoMatch() {
           }
         />
         {isLoading ? (
-          <Waitting>
-            <WaittingText>자동매칭이 진행 중입니다</WaittingText>
-            <WaittingText>잠시만 기다려주세요</WaittingText>
-            <Spinner />
-          </Waitting>
+        <Waitting>
+          <WaittingText>자동매칭이 진행 중입니다</WaittingText>
+          <WaittingText>잠시만 기다려주세요</WaittingText>
+          {/* <Spinner /> */}
+        </Waitting>
         ) : (
           <></>
         )}
