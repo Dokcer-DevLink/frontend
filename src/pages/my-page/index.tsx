@@ -13,21 +13,43 @@ import {
   Requests,
   TextInfomations,
   UserImage,
-} from './index.style';
+} from '@/styles/pageStyles/my-page/index.style';
 
 import k8s from '@/assets/images/k8s.png';
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DeleteAccount, Logout } from '@/features/auth';
 import { VerticalPost } from '@/features/posts';
 import { VerticalUser } from '@/features/users';
 import {
   CancelMentoringRequest,
   RecieveMentoring,
+  getSendedRequests,
 } from '@/features/mentorings';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 export default function MyPage() {
+  const userUuid = useSelector(({ auth }) => auth.userUuid);
+  const profile = useSelector(({ profile }) => profile);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!userUuid) {
+      router.push('/auth/login');
+    }
+    (async () => {
+      try {
+        const result = await getSendedRequests();
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [userUuid]);
+
   const [selectedList, setSelectedList] = useState('sended');
+
   return (
     <>
       <Head>
@@ -41,10 +63,12 @@ export default function MyPage() {
         <Inner>
           <Profile>
             <Infomations>
-              <UserImage src={NoProfileUser.src} />
+              <UserImage
+                src={profile.imageUrl ? profile.imageUrl : NoProfileUser.src}
+              />
               <TextInfomations>
-                <Nickname>김재만</Nickname>
-                <Email>daga4242@gmail.com</Email>
+                <Nickname>{profile.nickname}</Nickname>
+                {/* <Email>daga4242@gmail.com</Email> */}
               </TextInfomations>
             </Infomations>
             <Link href="/my-page/profile">

@@ -8,13 +8,16 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const Trigger = styled.span``;
+export const Trigger = styled.span`
+  position: relative;
+  z-index: 20;
+`;
 
 export const Buttons = styled.div<Buttons>`
   position: absolute;
-  top: 100%;
+  top: 110%;
   right: 0;
-  z-index: 5;
+  z-index: 20;
 
   display: ${(props) => (props.isShowing ? 'block' : 'none')};
 
@@ -32,6 +35,7 @@ export const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 15;
 
   opacity: 0.4;
 

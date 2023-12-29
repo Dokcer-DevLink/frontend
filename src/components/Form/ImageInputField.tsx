@@ -1,4 +1,4 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+// import { UseFormRegisterReturn } from 'react-hook-form';
 import { FieldWrapper, FieldWrapperPassThroughProps } from './FieldWrapper';
 import { Input } from './ImageInputField.style';
 
@@ -6,14 +6,14 @@ import { ChangeEvent, useState } from 'react';
 
 export type ImageInputFieldProps = FieldWrapperPassThroughProps & {
   label?: React.ReactNode;
-  registration: Partial<UseFormRegisterReturn>;
+  // registration?: Partial<UseFormRegisterReturn>;
   setImageUrl?: (props: string) => void;
 };
 
 type Event = { target: { files: Blob[] } };
 
 export const ImageInputField = ({
-  registration,
+  // registration,
   label,
   error,
   labelTextAlign,
@@ -27,9 +27,12 @@ export const ImageInputField = ({
     const fileReader = new FileReader();
     fileReader.readAsDataURL(event.target.files[0]);
     fileReader.onloadend = (progressEvent) => {
-      if (!progressEvent?.target?.result || !registration?.onChange) {
+      if (!progressEvent?.target?.result) {
         return;
       }
+      // if (!progressEvent?.target?.result || !registration?.onChange) {
+      //   return;
+      // }
       if (typeof progressEvent.target.result === 'object') {
         return;
       }
@@ -43,7 +46,7 @@ export const ImageInputField = ({
       <Input
         type="file"
         accept="image/*"
-        {...registration}
+        // {...registration}
         onChange={handleChange}
       />
     </FieldWrapper>

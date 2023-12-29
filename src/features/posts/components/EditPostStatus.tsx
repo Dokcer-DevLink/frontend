@@ -20,8 +20,8 @@ const inputs: Input[] = [
     type: 'select',
     name: 'status',
     options: [
-      { label: '모집 중', value: 'onSearching' },
-      { label: '완료', value: 'finished' },
+      { key: '모집 중', value: 'onSearching' },
+      { key: '완료', value: 'finished' },
     ],
   },
 ];

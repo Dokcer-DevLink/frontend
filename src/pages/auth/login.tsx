@@ -3,9 +3,21 @@ import { Header, MainLayout } from '@/components/Layout';
 import { GithubLoginButton, LoginForm } from '@/features/auth';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Guide, Inner, Title } from './login.style';
+import { Guide, Inner, Title } from '@/styles/pageStyles/auth/login.style';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Login() {
+  const userUuid = useSelector(({ auth }) => auth.userUuid);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userUuid) {
+      router.replace('/');
+    }
+  }, [userUuid, router]);
+
   return (
     <>
       <Head>
@@ -15,26 +27,13 @@ export default function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
-        <Header
-          rightbuttons={
-            <>
-              <Link href="/auth/login">
-                <Button>로그인</Button>
-              </Link>
-              <Link href="/auth/regist">
-                <Button variant="primary" isoutlined={true}>
-                  회원가입
-                </Button>
-              </Link>
-            </>
-          }
-        />
+        <Header />
         <Inner>
           <Title>로그인</Title>
           <LoginForm />
           <Guide>
             아직 계정이 없으신가요?
-            <Link href="/auth/regist">
+            <Link href="/auth/join">
               <Button
                 justifycontent="center"
                 isoutlined={true}

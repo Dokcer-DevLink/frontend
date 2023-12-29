@@ -1,9 +1,25 @@
 import { Form, InputField } from '@/components/Form';
 import { FormInner, Wrapper } from './LoginForm.style';
 import { Button } from '@/components/Elements';
+import { loginWithEmailAndPassword } from '../api/login';
+import { useDispatch } from 'react-redux';
+import { authSlice } from '..';
+import { storage } from '@/utils/storage';
 
 export const LoginForm = () => {
-  const handleSubmit = () => {};
+  const dispatch = useDispatch();
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    const result = await loginWithEmailAndPassword(values);
+    dispatch(
+      authSlice.actions.setAuth({
+        ...result.data,
+      })
+    );
+    storage.setValue('accessToken', result.data.accessToken);
+    storage.setValue('refreshToken', result.data.refreshToken);
+    storage.setValue('userUuid', result.data.userUuid);
+  };
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
@@ -21,7 +37,9 @@ export const LoginForm = () => {
               error={formState.errors['password']?.root}
               registration={register('password')}
             />
-            <Button justifycontent="center">이메일로 로그인</Button>
+            <Button justifycontent="center" type="submit">
+              이메일로 로그인
+            </Button>
           </FormInner>
         )}
       </Form>

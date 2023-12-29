@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FaArrowLeft } from 'react-icons/fa';
 
 import { Button } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
-import { ButtonBox, Buttons, Inner } from './index.style';
-import { SearchForm, VerticalPosts, WritePost } from '@/features/posts';
+import {
+  ButtonBox,
+  Buttons,
+  Inner,
+} from '@/styles/pageStyles/search/index.style';
+import {
+  SearchForm,
+  VerticalPosts,
+  WritePost,
+  getPosts,
+} from '@/features/posts';
 import { useSearchParams } from 'next/navigation';
-import { VerticalUsers } from '@/features/users';
+import { VerticalUsers, getUsers } from '@/features/users';
 
 export default function Search() {
   const router = useRouter();
@@ -18,6 +27,24 @@ export default function Search() {
 
   const [isMentor, setIsMentor] = useState<boolean>(role !== 'mentee');
   const [isPosts, setIsPosts] = useState<boolean>(list !== 'users');
+  const [keyword, setKeyword] = useState<string>('');
+
+  useEffect(() => {
+    (async () => {
+      const result = await getPosts({
+        postType: isMentor ? 'MENTOR' : 'MENTEE',
+        keyword,
+      });
+      console.log(result);
+    })();
+    // (async () => {
+    //   const result = await getUsers({
+    //     profileType: isMentor ? 'MENTOR' : 'MENTEE',
+    //     keyword,
+    //   });
+    //   console.log(result);
+    // })();
+  }, [isMentor, keyword]);
 
   return (
     <>
@@ -42,7 +69,7 @@ export default function Search() {
           }
         />
         <Inner>
-          <SearchForm />
+          <SearchForm setKeyword={setKeyword} />
           <ButtonBox>
             <Buttons>
               <Button

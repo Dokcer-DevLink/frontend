@@ -4,6 +4,7 @@ import { Input } from './InputField.style';
 import { theme } from '@/styles/theme';
 
 type InputFieldProps = FieldWrapperPassThroughProps & {
+  defaultValue?: string;
   variant?: keyof typeof theme.schemes.light;
   texttype?: keyof typeof theme.styles;
   size?: 'large' | 'medium' | 'small';
@@ -12,6 +13,7 @@ type InputFieldProps = FieldWrapperPassThroughProps & {
   registration: Partial<UseFormRegisterReturn>;
   autocomplete?: 'on' | 'off' | 'new-password';
   value?: string;
+  display?: string;
 };
 
 export const InputField = (props: InputFieldProps) => {
@@ -19,6 +21,7 @@ export const InputField = (props: InputFieldProps) => {
     variant = 'primary',
     texttype = 'body',
     size = 'large',
+    defaultValue,
 
     type = 'text',
     label,
@@ -27,10 +30,13 @@ export const InputField = (props: InputFieldProps) => {
     error,
     autocomplete = 'on',
     value,
+    display,
   } = props;
   return (
     <FieldWrapper label={label} error={error}>
       <Input
+        display={display}
+        defaultValue={defaultValue}
         variant={variant}
         texttype={texttype}
         size={size}

@@ -1,7 +1,10 @@
 import { Spinner } from '@/components/Elements';
 import { MainLayout } from '@/components/Layout';
 import Head from 'next/head';
-import { Waitting, WaittingText } from './index.style';
+import {
+  Waitting,
+  WaittingText,
+} from '@/styles/pageStyles/auto-match/index.style';
 
 export default function AutoMatch() {
   return (

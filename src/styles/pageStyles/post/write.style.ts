@@ -5,9 +5,5 @@ export const Inner = styled.div`
   flex-direction: column;
   gap: 30px;
 
-  padding: 20px 20px;
-
-  @media (min-width: 801px) {
-    padding: 0 0 20px;
-  }
+  padding: 70px 20px;
 `;

@@ -1,12 +1,23 @@
 import { Header, MainLayout } from '@/components/Layout';
 import Head from 'next/head';
-import { Inner } from './index.style';
-import { Chats } from '@/features/chats';
-import { ChatProps } from '@/features/chats/components/Chat';
+import { Inner } from '@/styles/pageStyles/chat/index.style';
+import { Chats, chatSlice, getChatRooms } from '@/features/chats';
 
-import k8s from '@/assets/images/k8s.png';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-export default function Chat() {
+export default function MyChats() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await getChatRooms();
+        dispatch(chatSlice.actions.setChatRooms(result.data));
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
   return (
     <>
       <Head>
@@ -18,104 +29,9 @@ export default function Chat() {
       <MainLayout>
         <Header title="내 채팅목록" />
         <Inner>
-          <Chats chats={chats} />
+          <Chats />
         </Inner>
       </MainLayout>
     </>
   );
 }
-
-const emptyChats: ChatProps[] = [];
-
-const chats: ChatProps[] = [
-  {
-    id: '1',
-    userImage: k8s.src,
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 0,
-  },
-  {
-    id: '2',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 5,
-  },
-  {
-    id: '3',
-    userImage: k8s.src,
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 999,
-  },
-  {
-    id: '4',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 0,
-  },
-  {
-    id: '5',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 0,
-  },
-  {
-    id: '6',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 5,
-  },
-  {
-    id: '7',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 999,
-  },
-  {
-    id: '8',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 0,
-  },
-  {
-    id: '9',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 0,
-  },
-  {
-    id: '10',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 5,
-  },
-  {
-    id: '11',
-    nickname: '김재만',
-    recentChatedAt: '2023-12-19',
-    recentMessage:
-      '도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요 도와주세요',
-    unconfirmedMessageNumber: 999,
-  },
-];

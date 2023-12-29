@@ -4,7 +4,7 @@ import { Button } from '@/components/Elements';
 import { useRouter } from 'next/router';
 
 import { FaArrowLeft } from 'react-icons/fa';
-import { Buttons, Inner } from './profile.style';
+import { Buttons, Inner } from '@/styles/pageStyles/my-page/profile.style';
 import { useEffect, useState } from 'react';
 import { Profile } from '@/features/users';
 import { UserPosts, VerticalPostProps } from '@/features/posts';
@@ -13,10 +13,11 @@ import k8s from '@/assets/images/k8s.png';
 import { MyMentorings } from '@/features/mentorings';
 import { MentoringProps } from '@/features/mentorings/components/Mentoring';
 import { useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function MyProfile() {
-  const searchParams = useSearchParams();
   const [selectedTap, setSelectedTap] = useState('profile');
+  const searchParams = useSearchParams();
 
   const tap = searchParams.get('tap');
   useEffect(() => {
@@ -26,6 +27,12 @@ export default function MyProfile() {
   }, [tap]);
   const router = useRouter();
 
+  const userUuid = useSelector(({ auth }) => auth.userUuid);
+  useEffect(() => {
+    if (!userUuid) {
+      router.push('/');
+    }
+  }, [userUuid]);
   return (
     <>
       <Head>

@@ -3,19 +3,37 @@ import { Inter } from 'next/font/google';
 import { Button, Slider } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
 import { HorizontalPost, WritePost } from '@/features/posts';
-import { HorizontalUser } from '@/features/users';
-import { Inner, PostSeeAll, UserSeeAll } from './index.style';
+import { HorizontalUser, getRecomendedUsers } from '@/features/users';
+import { Inner, PostSeeAll, UserSeeAll } from '@/styles/pageStyles/index.style';
 import Link from 'next/link';
 
 import k8s from '@/assets/images/k8s.png';
 import { MdOutlineSearch } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AlertsMenu } from '@/features/alert';
+import { useSelector } from 'react-redux';
+import { getRecomendedPosts } from '@/features/posts/api/getRecommendedPosts';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const [isAuthorized, setIsAuthorized] = useState(true);
+  const userUuid = useSelector(({ auth }) => auth.userUuid);
+  useEffect(() => {
+    // 400 with guest
+    // (async () => {
+    //   const result = await getRecomendedPosts({ postType: 'MENTOR' });
+    //   console.log(result);
+    // })();
+    // (async () => {
+    //   const result = await getRecomendedPosts({ postType: 'MENTEE' });
+    //   console.log(result);
+    // })();
+    // 400 cause keyword params
+    // (async () => {
+    //   const result = await getRecomendedUsers({ profileType: 'MENTOR' });
+    //   console.log(result);
+    // })();
+  }, []);
   return (
     <>
       <Head>
@@ -27,14 +45,14 @@ export default function Home() {
       <MainLayout>
         <Header
           rightbuttons={
-            isAuthorized ? (
+            userUuid ? (
               <AlertsMenu />
             ) : (
               <>
                 <Link href="/auth/login">
                   <Button>로그인</Button>
                 </Link>
-                <Link href="/auth/regist">
+                <Link href="/auth/join">
                   <Button variant="primary" isoutlined={true}>
                     회원가입
                   </Button>
@@ -199,14 +217,14 @@ const posts = [
 
 const users = [
   {
-    id: '1',
+    id: '55db0e9a-3605-47b8-8e34-e1f96b8ef417',
     image: k8s.src,
     nickname: '김재만',
     skill: 'React',
     region: '서울특별시 동작구 노량진동',
   },
   {
-    id: '2',
+    id: 'e792bdd7-a3d5-43fc-9e55-2a87939f272c',
     image: null,
     nickname: '김재만',
     skill: 'React',

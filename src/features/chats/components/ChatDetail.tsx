@@ -16,17 +16,25 @@ type ChatDetailProps = {
   chatDetail: any;
 };
 
+type Message = {
+  isMine: boolean;
+  chatedAt: string;
+  content: string;
+};
+
 export const ChatDetail = ({ chatDetail }: ChatDetailProps) => {
   const { messages } = chatDetail;
-  const ChatDetailRef = useRef(null);
+  const ChatDetailRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (ChatDetailRef.current) {
+    if (ChatDetailRef?.current) {
       ChatDetailRef.current.scrollTop = 99999;
     }
-  }, []);
+  }, [ChatDetailRef]);
+
   return (
     <Wrapper ref={ChatDetailRef}>
-      {messages.map((message, i) => {
+      {messages.map((message: Message, i: number) => {
         if (message.isMine) {
           return (
             <MyChat key={i}>
@@ -55,7 +63,13 @@ export const ChatDetail = ({ chatDetail }: ChatDetailProps) => {
   );
 };
 
-const checkShowingProfile = ({ messages, i }) => {
+const checkShowingProfile = ({
+  messages,
+  i,
+}: {
+  messages: Message[];
+  i: number;
+}) => {
   if (i === 0) {
     return true;
   }
@@ -65,7 +79,13 @@ const checkShowingProfile = ({ messages, i }) => {
   return false;
 };
 
-const checkShowingChatedAt = ({ messages, i }) => {
+const checkShowingChatedAt = ({
+  messages,
+  i,
+}: {
+  messages: Message[];
+  i: number;
+}) => {
   if (i === messages.length - 1) {
     return true;
   }

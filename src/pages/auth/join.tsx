@@ -1,11 +1,11 @@
 import { Button } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
-import { RegistForm } from '@/features/auth';
+import { JoinForm } from '@/features/auth';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Guide, Inner, Title } from './regist.style';
+import { Guide, Inner, Title } from '@/styles/pageStyles/auth/join.style';
 
-export default function Regist() {
+export default function Join() {
   return (
     <>
       <Head>
@@ -31,7 +31,7 @@ export default function Regist() {
         />
         <Inner>
           <Title>회원가입</Title>
-          <RegistForm />
+          <JoinForm />
           <Guide>
             이미 계정이 있으신가요?
             <Link href="/auth/login">

@@ -1,10 +1,31 @@
 import { Form, InputField } from '@/components/Form';
 import { FormInner } from './LoginForm.style';
-import { Wrapper } from './RegistForm.style';
+import { Wrapper } from './JoinForm.style';
 import { Button } from '@/components/Elements';
+import { join } from '../api/join';
+import { useRouter } from 'next/router';
 
-export const RegistForm = () => {
-  const handleSubmit = () => {};
+export const JoinForm = () => {
+  const router = useRouter();
+  const handleSubmit = (values: {
+    nickname: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+  }) => {
+    const { nickname, email, password, passwordConfirm } = values;
+    if (password === passwordConfirm) {
+      (async () => {
+        try {
+          const reuslt = await join({ nickname, email, password });
+          router.push('/auth/login');
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+  };
+
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
@@ -38,7 +59,9 @@ export const RegistForm = () => {
               error={formState.errors['passwordConfirm']?.root}
               registration={register('passwordConfirm')}
             />
-            <Button justifycontent="center">회원가입하기</Button>
+            <Button justifycontent="center" type="submit">
+              회원가입하기
+            </Button>
           </FormInner>
         )}
       </Form>

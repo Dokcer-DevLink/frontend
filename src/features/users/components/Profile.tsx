@@ -13,31 +13,52 @@ import {
 } from './Profile.style';
 
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
-import { useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { EditProfile, ProfileImageInputField } from '.';
 import { HiPencil } from 'react-icons/hi';
-import {
-  Form,
-  ImageInputField,
-  InputField,
-  RegionSelectField,
-} from '@/components/Form';
+import { Form, InputField, RegionSelectField } from '@/components/Form';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { getRegions } from '@/features/auth';
+import { editMyProfile } from '..';
 
 type ProfileProps = {
   isMine?: boolean;
 };
 
 export const Profile = ({ isMine = true }: ProfileProps) => {
+  const profile = useSelector(({ profile }) => profile);
+  const router = useRouter();
+  useEffect(() => {
+    if (!profile?.nickname) {
+      router.push('/auth/login');
+    }
+  }, [profile, router]);
+
   const [isEditable, setIsEditable] = useState(false);
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     console.log(values);
+    const village = (await getRegions(values.village)).data.regcodes[0].name;
+    const stacks = values.skills.split('#');
+    if (stacks.length) {
+      stacks.shift();
+    }
+    await editMyProfile({
+      nickname: values.nickname,
+      introduction: values?.introduction,
+      address: village,
+      stacks,
+      profileImageUrl: values.imageUrl,
+    })
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
     setIsEditable(false);
   };
 
   return (
     <Form onSubmit={handleSubmit} id="edit-profile">
-      {({ register, formState }) => (
+      {({ register, formState, setValue }) => (
         <Wrapper>
           {!isEditable && isMine && (
             <ButtonWrapper>
@@ -53,11 +74,15 @@ export const Profile = ({ isMine = true }: ProfileProps) => {
           )}
           {isEditable ? (
             <ProfileImageInputField
-              registration={register('userImage')}
-              error={formState.errors['userImage']}
+              setValue={setValue}
+              registration={register('imageUrl')}
+              error={formState.errors['imageUrl']}
             />
           ) : (
-            <Image src={NoProfileUser.src} alt="프로필이미지" />
+            <Image
+              src={profile.imageUrl ? profile.imageUrl : NoProfileUser.src}
+              alt="프로필이미지"
+            />
           )}
           <Box>
             <Title>닉네임</Title>
@@ -65,58 +90,74 @@ export const Profile = ({ isMine = true }: ProfileProps) => {
               <InputField
                 placeholder="닉네임"
                 type="text"
+                defaultValue={profile.nickname}
                 error={formState.errors['nickname']}
                 registration={register('nickname')}
               />
             ) : (
-              <Content>김재만</Content>
+              <Content>{profile.nickname}</Content>
             )}
           </Box>
-          <Box>
+          {/* <Box>
             <Title>이메일</Title>
             <Content>daga4242@gmail.com</Content>
-          </Box>
+          </Box> */}
           <Box>
             <Title>기술스택</Title>
             {isEditable ? (
               <InputField
-                placeholder="기술스택"
+                defaultValue={
+                  profile.stacks.length
+                    ? '#' + profile.stacks.join('#')
+                    : undefined
+                }
+                placeholder="기술스택을 #으로 구분하여 입력해주세요"
                 type="text"
-                error={formState.errors['skill']}
-                registration={register('skill')}
+                error={formState.errors['skills']}
+                registration={register('skills')}
               />
             ) : (
               <Tags>
-                <Tag>React.js</Tag>
-                <Tag>TypeScript</Tag>
+                {profile.stacks.length ? (
+                  profile.stacks.map((skill: string, i: number) => (
+                    <Tag key={i}>{skill}</Tag>
+                  ))
+                ) : (
+                  <Content>기술스택 정보가 없습니다</Content>
+                )}
               </Tags>
             )}
           </Box>
           <Box>
             <Title>지역</Title>
             {isEditable ? (
-              <RegionSelectField register={register} formState={formState} />
+              <RegionSelectField
+                register={register}
+                formState={formState}
+                defaultValue={profile.address}
+              />
+            ) : profile.address ? (
+              <Tag>{profile.address}</Tag>
             ) : (
-              <Tags>
-                <Tag>서울시</Tag>
-                <Tag>동작구</Tag>
-                <Tag>노량진동</Tag>
-              </Tags>
+              <Content>지역 정보가 없습니다</Content>
             )}
           </Box>
           <Box>
             <Title>깃허브 주소</Title>
             {isEditable ? (
               <InputField
+                defaultValue={profile.githubAddress}
                 placeholder="깃허브 주소"
                 type="text"
                 error={formState.errors['githubAddress']}
                 registration={register('githubAddress')}
               />
-            ) : (
-              <Anchor href="https://github.com/mannMae" target="_blank">
-                https://github.com/mannMae
+            ) : profile.githubAddress ? (
+              <Anchor href={profile.githubAddress} target="_blank">
+                {profile.githubAddress}
               </Anchor>
+            ) : (
+              <Content>깃허브 주소 정보가 없습니다</Content>
             )}
           </Box>
           {isEditable && (

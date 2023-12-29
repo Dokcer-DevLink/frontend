@@ -3,6 +3,7 @@ import { Mentoring, MentoringProps } from './Mentoring';
 import { Buttons, Mentorings, Wrapper } from './MyMentorings.style';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getMyMentorings } from '..';
 
 type MyMentoringsProps = {
   mentoringsAsMentor: MentoringProps[];
@@ -19,6 +20,14 @@ export const MyMentorings = ({
 
   useEffect(() => {
     if (isSelectedRoleEqualsMentor) {
+      (async () => {
+        try {
+          const result = await getMyMentorings({ mentoringType: 'MENTOR' });
+          console.log(result);
+        } catch (error) {
+          console.error(error);
+        }
+      })();
       setMentorings(mentoringsAsMentor);
     } else {
       setMentorings(mentoringsAsMentee);
