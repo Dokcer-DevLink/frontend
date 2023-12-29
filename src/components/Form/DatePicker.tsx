@@ -43,7 +43,7 @@ export const DatePicker = ({
       : setDate(date.clone().subtract(31, 'day'));
 
   const getYearAndMonth = (date: moment.Moment) => {
-    const newDate = new Date(date?._d);
+    const newDate = new Date(date.toString());
     const year = newDate.getFullYear();
     const month = newDate.getMonth();
     return `${year}년 ${month + 1}월`;

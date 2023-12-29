@@ -2,7 +2,7 @@ import { Button } from '@/components/Elements';
 import { Header } from '@/components/Layout';
 import { useRouter } from 'next/router';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Inner } from './[...params].style';
+import { Inner } from '@/styles/pageStyles/mentoring/[...params].style';
 import { Mentoring } from '@/features/mentorings/components/Mentoring';
 import { VerticalUser } from '@/features/users';
 

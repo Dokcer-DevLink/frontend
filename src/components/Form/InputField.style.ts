@@ -6,11 +6,14 @@ interface Input {
   variant: string;
   texttype: keyof typeof theme.styles;
   size: 'large' | 'medium' | 'small';
+  display: string | undefined;
 }
 
 export const Input = styled.input<Input>`
   width: 100%;
   padding: 5px;
+
+  display: ${(props) => props.display};
 
   border: ${(props) =>
     `1.5px solid ${props.theme.schemes.light[props.variant]}`};

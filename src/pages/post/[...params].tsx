@@ -1,5 +1,5 @@
 import { Header, MainLayout } from '@/components/Layout';
-import { Inner } from './[...params].style';
+import { Inner } from '@/styles/pageStyles/post/[...params].style';
 import { Button } from '@/components/Elements';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/router';
@@ -9,7 +9,7 @@ import Example from '@/assets/images/example.png';
 import { useState } from 'react';
 
 export default function Post() {
-  const [isMine, setIsMine] = useState(false);
+  const [isMine, setIsMine] = useState(true);
   const router = useRouter();
   return (
     <>

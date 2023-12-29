@@ -16,23 +16,77 @@ import { PostImageInputField } from './PostImageInputField';
 import { Button } from '@/components/Elements';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { writePost } from '..';
+import { useSelector } from 'react-redux';
+import { getRegions } from '@/features/auth';
 
 export const PostForm = () => {
   const [mentoringType, setMentoringType] = useState<
     'online' | 'offline' | 'all'
   >('online');
+  const [postType, setPostType] = useState<'MENTOR' | 'MENTEE'>('MENTOR');
 
   const router = useRouter();
+  const profile = useSelector(({ profile }) => profile);
   const handleSubmit = (values: any) => {
     console.log(values);
-    // router.replace('/');
+    (async () => {
+      try {
+        const village = (await getRegions(values.village)).data.regcodes[0]
+          .name;
+        const stacks = values.skills.split('#');
+        if (stacks.length) {
+          stacks.shift();
+        }
+
+        const result = await writePost({
+          postTitle: values.title,
+          postImageUrl: values.imageUrl,
+          postContent: values.description,
+          stacks: profile.stacks,
+          postType,
+          onOffline:
+            mentoringType === 'online'
+              ? 'ONLINE'
+              : mentoringType === 'offline'
+              ? 'OFFLINE'
+              : 'BOTH',
+          address: village,
+          runningTime: Number(values.runningTime),
+        });
+        // router.replace('/');
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   };
 
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit} id="post-form">
-        {({ register, formState }) => (
+        {({ register, formState, setValue }) => (
           <FormInner>
+            <InputSection>
+              <InputSectionTitle>작성자 역할</InputSectionTitle>
+              <Buttons>
+                <Button
+                  isoutlined={postType !== 'MENTOR'}
+                  justifycontent="center"
+                  onclick={() => setPostType('MENTOR')}
+                  borderradius="0"
+                >
+                  멘토
+                </Button>
+                <Button
+                  isoutlined={postType === 'MENTOR'}
+                  justifycontent="center"
+                  onclick={() => setPostType('MENTEE')}
+                  borderradius="0"
+                >
+                  멘티
+                </Button>
+              </Buttons>
+            </InputSection>
             <InputSection>
               <InputSectionTitle>멘토링 제목</InputSectionTitle>
               <InputField
@@ -52,16 +106,17 @@ export const PostForm = () => {
             <InputSection>
               <InputSectionTitle>이미지</InputSectionTitle>
               <PostImageInputField
-                registration={register('userImage')}
-                error={formState.errors['userImage']}
+                setValue={setValue}
+                registration={register('imageUrl')}
+                error={formState.errors['imageUrl']}
               />
             </InputSection>
             <InputSection>
               <InputSectionTitle>기술스택</InputSectionTitle>
               <InputField
                 placeholder="기술스택"
-                registration={register('skill')}
-                error={formState.errors['skill']?.root}
+                registration={register('skills')}
+                error={formState.errors['skills']?.root}
               />
             </InputSection>
             <InputSection>

@@ -1,18 +1,44 @@
 import { Button } from '@/components/Elements';
 import { Header } from '@/components/Layout';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Inner, Posts } from './[...params].style';
-import { Profile } from '@/features/users';
+import { Inner, Posts } from '@/styles/pageStyles/user/[...params].style';
+import { Profile, getUser } from '@/features/users';
 
 import k8s from '@/assets/images/k8s.png';
 import { UserPosts, VerticalPostProps } from '@/features/posts';
+import { useParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function UserProfile() {
   const router = useRouter();
+
   const [isMine, setIsMine] = useState(false);
   const [isMentor, setIsMentor] = useState<boolean>(true);
+
+  const userUuid = useSelector(({ auth }) => auth.userUuid);
+  const { params } = useParams();
+  const postUserId = params[0];
+
+  useEffect(() => {
+    if (userUuid === postUserId) {
+      setIsMine(true);
+    }
+  }, [userUuid, postUserId]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await getUser({
+          userUuid: postUserId,
+        });
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   return (
     <>
@@ -29,9 +55,11 @@ export default function UserProfile() {
           />
         }
         rightbuttons={
-          <Button onclick={() => router.push(`/chat/${user.id}`)}>
-            채팅하기
-          </Button>
+          !isMine && (
+            <Button onclick={() => router.push(`/chat/${postUserId}`)}>
+              채팅하기
+            </Button>
+          )
         }
         isDisplayInMobile={true}
       />

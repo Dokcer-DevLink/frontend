@@ -4,7 +4,7 @@ import { PostForm } from '@/features/posts/components/PostForm';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Inner } from './write.style';
+import { Inner } from '@/styles/pageStyles/post/write.style';
 
 export default function Write() {
   const router = useRouter();
@@ -16,29 +16,28 @@ export default function Write() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MainLayout>
-        <Header
-          title="게시물 작성하기"
-          leftbuttons={
-            <Button
-              textstyle="title"
-              size="large"
-              variant="background"
-              padding="2px"
-              startIcon={<FaArrowLeft />}
-              onclick={() => router.back()}
-            />
-          }
-          rightbuttons={
-            <Button form="post-form" type="submit">
-              작성완료
-            </Button>
-          }
-        />
-        <Inner>
-          <PostForm />
-        </Inner>
-      </MainLayout>
+      <Header
+        title="게시물 작성하기"
+        isDisplayInMobile={true}
+        leftbuttons={
+          <Button
+            textstyle="title"
+            size="large"
+            variant="background"
+            padding="2px"
+            startIcon={<FaArrowLeft />}
+            onclick={() => router.back()}
+          />
+        }
+        rightbuttons={
+          <Button form="post-form" type="submit">
+            작성완료
+          </Button>
+        }
+      />
+      <Inner>
+        <PostForm />
+      </Inner>
     </>
   );
 }

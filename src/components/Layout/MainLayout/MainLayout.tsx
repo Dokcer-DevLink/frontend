@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ButtomNavigation,
   ContentSection,
@@ -21,8 +21,9 @@ import { IoIosChatbubbles } from 'react-icons/io';
 import { RiUser3Fill } from 'react-icons/ri';
 import { useRouter } from 'next/router';
 import { OnBoarding } from '@/features/misc';
-import { Header } from './Header';
 import { Alerts } from '@/features/alert';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMyProfile, profileSlice } from '@/features/users';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -30,7 +31,20 @@ type MainLayoutProps = {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const { route } = useRouter();
-  const [isAuthorized, setIsAuthorized] = useState(true);
+  const userUuid = useSelector(({ auth }) => auth.userUuid);
+  const nickname = useSelector(({ profile }) => profile.nickname);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (userUuid && !nickname) {
+      (async () => {
+        console.log('Async!');
+        const result = await getMyProfile();
+        console.log(result.data);
+        dispatch(profileSlice.actions.setProfile({ ...result.data.profile }));
+      })();
+    }
+  }, [userUuid, nickname, dispatch]);
+
   return (
     <Wrapper>
       <SideSection left="0">
@@ -82,7 +96,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         </ButtomNavigation>
       </ContentSection>
       <SideSection right="0">
-        {isAuthorized ? (
+        {userUuid ? (
           <Alerts />
         ) : (
           <>
@@ -90,7 +104,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
               <Link href="/auth/login" style={{ width: '100%' }}>
                 <Button justifycontent="center">로그인</Button>
               </Link>
-              <Link href="/auth/regist" style={{ width: '100%' }}>
+              <Link href="/auth/join" style={{ width: '100%' }}>
                 <Button
                   variant="primary"
                   isoutlined={true}

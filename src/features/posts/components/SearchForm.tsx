@@ -3,10 +3,15 @@ import { FormInner } from './SearchForm.style';
 import { Button } from '@/components/Elements';
 
 import { MdOutlineSearch } from 'react-icons/md';
+import { Dispatch, SetStateAction } from 'react';
 
-export const SearchForm = () => {
-  const handleSubmit = (values) => {
-    console.log(values);
+type SearchFormProps = {
+  setKeyword: Dispatch<SetStateAction<string>>;
+};
+
+export const SearchForm = ({ setKeyword }: SearchFormProps) => {
+  const handleSubmit = (values: { keyword: string }) => {
+    setKeyword(values.keyword);
   };
   return (
     <Form onSubmit={handleSubmit}>

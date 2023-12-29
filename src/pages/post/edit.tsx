@@ -4,7 +4,7 @@ import { PostForm } from '@/features/posts/components/PostForm';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FaArrowLeft } from 'react-icons/fa';
-import { Inner } from './write.style';
+import { Inner } from '@/styles/pageStyles/post/edit.style';
 
 export default function Write() {
   const router = useRouter();

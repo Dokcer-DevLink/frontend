@@ -1,5 +1,10 @@
 import { Header, MainLayout } from '@/components/Layout';
-import { Buttons, Inner, Nickname, Profile } from './[...params].style';
+import {
+  Buttons,
+  Inner,
+  Nickname,
+  Profile,
+} from '@/styles/pageStyles/chat/[...params].style';
 import { Button } from '@/components/Elements';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/router';
@@ -9,12 +14,44 @@ import {
   ChatHamburgerMenu,
   ExitChat,
   ReportChat,
+  chatSlice,
+  getChatRooms,
 } from '@/features/chats';
 
 import k8s from '@/assets/images/k8s.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
 
-export default function Detail() {
+export default function Chat() {
   const router = useRouter();
+  const chatRooms = useSelector(({ chat }) => chat.chatRooms);
+
+  const { params } = useParams();
+
+  const chatUserId = params[0];
+  console.log(chatUserId);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (chatRooms === null) {
+      (async () => {
+        try {
+          const result = await getChatRooms();
+          dispatch(chatSlice.actions.setChatRooms(result.data));
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+    // const currentRoom = chatRooms.filter(
+    //   (chatRoom: { userUuid: string }, i: number) =>
+    //     chatRoom.userUuid === chatUserId
+    // );
+
+    // if (currentRoom.length === 0) {
+    // }
+  }, [chatRooms]);
 
   return (
     <MainLayout>
