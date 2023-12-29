@@ -1,3 +1,4 @@
+export * from './AutoMatchForm';
 export * from './CancelMentoringRequest';
 
 export * from './MentoringRecord';
