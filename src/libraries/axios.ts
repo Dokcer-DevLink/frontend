@@ -7,11 +7,9 @@ const axiosRequestInterceptor = (config: InternalAxiosRequestConfig) => {
     const accessToken = storage.getValue('accessToken');
     const refreshToken = storage.getValue('refreshToken');
     const userUuid = storage.getValue('userUuid');
-    if (accessToken && refreshToken && userUuid) {
-      config.headers.Authorization = 'Bearer ' + accessToken;
-      config.headers.refreshToken = refreshToken;
-      config.headers.userUuid = userUuid;
-    }
+    config.headers.Authorization = 'Bearer ' + accessToken;
+    config.headers.refreshToken = refreshToken;
+    config.headers.userUuid = userUuid;
     if (accessToken && refreshToken) {
     }
     config.headers.Accept = 'application/json';
