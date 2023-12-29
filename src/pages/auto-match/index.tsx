@@ -1,4 +1,4 @@
-import { Spinner } from '@/components/Elements';
+// import { Spinner } from '@/components/Elements';
 import { MainLayout } from '@/components/Layout';
 import Head from 'next/head';
 import {
@@ -19,7 +19,7 @@ export default function AutoMatch() {
         <Waitting>
           <WaittingText>자동매칭이 진행 중입니다</WaittingText>
           <WaittingText>잠시만 기다려주세요</WaittingText>
-          <Spinner />
+          {/* <Spinner /> */}
         </Waitting>
       </MainLayout>
     </>
