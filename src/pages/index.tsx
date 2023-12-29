@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import { Button, Slider } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
-import { HorizontalPost, WritePost } from '@/features/posts';
+import { HorizontalPost, WritePost, getPosts } from '@/features/posts';
 import { HorizontalUser, getRecomendedUsers } from '@/features/users';
 import { Inner, PostSeeAll, UserSeeAll } from '@/styles/pageStyles/index.style';
 import Link from 'next/link';
@@ -13,10 +13,15 @@ import { useEffect, useState } from 'react';
 import { AlertsMenu } from '@/features/alert';
 import { useSelector } from 'react-redux';
 import { getRecomendedPosts } from '@/features/posts/api/getRecommendedPosts';
+import { axios } from '@/libraries/axios';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home() {
+type HomeProps = {
+  result: any;
+};
+
+export default function Home({ result }: HomeProps) {
   const userUuid = useSelector(({ auth }) => auth.userUuid);
   useEffect(() => {
     // 400 with guest
@@ -33,6 +38,7 @@ export default function Home() {
     //   const result = await getRecomendedUsers({ profileType: 'MENTOR' });
     //   console.log(result);
     // })();
+    console.log(result);
   }, []);
   return (
     <>
@@ -140,6 +146,18 @@ export default function Home() {
       <WritePost />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const result = await (
+    await getPosts({ postType: 'MENTEE', keyword: '' })
+  ).data;
+  // console.log('result!', result);
+  return {
+    props: {
+      result,
+    },
+  };
 }
 
 const posts = [

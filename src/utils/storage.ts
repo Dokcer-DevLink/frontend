@@ -22,5 +22,5 @@ export const storage = {
 };
 
 const checkWindow = () => {
-  return typeof window !== undefined;
+  return typeof window === undefined;
 };
