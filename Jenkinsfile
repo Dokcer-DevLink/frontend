@@ -26,13 +26,14 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                // sh 'npm install'
+                sh 'yarn install'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'npm run build' // 또는 'yarn build' (yarn 사용시)
+                sh 'yarn run build' // 또는 'yarn build' (yarn 사용시)
             }
         }
 
