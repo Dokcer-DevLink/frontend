@@ -40,6 +40,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'yarn run build' // 또는 'yarn build' (yarn 사용시)
+                sh 'mkdir public'
             }
         }
 
