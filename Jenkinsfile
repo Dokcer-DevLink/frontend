@@ -8,7 +8,7 @@ pipeline {
     environment {
         dockerHubRegistry = 'lordofkangs'
         DOCKERHUB_CREDENTIALS = 'dockerhub' // Replace with your Jenkins credentials ID for DockerHub..
-        IMAGE_NAME = 'nextJs' // Your DockerHub repository name
+        IMAGE_NAME = 'frontend-nextjs' // Your DockerHub repository name
         IMAGE_TAG = 'tagname' // Replace with your desired tag name, or use dynamic values like ${BUILD_NUMBER}
         REGISTRY = 'docker.io' // DockerHub registry
         githubCredential = 'github_cred'
@@ -92,9 +92,9 @@ pipeline {
                     sh "git config --global user.email ${gitEmail}"
                     sh "git config --global user.name ${gitName}"
                     
-                    sh "sed -i 's/nextJs:.*\$/nextJs:${currentBuild.number}/' ./eks/frontend-service.yaml"
+                    sh "sed -i 's/frontend-nextjs:.*\$/frontend-nextjs:${currentBuild.number}/' ./eks/frontend-service.yaml"
                     sh "git add ."
-                    sh "git commit -m '[UPDATE] Auth-Service K8S ${currentBuild.number} image versioning'"
+                    sh "git commit -m '[UPDATE] Frontend-Service K8S ${currentBuild.number} image versioning'"
                     withCredentials([gitUsernamePassword(credentialsId: githubCredential, gitToolName: 'git-tool')]) {
                         sh "git remote set-url origin https://github.com/Dokcer-DevLink/DevOps"
                         sh "git push -u origin main"
