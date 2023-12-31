@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        dockerHubRegistry = 'lordofkangs'
+        dockerHubRegistry = 'moonsungkim'
         DOCKERHUB_CREDENTIALS = 'dockerhub' // Replace with your Jenkins credentials ID for DockerHub..
         IMAGE_NAME = 'frontend-nextjs' // Your DockerHub repository name
         IMAGE_TAG = 'tagname' // Replace with your desired tag name, or use dynamic values like ${BUILD_NUMBER}
