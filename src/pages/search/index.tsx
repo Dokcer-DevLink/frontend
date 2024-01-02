@@ -18,6 +18,8 @@ import {
 } from '@/features/posts';
 import { useSearchParams } from 'next/navigation';
 import { VerticalUsers, getUsers } from '@/features/users';
+import { PostType } from '@/features/posts/type';
+import { UserType } from '@/features/users/type';
 
 export default function Search() {
   const router = useRouter();
@@ -29,21 +31,24 @@ export default function Search() {
   const [isPosts, setIsPosts] = useState<boolean>(list !== 'users');
   const [keyword, setKeyword] = useState<string>('');
 
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
+
   useEffect(() => {
     (async () => {
       const result = await getPosts({
         postType: isMentor ? 'MENTOR' : 'MENTEE',
         keyword,
       });
-      console.log(result);
+      setPosts(result.data.content);
     })();
-    // (async () => {
-    //   const result = await getUsers({
-    //     profileType: isMentor ? 'MENTOR' : 'MENTEE',
-    //     keyword,
-    //   });
-    //   console.log(result);
-    // })();
+    (async () => {
+      const result = await getUsers({
+        profileType: isMentor ? 'MENTOR' : 'MENTEE',
+        keyword,
+      });
+      setUsers(result.data.content);
+    })();
   }, [isMentor, keyword]);
 
   return (
@@ -108,7 +113,11 @@ export default function Search() {
               </Button>
             </Buttons>
           </ButtonBox>
-          {isPosts ? <VerticalPosts /> : <VerticalUsers />}
+          {isPosts ? (
+            <VerticalPosts posts={posts} />
+          ) : (
+            <VerticalUsers users={users} />
+          )}
         </Inner>
       </MainLayout>
       <WritePost />

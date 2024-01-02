@@ -37,9 +37,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   useEffect(() => {
     if (userUuid && !nickname) {
       (async () => {
-        console.log('Async!');
         const result = await getMyProfile();
-        console.log(result.data);
         dispatch(profileSlice.actions.setProfile({ ...result.data.profile }));
       })();
     }

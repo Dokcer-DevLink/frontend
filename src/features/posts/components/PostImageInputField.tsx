@@ -19,18 +19,32 @@ import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
 type PostImageInputFieldProps = ImageInputFieldProps & {
   setValue: UseFormSetValue<any>;
   registration: Partial<UseFormRegisterReturn>;
+  defaultValue?: string | null;
 };
 
 export const PostImageInputField = ({
+  defaultValue,
   setValue,
   registration,
   error,
 }: PostImageInputFieldProps) => {
-  const [imageUrl, setImageUrl] = useState('');
+  console.log(defaultValue);
+  const [imageUrl, setImageUrl] = useState<string>('');
+
+  useEffect(() => {
+    if (defaultValue) {
+      setImageUrl(defaultValue);
+    }
+  }, [defaultValue]);
 
   useEffect(() => {
     setValue('imageUrl', imageUrl);
   }, [imageUrl, setValue]);
+
+  const handleClickClear = () => {
+    setValue('imageUrl', null);
+    setImageUrl('');
+  };
 
   return (
     <>
@@ -49,7 +63,17 @@ export const PostImageInputField = ({
           />
         </InputWrapper>
         {imageUrl ? (
-          <Image src={imageUrl} alt="이미지 미리보기" />
+          <>
+            <Image src={imageUrl} alt="이미지 미리보기" />
+            <Button
+              width="120px"
+              justifycontent="center"
+              variant="secondary"
+              onclick={handleClickClear}
+            >
+              이미지 초기화
+            </Button>
+          </>
         ) : (
           <NoImage>등록된 이미지가 없습니다</NoImage>
         )}

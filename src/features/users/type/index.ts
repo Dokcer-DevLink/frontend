@@ -1,6 +1,8 @@
-export type User = {
-  image: string | null;
+export type UserType = {
+  userUuid: string;
+  profileImageUrl: string | null;
   nickname: string;
-  skill: string;
-  region: string;
+  stacks: string[];
+  address: string;
+  githubAddress: string;
 };

@@ -1,34 +1,43 @@
-import { Post } from '../type';
+import { PostType } from '../type';
 import {
   Contents,
   Image,
   RightElements,
   Tag,
+  Tags,
   Title,
   Wrapper,
 } from './VerticalPost.style';
 
 import Logo from '@/assets/images/logo.png';
 
-export type VerticalPostProps = Post & {
+export type VerticalPostProps = PostType & {
   rightElement?: React.ReactNode;
 };
 
 export const VerticalPost = ({
-  id,
-  image = null,
-  title,
-  skill,
-  region,
+  postUuid,
+  postImageUrl = null,
+  postTitle,
+  stacks,
+  address,
   rightElement = null,
 }: VerticalPostProps) => {
   return (
     <Wrapper>
-      <Image src={image ? image : Logo.src} alt="게시물 이미지" />
+      <Image src={postImageUrl ? postImageUrl : Logo.src} alt="게시물 이미지" />
       <Contents>
-        <Title>{title}</Title>
-        <Tag>{skill}</Tag>
-        <Tag>{region}</Tag>
+        <Title>{postTitle}</Title>
+        <Tags>
+          {stacks?.length ? (
+            <>
+              {stacks?.map((stack, i) => (
+                <Tag key={i}>{stack}</Tag>
+              ))}
+            </>
+          ) : null}
+          {address && <Tag>{address}</Tag>}
+        </Tags>
       </Contents>
       <RightElements>{rightElement}</RightElements>
     </Wrapper>

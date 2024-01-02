@@ -106,7 +106,7 @@ export const RegionSelectField = ({
         getTowns(newCities[0].value);
       }
     })();
-  }, []);
+  }, [defaultValue]);
 
   return (
     <Wrapper>

@@ -16,15 +16,18 @@ export const Wrapper = styled.div`
 
 export const UserImage = styled.img`
   width: 60px;
+  height: 60px;
 
   margin-right: 15px;
   border-radius: 50%;
 
   background: ${(props) => props.theme.schemes.light.surfaceVariant};
+
+  object-fit: cover;
 `;
 
 export const Contents = styled.div`
-  width: 60%;
+  max-width: 50%;
 `;
 
 export const UserNickname = styled.span`

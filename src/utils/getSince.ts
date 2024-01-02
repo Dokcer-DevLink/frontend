@@ -3,9 +3,10 @@ type getSinceProps = {
 };
 
 export const getSince = ({ ISOTime }: getSinceProps) => {
-  const now = Date.now();
+  const offset = new Date().getTimezoneOffset() * 60000;
+  const now = Date.now() - offset;
   const date = new Date(ISOTime);
-  const milliSecond = date.getTime();
+  const milliSecond = date.getTime() - offset;
   const gap = now - milliSecond;
 
   // 1y = 31104000000

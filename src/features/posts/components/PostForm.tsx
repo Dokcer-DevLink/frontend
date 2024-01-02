@@ -14,22 +14,35 @@ import {
 } from './PostForm.style';
 import { PostImageInputField } from './PostImageInputField';
 import { Button } from '@/components/Elements';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { writePost } from '..';
-import { useSelector } from 'react-redux';
+import { editPost, writePost } from '..';
 import { getRegions } from '@/features/auth';
+import { PostType } from '../type';
 
-export const PostForm = () => {
+type PostFormProps = {
+  defaultPost?: PostType;
+};
+
+export const PostForm = ({ defaultPost }: PostFormProps) => {
   const [mentoringType, setMentoringType] = useState<
     'online' | 'offline' | 'all'
   >('online');
   const [postType, setPostType] = useState<'MENTOR' | 'MENTEE'>('MENTOR');
 
+  console.log(defaultPost);
+  useEffect(() => {
+    if (defaultPost) {
+      setPostType(defaultPost.postType);
+      setMentoringType(
+        defaultPost.onOffline === 'ONLINE' ? 'online' : 'offline'
+      );
+    }
+  }, [defaultPost]);
+
   const router = useRouter();
-  const profile = useSelector(({ profile }) => profile);
+
   const handleSubmit = (values: any) => {
-    console.log(values);
     (async () => {
       try {
         const village = (await getRegions(values.village)).data.regcodes[0]
@@ -39,22 +52,43 @@ export const PostForm = () => {
           stacks.shift();
         }
 
-        const result = await writePost({
-          postTitle: values.title,
-          postImageUrl: values.imageUrl,
-          postContent: values.description,
-          stacks: profile.stacks,
-          postType,
-          onOffline:
-            mentoringType === 'online'
-              ? 'ONLINE'
-              : mentoringType === 'offline'
-              ? 'OFFLINE'
-              : 'BOTH',
-          address: village,
-          runningTime: Number(values.runningTime),
-        });
-        // router.replace('/');
+        if (defaultPost) {
+          const result = await editPost({
+            postTitle: values.title,
+            postImage: values.imageUrl,
+            postContent: values.description,
+            stacks: stacks,
+            postType,
+            onOffline:
+              mentoringType === 'online'
+                ? 'ONLINE'
+                : mentoringType === 'offline'
+                ? 'OFFLINE'
+                : 'OFFLINE',
+            address: village,
+            runningTime: Number(values.runningTime),
+            postStatus: defaultPost.postStatus,
+            postUuid: defaultPost.postUuid,
+          });
+          router.replace(`/post/${result.data.postUuid}`);
+        } else {
+          const result = await writePost({
+            postTitle: values.title,
+            postImage: values.imageUrl,
+            postContent: values.description,
+            stacks: stacks,
+            postType,
+            onOffline:
+              mentoringType === 'online'
+                ? 'ONLINE'
+                : mentoringType === 'offline'
+                ? 'OFFLINE'
+                : 'OFFLINE',
+            address: village,
+            runningTime: Number(values.runningTime),
+          });
+          router.replace(`/post/${result.data.postUuid}`);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -67,7 +101,7 @@ export const PostForm = () => {
         {({ register, formState, setValue }) => (
           <FormInner>
             <InputSection>
-              <InputSectionTitle>작성자 역할</InputSectionTitle>
+              <InputSectionTitle>찾는 사람</InputSectionTitle>
               <Buttons>
                 <Button
                   isoutlined={postType !== 'MENTOR'}
@@ -90,6 +124,7 @@ export const PostForm = () => {
             <InputSection>
               <InputSectionTitle>멘토링 제목</InputSectionTitle>
               <InputField
+                defaultValue={defaultPost?.postTitle}
                 placeholder="멘토링 제목을 입력해주세요"
                 registration={register('title')}
                 error={formState.errors['title']?.root}
@@ -98,6 +133,7 @@ export const PostForm = () => {
             <InputSection>
               <InputSectionTitle>멘토링 소개</InputSectionTitle>
               <TextareaField
+                defaultValue={defaultPost?.postContent as string}
                 placeholder="다른 이용자를 위해 게시물 설명을 작성해주세요"
                 registration={register('description')}
                 error={formState.errors['description']?.root}
@@ -106,6 +142,7 @@ export const PostForm = () => {
             <InputSection>
               <InputSectionTitle>이미지</InputSectionTitle>
               <PostImageInputField
+                defaultValue={defaultPost?.postImageUrl}
                 setValue={setValue}
                 registration={register('imageUrl')}
                 error={formState.errors['imageUrl']}
@@ -114,6 +151,11 @@ export const PostForm = () => {
             <InputSection>
               <InputSectionTitle>기술스택</InputSectionTitle>
               <InputField
+                defaultValue={
+                  defaultPost?.stacks?.length
+                    ? '#' + defaultPost?.stacks.join('#')
+                    : ''
+                }
                 placeholder="기술스택"
                 registration={register('skills')}
                 error={formState.errors['skills']?.root}
@@ -152,11 +194,20 @@ export const PostForm = () => {
               display={mentoringType === 'online' ? 'none' : 'block'}
             >
               <InputSectionTitle>지역 선택</InputSectionTitle>
-              <RegionSelectField register={register} formState={formState} />
+              <RegionSelectField
+                register={register}
+                formState={formState}
+                defaultValue={
+                  defaultPost?.address?.addressName
+                    ? defaultPost?.address?.addressName
+                    : null
+                }
+              />
             </InputSection>
             <InputSection>
               <InputSectionTitle>멘토링 시간</InputSectionTitle>
               <RangeInputField
+                defaultValue={defaultPost?.unitTimeCount}
                 registration={register('runningTime')}
                 error={formState.errors['runningTime']?.root}
                 options={[

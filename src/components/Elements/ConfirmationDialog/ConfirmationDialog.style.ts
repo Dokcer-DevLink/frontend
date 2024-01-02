@@ -38,6 +38,8 @@ export const Description = styled.p`
   font-weight: ${(props) => props.theme.styles.body.medium.fontWeight};
   line-height: ${(props) => props.theme.styles.body.medium.lineHeight}px;
   letter-spacing: ${(props) => props.theme.styles.body.medium.letterSpacing}px;
+
+  white-space: pre-wrap;
 `;
 
 export const Buttons = styled.div``;

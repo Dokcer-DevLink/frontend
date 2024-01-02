@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HorizontalPostProps, VerticalPost, VerticalPostProps } from '.';
+import { VerticalPost, VerticalPostProps } from '.';
 import { Buttons, Posts, Wrapper } from './UserPosts.style';
 import { Button, Empty } from '@/components/Elements';
 import Link from 'next/link';
@@ -48,14 +48,14 @@ export const UserPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
       {posts.length ? (
         <Posts>
           {posts.map((post, i) => (
-            <Link key={i} href={`/post/${post.id}`}>
+            <Link key={i} href={`/post/${post.postUuid}`}>
               <VerticalPost
                 key={i}
-                id={post.id}
-                title={post.title}
-                image={post.image}
-                skill={post.skill}
-                region={post.region}
+                postUuid={post.postUuid}
+                postTitle={post.postTitle}
+                postImageUrl={post.postImageUrl}
+                stacks={post.stacks}
+                address={post.address}
               />
             </Link>
           ))}

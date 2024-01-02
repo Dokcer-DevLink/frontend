@@ -17,10 +17,13 @@ export const Wrapper = styled.div`
 
 export const Image = styled.img`
   width: 80px;
+  height: 80px;
 
   border-radius: 50%;
 
   background-color: ${(props) => props.theme.schemes.light.surfaceVariant};
+
+  object-fit: cover;
 `;
 
 export const Infomations = styled.div`

@@ -1,3 +1,4 @@
+import { PostType } from '../type';
 import {
   Contents,
   Image,
@@ -9,19 +10,28 @@ import {
 
 import Logo from '@/assets/images/logo.png';
 
-export type HorizontalPostProps = {};
-
-export const HorizontalPost = () => {
+export const HorizontalPost = ({
+  postUuid,
+  postImageUrl,
+  address,
+  postTitle,
+  stacks,
+  postType,
+}: PostType) => {
   return (
     <Wrapper>
       <Contents>
-        <Image src={Logo.src} alt="게시물 이미지" />
+        <Image
+          src={postImageUrl ? postImageUrl : Logo.src}
+          alt="게시물 이미지"
+        />
         <Tags>
-          <Tag>React</Tag>
-          <Tag>동작구</Tag>
+          {stacks?.map((stack, i) => (
+            <Tag key={i}>{stack}</Tag>
+          ))}
         </Tags>
       </Contents>
-      <Title>Dev Link 화이팅</Title>
+      <Title>{postTitle}</Title>
     </Wrapper>
   );
 };

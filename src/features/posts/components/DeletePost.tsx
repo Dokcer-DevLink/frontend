@@ -1,10 +1,21 @@
 import { Button, ConfirmationDialog } from '@/components/Elements';
 import { useRouter } from 'next/router';
+import { deletePost } from '../api/deletePost';
 
-export const DeletePost = () => {
+type DeletePostProps = {
+  postUuid: string;
+};
+
+export const DeletePost = ({ postUuid }: DeletePostProps) => {
   const router = useRouter();
-  const handleClickExit = () => {
-    router.replace('/chat');
+  const handleClickConfirmationButton = async () => {
+    try {
+      const result = await deletePost({ postUuid });
+      console.log(result);
+      router.replace('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <ConfirmationDialog
@@ -17,7 +28,7 @@ export const DeletePost = () => {
         <Button
           variant="error"
           justifycontent="center"
-          onclick={handleClickExit}
+          onclick={handleClickConfirmationButton}
         >
           게시물 삭제
         </Button>

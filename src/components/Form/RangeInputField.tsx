@@ -12,6 +12,7 @@ type RangeInputFieldProps = FieldWrapperPassThroughProps & {
   name?: string;
   options?: string[];
   registration: Partial<UseFormRegisterReturn>;
+  defaultValue?: number;
 };
 
 export const RangeInputField = ({
@@ -19,6 +20,7 @@ export const RangeInputField = ({
   options = [],
   registration,
   error,
+  defaultValue,
 }: RangeInputFieldProps) => {
   return (
     <FieldWrapper error={error}>
@@ -27,6 +29,7 @@ export const RangeInputField = ({
         min="0"
         max={options.length - 1}
         list={name}
+        defaultValue={defaultValue}
         {...registration}
       />
       <Datalist>

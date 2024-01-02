@@ -1,23 +1,34 @@
-import { User } from '../type';
+import { UserType } from '../type';
 import { Image, Nickname, Tag, Tags, Wrapper } from './HorizontalUser.style';
 
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 
-type HorizontalUserProps = User & {};
+type HorizontalUserProps = UserType & {};
 
 export const HorizontalUser = ({
-  image,
+  profileImageUrl,
   nickname,
-  skill,
-  region,
+  stacks,
+  address,
 }: HorizontalUserProps) => {
   return (
     <Wrapper>
-      <Image src={image ? image : NoProfileUser.src} alt="User Profile Image" />
+      <Image
+        src={profileImageUrl ? profileImageUrl : NoProfileUser.src}
+        alt="User Profile Image"
+      />
       <Nickname>{nickname}</Nickname>
       <Tags>
-        <Tag>{skill}</Tag>
-        <Tag>{region}</Tag>
+        {stacks.length ? (
+          <>
+            {stacks.map((stack, i) => (
+              <Tag key={i}>{stack}</Tag>
+            ))}
+          </>
+        ) : (
+          <></>
+        )}
+        {address && <Tag>{address}</Tag>}
       </Tags>
     </Wrapper>
   );

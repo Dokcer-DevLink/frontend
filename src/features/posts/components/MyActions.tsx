@@ -6,10 +6,10 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 type MyActionsProps = {
-  id: string;
+  postUuid: string;
 };
 
-export const MyActions = ({ id }: MyActionsProps) => {
+export const MyActions = ({ postUuid }: MyActionsProps) => {
   return (
     <Menu
       triggerButton={
@@ -17,12 +17,12 @@ export const MyActions = ({ id }: MyActionsProps) => {
       }
       buttons={
         <Buttons>
-          <Link href={`/post/edit?id=${id}`}>
+          <Link href={`/post/edit?id=${postUuid}`}>
             <Button justifycontent="center" variant="background">
               수정하기
             </Button>
           </Link>
-          <DeletePost />
+          <DeletePost postUuid={postUuid} />
         </Buttons>
       }
     />

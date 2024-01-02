@@ -13,27 +13,23 @@ import {
 } from './Profile.style';
 
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
-import { Key, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EditProfile, ProfileImageInputField } from '.';
 import { HiPencil } from 'react-icons/hi';
 import { Form, InputField, RegionSelectField } from '@/components/Form';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import { getRegions } from '@/features/auth';
-import { editMyProfile } from '..';
+import { editMyProfile, getUser, profileSlice } from '..';
+import { UserType } from '../type';
 
 type ProfileProps = {
-  isMine?: boolean;
+  isMine: boolean;
+  profileDetail: UserType;
 };
 
 export const Profile = ({ isMine = true }: ProfileProps) => {
   const profile = useSelector(({ profile }) => profile);
-  const router = useRouter();
-  useEffect(() => {
-    if (!profile?.nickname) {
-      router.push('/auth/login');
-    }
-  }, [profile, router]);
+  const dispatch = useDispatch();
 
   const [isEditable, setIsEditable] = useState(false);
 
@@ -44,18 +40,24 @@ export const Profile = ({ isMine = true }: ProfileProps) => {
     if (stacks.length) {
       stacks.shift();
     }
-    await editMyProfile({
-      nickname: values.nickname,
-      introduction: values?.introduction,
-      address: village,
-      stacks,
-      profileImageUrl: values.imageUrl,
-    })
-      .then((res) => console.log(res))
-      .catch((error) => console.error(error));
-    setIsEditable(false);
+    (async () => {
+      try {
+        const result = await editMyProfile({
+          nickname: values.nickname,
+          introduction: values?.introduction,
+          address: village,
+          stacks,
+          profileImage: values.imageUrl ? values.imageUrl : null,
+          githubAddress: values.githubAddress,
+        });
+        dispatch(profileSlice.actions.setProfile({ ...result.data.profile }));
+        setIsEditable(false);
+      } catch (error) {
+        console.error(error);
+        setIsEditable(false);
+      }
+    })();
   };
-
   return (
     <Form onSubmit={handleSubmit} id="edit-profile">
       {({ register, formState, setValue }) => (
@@ -75,6 +77,7 @@ export const Profile = ({ isMine = true }: ProfileProps) => {
           {isEditable ? (
             <ProfileImageInputField
               setValue={setValue}
+              defaultValue={profile.imageUrl}
               registration={register('imageUrl')}
               error={formState.errors['imageUrl']}
             />

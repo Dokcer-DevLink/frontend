@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 100;
 
   min-width: 100vw;
   min-height: 100vh;

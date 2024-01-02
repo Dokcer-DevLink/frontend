@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { MentoringType } from '../type';
 import {
   Contents,
   PromisedAt,
@@ -7,28 +9,25 @@ import {
   Wrapper,
 } from './Mentoring.style';
 
-export type MentoringProps = {
-  id: string;
-  title: string;
-  region: string;
-  promisedAt: string;
-  status: string;
-};
-
 export const Mentoring = ({
-  title,
-  region,
-  promisedAt,
+  menteeUuid,
+  mentorUuid,
+  mentoringPlace,
+  mentoringUuid,
+  onOffline,
+  postUuid,
+  startTime,
   status,
-}: MentoringProps) => {
+  unitTimeCount,
+}: MentoringType) => {
   return (
     <Wrapper>
       <Contents>
-        <Title>{title}</Title>
+        {/* <Title>{title}</Title>
         <PromisedAt>{promisedAt}</PromisedAt>
-        <Region>{region}</Region>
+        <Region>{region}</Region> */}
       </Contents>
-      <Status>{status}</Status>
+      <Status>{status === 'ONGOING' ? '진행 중' : '완료'}</Status>
     </Wrapper>
   );
 };

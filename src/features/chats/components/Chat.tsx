@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   Contents,
   RecentChatedAt,
@@ -11,32 +12,37 @@ import {
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 
 export type ChatProps = {
-  id: string;
-  userImage?: string;
-  nickname: string;
-  recentChatedAt: string;
-  recentMessage: string;
-  unconfirmedMessageNumber: Number;
+  messageNotRead: number;
+  recentDate?: string;
+  recentMessage?: string;
+  roomUuid: string;
+  targetUuid: string;
+  targetNickname?: string;
+  imageUrl?: string;
 };
 
 export const Chat = ({
-  userImage,
-  nickname,
-  recentChatedAt,
+  messageNotRead,
+  recentDate,
   recentMessage,
-  unconfirmedMessageNumber,
+  roomUuid,
+  targetUuid,
+  targetNickname,
+  imageUrl,
 }: ChatProps) => {
   return (
     <Wrapper>
-      <UserImage src={userImage ? userImage : NoProfileUser.src} />
+      <UserImage src={imageUrl ? imageUrl : NoProfileUser.src} />
       <Contents>
-        <UserNickname>{nickname}</UserNickname>
-        <RecentChatedAt>{recentChatedAt}</RecentChatedAt>
+        <UserNickname>{targetNickname}</UserNickname>
+        <RecentChatedAt>
+          {recentDate ? moment(recentDate).format('YYYY-MM-DD') : null}
+        </RecentChatedAt>
         <RecentMessage>{recentMessage}</RecentMessage>
       </Contents>
-      {unconfirmedMessageNumber !== 0 && (
+      {messageNotRead !== 0 && (
         <UnconfirmedMessageNumber>
-          {`${unconfirmedMessageNumber}`}
+          {`${messageNotRead}`}
         </UnconfirmedMessageNumber>
       )}
     </Wrapper>

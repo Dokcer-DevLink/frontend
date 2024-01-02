@@ -1,4 +1,8 @@
-import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
+import {
+  UseFormRegister,
+  UseFormRegisterReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 import { Option, SelectField } from '.';
 import { FieldWrapperPassThroughProps } from './FieldWrapper';
 import { EndTime, Tilde, Wrapper } from './TimeSelectField.style';
@@ -10,6 +14,8 @@ type TimeSelectFieldProps = FieldWrapperPassThroughProps & {
   date?: string;
   settings: any;
   schedules?: any[];
+  setValue: UseFormSetValue<any>;
+  runningTime: number;
 };
 
 export const TimeSelectField = ({
@@ -19,10 +25,11 @@ export const TimeSelectField = ({
   label,
   settings,
   date = new Date().toISOString().substring(0),
+  setValue,
+  runningTime,
 }: TimeSelectFieldProps) => {
   const [time, setTime] = useState<string>('09:00');
   const [fiteredOptions, setFilteredOptions] = useState<Option[]>([]);
-  const [runningTime, setRunningTime] = useState<number>(2);
   const [dateSchedules, setDateSchedules] = useState([]);
   const [endTime, setEndTime] = useState<string>('');
 
@@ -34,7 +41,7 @@ export const TimeSelectField = ({
     } else {
       setDateSchedules([]);
     }
-  }, [date]);
+  }, [date, settings?.dates, settings?.schedules]);
 
   useEffect(() => {
     setEndTime(getEndTime({ time, runningTime }));
@@ -50,20 +57,21 @@ export const TimeSelectField = ({
         return { key: option, value: option };
       })
     );
-  }, [dateSchedules]);
+  }, [dateSchedules, runningTime]);
 
   useEffect(() => {
     if (fiteredOptions.length) {
       setTime(String(fiteredOptions[0].value));
+      setValue(name, String(fiteredOptions[0].value));
     }
-  }, [fiteredOptions]);
+  }, [fiteredOptions, name, setValue]);
   return (
     <Wrapper>
       <SelectField
         error={error}
         label={label}
         value={time}
-        registration={register('name', {
+        registration={register(name, {
           onChange: (event) => {
             setTime(event.target.value);
           },
@@ -82,6 +90,7 @@ type getEndTimeProps = {
 };
 
 const getEndTime = ({ time, runningTime }: getEndTimeProps) => {
+  console.log(options, time, runningTime);
   return options[options.indexOf(time) + runningTime];
 };
 

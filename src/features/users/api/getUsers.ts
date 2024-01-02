@@ -10,6 +10,7 @@ export const getUsers = ({ profileType, keyword }: getUsersProps) => {
     params: {
       profileType,
       keyword,
+      page: 0,
     },
   });
 };
