@@ -105,6 +105,9 @@ export default function Home() {
                       postTitle={post.postTitle}
                       stacks={post.stacks}
                       postType={post.postType}
+                      description={''}
+                      unitTimeCount={0}
+                      onOffline={'ONLINE'}
                     />
                   </Link>
                 ))}
@@ -135,6 +138,9 @@ export default function Home() {
                       postTitle={post.postTitle}
                       stacks={post.stacks}
                       postType={post.postType}
+                      description={''}
+                      unitTimeCount={0}
+                      onOffline={'ONLINE'}
                     />
                   </Link>
                 ))}

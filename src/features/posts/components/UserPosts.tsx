@@ -56,6 +56,10 @@ export const UserPosts = ({ postsAsMentor, postsAsMentee }: PostsProps) => {
                 postImageUrl={post.postImageUrl}
                 stacks={post.stacks}
                 address={post.address}
+                description={post.description}
+                postType={post.postType}
+                unitTimeCount={post.unitTimeCount}
+                onOffline={post.onOffline}
               />
             </Link>
           ))}

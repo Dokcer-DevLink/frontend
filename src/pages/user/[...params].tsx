@@ -1,4 +1,4 @@
-import { Button } from '@/components/Elements';
+import { Button, Empty } from '@/components/Elements';
 import { Header } from '@/components/Layout';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -59,7 +59,7 @@ export default function UserProfile() {
   return (
     <>
       <Header
-        title={isMine ? user.nickname : profileDetail?.nickname}
+        title={profileDetail?.nickname}
         leftbuttons={
           <Button
             textstyle="title"
@@ -82,10 +82,11 @@ export default function UserProfile() {
       <Inner>
         <Profile isMine={false} profileDetail={profileDetail} />
         <Posts>
-          <UserPosts
+          <Empty />
+          {/* <UserPosts
             postsAsMentor={postsAsMentor}
             postsAsMentee={postsAsMentee}
-          />
+          /> */}
         </Posts>
       </Inner>
     </>
@@ -100,77 +101,77 @@ const user = {
   region: '서울특별시 동작구 노량진동',
 };
 
-const postsAsMentor: VerticalPostProps[] = [];
+// const postsAsMentor: VerticalPostProps[] = [];
 
-const postsAsMentee: VerticalPostProps[] = [
-  {
-    id: '1',
-    image: k8s.src,
-    title: '멘토 급구! ',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '2',
-    image: null,
-    title: '멘토 급구! ',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '3',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '4',
-    image: null,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '5',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '6',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '7',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '8',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '9',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '10',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-];
+// const postsAsMentee: VerticalPostProps[] = [
+//   {
+//     id: '1',
+//     image: k8s.src,
+//     title: '멘토 급구! ',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '2',
+//     image: null,
+//     title: '멘토 급구! ',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '3',
+//     image: k8s.src,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '4',
+//     image: null,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '5',
+//     image: k8s.src,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '6',
+//     image: k8s.src,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '7',
+//     image: k8s.src,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '8',
+//     image: k8s.src,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '9',
+//     image: k8s.src,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+//   {
+//     id: '10',
+//     image: k8s.src,
+//     title: '멘토 급구! 멘토멘토',
+//     skill: 'React',
+//     region: '동작구',
+//   },
+// ];

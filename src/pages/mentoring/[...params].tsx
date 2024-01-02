@@ -14,12 +14,13 @@ import { useParams } from 'next/navigation';
 import { getMentoring } from '@/features/mentorings/api/getMentoring';
 import { useSelector } from 'react-redux';
 import { UserType } from '@/features/users/type';
+import { MentoringType } from '@/features/mentorings/type';
 
 export default function MentoringDetail() {
   const router = useRouter();
   const { params } = useParams();
   const [mentoringUuid, setMentoringUuid] = useState<string>();
-  const [currentMentoring, setCurrentMentoring] = useState();
+  const [currentMentoring, setCurrentMentoring] = useState<MentoringType>();
 
   const { userUuid } = useSelector(({ auth }) => auth);
   const [opponent, setOpponent] = useState<UserType>();
@@ -47,7 +48,7 @@ export default function MentoringDetail() {
   }, [mentoringUuid]);
 
   useEffect(() => {
-    if (userUuid) {
+    if (userUuid && currentMentoring) {
       (async () => {
         const result = await getUser({ userUuid });
         if (result) {
@@ -64,6 +65,17 @@ export default function MentoringDetail() {
       });
     }
   }, [router]);
+
+  if (!mentoringUuid) {
+    return;
+  }
+  if (!currentMentoring) {
+    return;
+  }
+
+  if (!opponent) {
+    return;
+  }
 
   return (
     <>
@@ -84,24 +96,24 @@ export default function MentoringDetail() {
       />
       <Inner>
         <Mentoring
-          menteeUuid={currentMentoring?.menteeUuid}
-          mentorUuid={currentMentoring?.mentorUuid}
-          mentoringPlace={currentMentoring?.mentoringPlace}
-          mentoringUuid={currentMentoring?.mentoringUuid}
-          onOffline={currentMentoring?.onOffline}
-          postUuid={currentMentoring?.postUuid}
-          startTime={currentMentoring?.startTime}
-          status={currentMentoring?.status}
-          unitTimeCount={currentMentoring?.unitTimeCount}
+          menteeUuid={currentMentoring.menteeUuid}
+          mentorUuid={currentMentoring.mentorUuid}
+          mentoringPlace={currentMentoring.mentoringPlace}
+          mentoringUuid={currentMentoring.mentoringUuid}
+          onOffline={currentMentoring.onOffline}
+          postUuid={currentMentoring.postUuid}
+          startTime={currentMentoring.startTime}
+          status={currentMentoring.status}
+          unitTimeCount={currentMentoring.unitTimeCount}
         />
-        <Link href={`/user/${currentMentoring?.mentorUuid}`}>
+        <Link href={`/user/${currentMentoring.mentorUuid}`}>
           <VerticalUser
-            userUuid={opponent?.userUuid}
-            profileImageUrl={opponent?.profileImageUrl}
-            nickname={opponent?.nickname}
-            stacks={opponent?.stacks}
-            address={opponent?.address}
-            githubAddress={opponent?.githubAddress}
+            userUuid={opponent.userUuid}
+            profileImageUrl={opponent.profileImageUrl}
+            nickname={opponent.nickname}
+            stacks={opponent.stacks}
+            address={opponent.address}
+            githubAddress={opponent.githubAddress}
           />
         </Link>
         <MentoringRecord filename="" record="" />
@@ -109,18 +121,3 @@ export default function MentoringDetail() {
     </>
   );
 }
-
-const mentoringDetail = {
-  id: '1',
-  title: '동작구 멘토 구합니다',
-  promisedAt: '2023-12-19',
-  region: '서울특별시 동작구 노량진동',
-  status: '완료',
-  user: {
-    id: '1',
-    image: NoProfileUser.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '동작구',
-  },
-};

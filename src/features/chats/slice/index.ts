@@ -10,7 +10,7 @@ export const chatSlice = createSlice({
       recentMessage: null,
       roomUuid: null,
       targetUuid: null,
-      messages: [],
+      messages: <any>[],
       stompClient: null,
     },
   },
@@ -26,9 +26,10 @@ export const chatSlice = createSlice({
     },
     addCurrentChatRoomMessage(state, action) {
       console.log(state, action);
+      const newMessages = [...state.currentChatRoom.messages, action.payload];
       state.currentChatRoom = {
         ...state.currentChatRoom,
-        messages: [...state.currentChatRoom.messages, action.payload],
+        messages: newMessages,
       };
     },
     setCurrentStompClient(state, action) {
