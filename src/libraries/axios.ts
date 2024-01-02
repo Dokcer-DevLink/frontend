@@ -4,15 +4,17 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 const axiosRequestInterceptor = async (config: InternalAxiosRequestConfig) => {
   if (config.headers) {
-    const accessToken = storage.getValue('accessToken');
-    const refreshToken = storage.getValue('refreshToken');
-    const userUuid = storage.getValue('userUuid');
+    if (storage) {
+      const accessToken = storage.getValue('accessToken');
+      const refreshToken = storage.getValue('refreshToken');
+      const userUuid = storage.getValue('userUuid');
 
-    // if (accessToken && refreshToken && userUuid) {
-    config.headers.Authorization = 'Bearer ' + accessToken;
-    config.headers.refreshToken = refreshToken;
-    config.headers.userUuid = userUuid;
-    // }
+      if (accessToken && refreshToken && userUuid) {
+        config.headers.Authorization = 'Bearer ' + accessToken;
+        config.headers.refreshToken = refreshToken;
+        config.headers.userUuid = userUuid;
+      }
+    }
     config.headers.Accept = 'application/json';
     config.headers['Content-Type'] = 'application/json';
   }
