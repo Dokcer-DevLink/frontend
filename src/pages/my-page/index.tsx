@@ -29,6 +29,17 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 
+type ReceivedRequest = {
+  address?: any;
+  applyStatus: 'WAITING' | 'COMPLETED';
+  applyUuid: string;
+  fromUuid: string;
+  nickname: string;
+  profileImageUrl: string | null;
+  stacks: string[];
+  githubAddress: string | null;
+};
+
 export default function MyPage() {
   const { userUuid } = useSelector(({ auth }) => auth);
   const { nickname, imageUrl } = useSelector(({ profile }) => profile);
@@ -40,7 +51,9 @@ export default function MyPage() {
   const [sendedRequests, setSendedRequests] = useState<
     CancelMentoringRequestProps[]
   >([]);
-  const [receivedRequests, setReceivedRequests] = useState([]);
+  const [receivedRequests, setReceivedRequests] = useState<ReceivedRequest[]>(
+    []
+  );
 
   useEffect(() => {
     if (!userUuid) {
@@ -124,6 +137,7 @@ export default function MyPage() {
                     unitTimeCount={request.unitTimeCount}
                     onOffline={request.onOffline}
                     applyStatus={request.applyStatus}
+                    description={''}
                   />
                 ))
               ) : (
@@ -140,7 +154,7 @@ export default function MyPage() {
                     profileImageUrl={request.profileImageUrl}
                     stacks={request.stacks}
                     address={request.address}
-                    githubAddress={request?.githubAddress}
+                    githubAddress={request.githubAddress}
                     userUuid={request.fromUuid}
                     applyUuid={request.applyUuid}
                     applyStatus={request.applyStatus}

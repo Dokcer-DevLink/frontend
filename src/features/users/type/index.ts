@@ -4,5 +4,5 @@ export type UserType = {
   nickname: string;
   stacks: string[];
   address: string;
-  githubAddress: string;
+  githubAddress: string | null;
 };

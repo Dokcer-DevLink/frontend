@@ -27,7 +27,7 @@ type ProfileProps = {
   profileDetail: UserType;
 };
 
-export const Profile = ({ isMine = true }: ProfileProps) => {
+export const Profile = ({ isMine = true, profileDetail }: ProfileProps) => {
   const profile = useSelector(({ profile }) => profile);
   const dispatch = useDispatch();
 
@@ -98,7 +98,7 @@ export const Profile = ({ isMine = true }: ProfileProps) => {
                 registration={register('nickname')}
               />
             ) : (
-              <Content>{profile.nickname}</Content>
+              <Content>{profileDetail.nickname}</Content>
             )}
           </Box>
           {/* <Box>

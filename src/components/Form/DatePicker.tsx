@@ -56,11 +56,14 @@ export const DatePicker = ({
   };
 
   useEffect(() => {
+    if (!setValue) {
+      return;
+    }
     const newYearAndMonth = getYearAndMonth(date);
     setYearAndMonth(newYearAndMonth);
     onchange(date.format('YYYY-MM-DD'));
     setValue('date', date.format('YYYY-MM-DD'));
-  }, [date, onchange]);
+  }, [date, onchange, setValue]);
 
   return (
     <Wrapper>

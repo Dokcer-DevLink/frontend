@@ -43,10 +43,20 @@ export default function Post() {
   }, [postDetail, myUserUuid, profile]);
 
   const { params } = useParams();
-  const postUuid = params[0];
+  const [postUuid, setPostUuid] = useState<string>();
+  useEffect(() => {
+    if (typeof params?.length !== 'number') {
+      return;
+    }
+    console.log(params);
+    setPostUuid(params[0]);
+  }, [params]);
   console.log(router);
 
   useEffect(() => {
+    if (!postUuid) {
+      return;
+    }
     (async () => {
       try {
         const result = await getPostDetail({ postUuid });

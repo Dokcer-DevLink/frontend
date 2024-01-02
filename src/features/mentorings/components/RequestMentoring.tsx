@@ -13,6 +13,12 @@ type RequestMentoringProps = {
   runningTime: number;
 };
 
+type Schedule = {
+  mentoringUuid: string;
+  startTime: string;
+  unitTimeCount: number;
+};
+
 export const RequestMentoring = ({
   postUuid,
   targetUuid,
@@ -21,7 +27,7 @@ export const RequestMentoring = ({
   onOffline,
   runningTime,
 }: RequestMentoringProps) => {
-  const [schedules, setSchedules] = useState([]);
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [inputs, setInputs] = useState<Input[]>([]);
 
   useEffect(() => {
