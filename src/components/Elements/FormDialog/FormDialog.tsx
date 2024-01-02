@@ -97,6 +97,7 @@ export const FormDialog = ({
                   if (input.type === 'datePicker') {
                     return (
                       <DatePicker
+                        setValue={setValue}
                         key={input.name}
                         onchange={setSharedValue}
                         registration={register(input.name)}

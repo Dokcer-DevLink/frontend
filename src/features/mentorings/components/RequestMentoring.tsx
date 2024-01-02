@@ -22,30 +22,81 @@ export const RequestMentoring = ({
   runningTime,
 }: RequestMentoringProps) => {
   const [schedules, setSchedules] = useState([]);
+  const [inputs, setInputs] = useState<Input[]>([]);
+
   useEffect(() => {
     (async () => {
       try {
         const result = await getSchedules({ userUuid: targetUuid });
+        console.log(result);
         if (result) {
           setSchedules(result.data.schedules);
         }
-        console.log(result);
       } catch (error) {
         console.error(error);
       }
     })();
   }, [targetUuid]);
-  const inputs: Input[] = [
-    {
-      type: 'datePicker',
-      name: 'date',
-    },
-    {
-      type: 'timeSelect',
-      name: 'time',
-      settings: {
-        schedules: schedules,
-        // [
+
+  useEffect(() => {
+    if (!schedules?.length) {
+      return;
+    }
+    console.log(schedules);
+    let newSchedules = [];
+    const dates = [];
+    for (let schedule of schedules) {
+      const date = schedule.startTime.slice(0, 10);
+      const startTime = schedule.startTime.slice(11, 16);
+      const dateIndex = dates.indexOf(date);
+      if (dateIndex === -1) {
+        newSchedules.push([{ startTime, runningTime: schedule.unitTimeCount }]);
+        dates.push(date);
+      } else {
+        newSchedules[dateIndex].push({
+          startTime,
+          runningTime: schedule.unitTimeCount,
+        });
+      }
+    }
+    setInputs([
+      {
+        type: 'datePicker',
+        name: 'date',
+      },
+      {
+        type: 'timeSelect',
+        name: 'time',
+        settings: {
+          schedules: newSchedules,
+          dates,
+        },
+        // settings: schedules.map((schedule, i) => {
+        //   let newSchedules = [];
+        //   const dates = [];
+        //   const date = schedule.startTime.slice(0, 10);
+        //   const startTime = schedule.startTime.slice(11, 16);
+        //   const dateIndex = dates.indexOf(date);
+        //   if (dateIndex === -1) {
+        //     newSchedules.push([
+        //       { startTime, runningTime: schedule.runningTime },
+        //     ]);
+        //     dates.push(date);
+        //   } else {
+        //     newSchedules[dateIndex].push({
+        //       startTime,
+        //       runningTime: schedule.runningTime,
+        //     });
+        //   }
+        //   console.log(date, startTime);
+        //   console.log(schedule);
+        //   return { schedules: newSchedules, dates };
+        // }),
+        // {
+        //   startTime: schedule.startTime.slice(12, 16),
+        //   runningTime: schedule.unitTimeCount
+        // }),
+        // // [
         //   [
         //     { startTime: '09:00', runningTime: 1 },
         //     { startTime: '13:00', runningTime: 1 },
@@ -54,16 +105,20 @@ export const RequestMentoring = ({
         //   [{ startTime: '09:00', runningTime: 5 }],
         //   [{ startTime: '11:00', runningTime: 3 }],
         // ],
-        dates: ['2023-12-26', '2023-12-27', '2023-12-28', '2023-12-29'],
+        // dates: ['2023-12-26', '2023-12-27', '2023-12-28', '2023-12-29'],
       },
-    },
-  ];
+    ]);
+  }, [schedules]);
+
+  useEffect(() => {
+    console.log(inputs);
+  }, [inputs]);
 
   const handleSubmit = async (values: any) => {
     const { date, time } = values;
     const offset = new Date().getTimezoneOffset() * 60000;
     const startTimeMilliseconds =
-      new Date(`${date}T${time}`).getMilliseconds() - offset;
+      new Date(`${date}T${time}`).getTime() - offset;
     const startTime = new Date(startTimeMilliseconds).toISOString();
 
     const result = await sendMentoringRequest({

@@ -16,6 +16,7 @@ export const CancelMentoringRequest = ({
   unitTimeCount,
   onOffline,
   applyStatus,
+  description,
 }: CancelMentoringRequestProps) => {
   const handleClickCancel = () => {};
   return (
@@ -31,6 +32,7 @@ export const CancelMentoringRequest = ({
             postType={postType}
             unitTimeCount={unitTimeCount}
             onOffline={onOffline}
+            description={description}
             rightElement={
               <RequestState>
                 {applyStatus === 'WAITING' ? '수락 대기 중' : '수락 완료'}

@@ -53,10 +53,15 @@ export const PostForm = ({ defaultPost }: PostFormProps) => {
         }
 
         if (defaultPost) {
+          console.log(values);
           const result = await editPost({
-            postTitle: values.title,
-            postImage: values.imageUrl,
-            postContent: values.description,
+            postTitle: values.title ? values.title : defaultPost.postTitle,
+            postImage: values.imageUrl
+              ? values.imageUrl
+              : defaultPost.postImageUrl,
+            postContent: values.description
+              ? values.description
+              : defaultPost.postContent,
             stacks: stacks,
             postType,
             onOffline:

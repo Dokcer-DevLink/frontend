@@ -1,4 +1,8 @@
-import { UseFormRegisterReturn, UseFormReturn } from 'react-hook-form';
+import {
+  UseFormRegisterReturn,
+  UseFormReturn,
+  UseFormSetValue,
+} from 'react-hook-form';
 import {
   Calendar,
   Day,
@@ -26,6 +30,7 @@ import { InputField } from '@/components/Form';
 type DatePickerProps = FieldWrapperPassThroughProps & {
   registration: Partial<UseFormRegisterReturn>;
   onchange: (value: string) => void;
+  setValue?: UseFormSetValue<any>;
 };
 
 export const DatePicker = ({
@@ -33,6 +38,7 @@ export const DatePicker = ({
   error,
   registration,
   onchange,
+  setValue,
 }: DatePickerProps) => {
   const [date, setDate] = useState<moment.Moment>(() => moment());
   const [yearAndMonth, setYearAndMonth] = useState<string>();
@@ -53,7 +59,8 @@ export const DatePicker = ({
     const newYearAndMonth = getYearAndMonth(date);
     setYearAndMonth(newYearAndMonth);
     onchange(date.format('YYYY-MM-DD'));
-  }, [date]);
+    setValue('date', date.format('YYYY-MM-DD'));
+  }, [date, onchange]);
 
   return (
     <Wrapper>

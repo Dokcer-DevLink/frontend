@@ -1,9 +1,10 @@
 export type PostType = {
+  description: string;
   postUuid: any;
   postImageUrl?: string | null;
   postTitle?: string;
   stacks?: [];
-  address?: string;
+  address?: any;
   postType: 'MENTOR' | 'MENTEE';
   postContent?: string;
   unitTimeCount: number;

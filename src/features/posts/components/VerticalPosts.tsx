@@ -23,6 +23,7 @@ export const VerticalPosts = ({ posts }: VerticalPostsProps) => {
               postType={post.postType}
               unitTimeCount={post.unitTimeCount}
               onOffline={post.onOffline}
+              description={post.description}
             />
           </Link>
         ))

@@ -2,7 +2,6 @@ import { getSince } from '@/utils/getSince';
 import {
   Blank,
   ChatedAt,
-  ExitHorizontalLine,
   ExitMessage,
   Message,
   MyChat,
