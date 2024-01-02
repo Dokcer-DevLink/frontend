@@ -1,27 +1,75 @@
 import { Button, ConfirmationDialog } from '@/components/Elements';
+import { VerticalUser } from '@/features/users';
+import { UserType } from '@/features/users/type';
+import React from 'react';
+import { RequestState } from './RecieveMentoring.style';
+import { acceptMentoringRequest } from '../api/acceptMentoringRequest';
+import { rejectMentoringRequest } from '../api/rejectMentoringRequest';
 
-type RecieveMentoringProps = {
-  triggerButton: React.ReactElement;
-  id: string;
+type RecieveMentoringProps = UserType & {
+  applyUuid: string;
+  applyStatus: 'WAITING' | 'COMPLETED';
 };
 
 export const RecieveMentoring = ({
-  triggerButton,
-  id,
+  nickname,
+  profileImageUrl,
+  stacks,
+  address,
+  githubAddress,
+  userUuid,
+  applyUuid,
+  applyStatus,
 }: RecieveMentoringProps) => {
+  const handleClickAccept = async () => {
+    try {
+      const result = await acceptMentoringRequest({ applyUuid });
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleClickReject = async () => {
+    try {
+      const result = await rejectMentoringRequest({ applyUuid });
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <ConfirmationDialog
       triggerButton={
-        <Button variant="background" padding="0" flexdirection="column">
-          {triggerButton}
+        <Button variant="background" padding="0">
+          <VerticalUser
+            nickname={nickname}
+            profileImageUrl={profileImageUrl}
+            stacks={stacks}
+            address={address}
+            githubAddress={githubAddress}
+            userUuid={userUuid}
+            rightElement={
+              <RequestState>
+                {applyStatus === 'WAITING' ? '수락 대기 중' : '수락 완료'}
+              </RequestState>
+            }
+          />
         </Button>
       }
       confirmationButton={
         <>
-          <Button justifycontent="center" variant="background">
+          <Button
+            justifycontent="center"
+            variant="background"
+            onclick={handleClickAccept}
+          >
             수락하기
           </Button>
-          <Button justifycontent="center" variant="background">
+          <Button
+            justifycontent="center"
+            variant="background"
+            onclick={handleClickReject}
+          >
             거절하기
           </Button>
         </>

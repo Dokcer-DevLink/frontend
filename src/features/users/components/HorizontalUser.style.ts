@@ -21,10 +21,13 @@ export const Wrapper = styled.div`
 `;
 
 export const Image = styled.img`
+  height: 100px;
   width: 100px;
   background: ${(props) => props.theme.schemes.light.surfaceVariant};
 
   border-radius: 50%;
+
+  object-fit: cover;
 `;
 
 export const Nickname = styled.span``;

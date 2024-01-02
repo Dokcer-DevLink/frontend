@@ -1,9 +1,16 @@
 import { Button, ConfirmationDialog } from '@/components/Elements';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export const ExitChat = () => {
   const router = useRouter();
+  const { stompClient, roomUuid } = useSelector(
+    ({ chat }) => chat.currentChatRoom
+  );
+
   const handleClickExit = () => {
+    stompClient.current.unsubscribe(roomUuid);
+    // stompClient.current.disconnect(roomUuid);
     router.replace('/chat');
   };
   return (

@@ -2,18 +2,27 @@ import { Empty } from '@/components/Elements';
 import { VerticalPost } from '.';
 import { Wrapper } from './VerticalPosts.style';
 import Link from 'next/link';
+import { PostType } from '..';
 
-export const VerticalPosts = () => {
+type VerticalPostsProps = {
+  posts: PostType[];
+};
+
+export const VerticalPosts = ({ posts }: VerticalPostsProps) => {
   return (
     <Wrapper>
-      {posts.length ? (
+      {posts?.length ? (
         posts.map((post, i) => (
-          <Link key={i} href={`/post/${post.id}`}>
+          <Link key={i} href={`/post/${post.postUuid}`}>
             <VerticalPost
-              id={post.id}
-              title={post.title}
-              skill={post.skill}
-              region={post.region}
+              postUuid={post.postUuid}
+              postTitle={post.postTitle}
+              postImageUrl={post.postImageUrl}
+              stacks={post.stacks}
+              address={post.address}
+              postType={post.postType}
+              unitTimeCount={post.unitTimeCount}
+              onOffline={post.onOffline}
             />
           </Link>
         ))
@@ -23,56 +32,3 @@ export const VerticalPosts = () => {
     </Wrapper>
   );
 };
-
-const emptyPosts = [];
-
-const posts = [
-  {
-    id: '1',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '2',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '3',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '4',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '5',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '6',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '7',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '8',
-    title: '리액트 멘토링 해주세요',
-    skill: 'react',
-    region: '서울특별시 동작구 노량진동',
-  },
-];

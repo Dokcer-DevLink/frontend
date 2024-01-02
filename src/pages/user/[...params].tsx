@@ -10,6 +10,7 @@ import k8s from '@/assets/images/k8s.png';
 import { UserPosts, VerticalPostProps } from '@/features/posts';
 import { useParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { UserType } from '@/features/users/type';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -17,33 +18,48 @@ export default function UserProfile() {
   const [isMine, setIsMine] = useState(false);
   const [isMentor, setIsMentor] = useState<boolean>(true);
 
-  const userUuid = useSelector(({ auth }) => auth.userUuid);
+  const myProfile = useSelector(({ auth }) => auth);
   const { params } = useParams();
-  const postUserId = params[0];
+  const [profileUserId, setProfileUserId] = useState('');
+
+  const [profileDetail, setProfileDetail] = useState<UserType>();
 
   useEffect(() => {
-    if (userUuid === postUserId) {
+    if (myProfile?.userUuid === profileUserId) {
       setIsMine(true);
     }
-  }, [userUuid, postUserId]);
+    if (profileUserId) {
+      (async () => {
+        try {
+          const result = await getUser({ userUuid: profileUserId });
+          if (result) {
+            setProfileDetail(result.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    }
+  }, [myProfile, profileUserId]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const result = await getUser({
-          userUuid: postUserId,
-        });
-        console.log(result);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, []);
+    if (isMine && !myProfile?.userUuid) {
+      router.push('/auth/login');
+    } else if (isMine) {
+      setProfileDetail(myProfile);
+    } else {
+      setProfileUserId(params[0]);
+    }
+  }, [isMine, myProfile, params, router]);
+
+  if (!profileDetail?.nickname) {
+    return;
+  }
 
   return (
     <>
       <Header
-        title={user.nickname}
+        title={isMine ? user.nickname : profileDetail?.nickname}
         leftbuttons={
           <Button
             textstyle="title"
@@ -56,7 +72,7 @@ export default function UserProfile() {
         }
         rightbuttons={
           !isMine && (
-            <Button onclick={() => router.push(`/chat/${postUserId}`)}>
+            <Button onclick={() => router.push(`/chat/user/${profileUserId}`)}>
               채팅하기
             </Button>
           )
@@ -64,7 +80,7 @@ export default function UserProfile() {
         isDisplayInMobile={true}
       />
       <Inner>
-        <Profile isMine={false} />
+        <Profile isMine={false} profileDetail={profileDetail} />
         <Posts>
           <UserPosts
             postsAsMentor={postsAsMentor}

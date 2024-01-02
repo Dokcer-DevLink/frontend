@@ -19,6 +19,8 @@ export type FormDialogProps = {
   submitButtonText?: string;
   cancelButtonText?: string;
   inputs: Input[];
+  onSubmit: (values: any) => Promise<void>;
+  runningTime?: number;
 };
 export type Input = {
   name: string;
@@ -35,6 +37,8 @@ export const FormDialog = ({
   inputs = [],
   submitButtonText = '등록',
   cancelButtonText = '닫기',
+  onSubmit,
+  runningTime,
 }: FormDialogProps) => {
   const { close, open, isOpen } = useDisclosure();
   const [sharedValue, setSharedValue] = useState<string>('');
@@ -48,8 +52,8 @@ export const FormDialog = ({
   });
 
   const handleSubmit = (values: any) => {
-    console.log('Submit Dialog');
     console.log(values);
+    onSubmit({ ...values });
   };
 
   return (
@@ -62,7 +66,7 @@ export const FormDialog = ({
             <Description>{description}</Description>
           </TextBox>
           <Form onSubmit={handleSubmit}>
-            {({ register, formState }) => (
+            {({ register, formState, setValue }) => (
               <>
                 {inputs.map((input, i) => {
                   if (input.type === 'select' && input.options) {
@@ -79,12 +83,14 @@ export const FormDialog = ({
                   if (input.type === 'timeSelect' && input.settings) {
                     return (
                       <TimeSelectField
+                        runningTime={runningTime as number}
                         key={input.name}
                         settings={input.settings}
                         register={register}
                         name={input.name}
                         error={formState.errors[input.name]?.root}
                         date={sharedValue}
+                        setValue={setValue}
                       />
                     );
                   }

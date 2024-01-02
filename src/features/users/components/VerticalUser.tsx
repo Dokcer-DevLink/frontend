@@ -1,4 +1,4 @@
-import { User } from '../type';
+import { UserType } from '../type';
 import {
   Image,
   Infomations,
@@ -10,24 +10,29 @@ import {
 
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 
-type VerticalUserProps = User & {
+type VerticalUserProps = UserType & {
   rightElement?: React.ReactNode;
 };
 
 export const VerticalUser = ({
-  image,
+  profileImageUrl,
   nickname,
-  skill,
-  region,
+  stacks,
+  address,
   rightElement,
 }: VerticalUserProps) => {
   return (
     <Wrapper>
-      <Image src={image ? image : NoProfileUser.src} alt="유저이미지" />
+      <Image
+        src={profileImageUrl ? profileImageUrl : NoProfileUser.src}
+        alt="유저이미지"
+      />
       <Infomations>
         <Nickname>{nickname}</Nickname>
-        <Tag>{skill}</Tag>
-        <Tag>{region}</Tag>
+        {stacks?.length
+          ? stacks.map((stack, i) => <Tag key={i}>{stack}</Tag>)
+          : null}
+        {address && <Tag>{address}</Tag>}
       </Infomations>
       <RightElements>{rightElement}</RightElements>
     </Wrapper>

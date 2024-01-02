@@ -4,14 +4,67 @@ import { useRouter } from 'next/router';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Inner } from '@/styles/pageStyles/mentoring/[...params].style';
 import { Mentoring } from '@/features/mentorings/components/Mentoring';
-import { VerticalUser } from '@/features/users';
+import { VerticalUser, getUser } from '@/features/users';
 
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import Link from 'next/link';
-import { MentoringRecord } from '@/features/mentorings';
+import { EditMentoringStatus, MentoringRecord } from '@/features/mentorings';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { getMentoring } from '@/features/mentorings/api/getMentoring';
+import { useSelector } from 'react-redux';
+import { UserType } from '@/features/users/type';
 
 export default function MentoringDetail() {
   const router = useRouter();
+  const { params } = useParams();
+  const [mentoringUuid, setMentoringUuid] = useState<string>();
+  const [currentMentoring, setCurrentMentoring] = useState();
+
+  const { userUuid } = useSelector(({ auth }) => auth);
+  const [opponent, setOpponent] = useState<UserType>();
+
+  useEffect(() => {
+    if (params?.length) {
+      setMentoringUuid(params[0]);
+    }
+  }, [params]);
+
+  useEffect(() => {
+    if (!mentoringUuid) {
+      return;
+    }
+    console.log(mentoringUuid);
+    (async () => {
+      try {
+        const result = await getMentoring({ mentoringUuid });
+        console.log(result);
+        setCurrentMentoring(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [mentoringUuid]);
+
+  useEffect(() => {
+    if (userUuid) {
+      (async () => {
+        const result = await getUser({ userUuid });
+        if (result) {
+          setOpponent(result.data);
+        }
+      })();
+    }
+  }, [userUuid]);
+
+  useEffect(() => {
+    if (router.query?.status && currentMentoring) {
+      setCurrentMentoring((prev: any) => {
+        return { ...prev, status: router.query?.status };
+      });
+    }
+  }, [router]);
+
   return (
     <>
       <Header
@@ -26,28 +79,32 @@ export default function MentoringDetail() {
             onclick={() => router.back()}
           />
         }
+        rightbuttons={<EditMentoringStatus mentoringUuid={mentoringUuid} />}
         isDisplayInMobile={true}
       />
       <Inner>
         <Mentoring
-          id={mentoringDetail.id}
-          title={mentoringDetail.title}
-          promisedAt={mentoringDetail.promisedAt}
-          region={mentoringDetail.region}
-          status={mentoringDetail.status}
+          menteeUuid={currentMentoring?.menteeUuid}
+          mentorUuid={currentMentoring?.mentorUuid}
+          mentoringPlace={currentMentoring?.mentoringPlace}
+          mentoringUuid={currentMentoring?.mentoringUuid}
+          onOffline={currentMentoring?.onOffline}
+          postUuid={currentMentoring?.postUuid}
+          startTime={currentMentoring?.startTime}
+          status={currentMentoring?.status}
+          unitTimeCount={currentMentoring?.unitTimeCount}
         />
-        <Link href={`/user/${mentoringDetail.user.id}`}>
+        <Link href={`/user/${currentMentoring?.mentorUuid}`}>
           <VerticalUser
-            image={mentoringDetail.user.image}
-            nickname={mentoringDetail.user.nickname}
-            skill={mentoringDetail.user.skill}
-            region={mentoringDetail.user.region}
+            userUuid={opponent?.userUuid}
+            profileImageUrl={opponent?.profileImageUrl}
+            nickname={opponent?.nickname}
+            stacks={opponent?.stacks}
+            address={opponent?.address}
+            githubAddress={opponent?.githubAddress}
           />
         </Link>
-        <MentoringRecord
-          filename="멘토링 음성 파일명"
-          record="음성파일내용 음성파일내용 음성파일내용 음성파일내용 음성파일내용 음성파일내용 음성파일내용 음성파일내용 음성파일내용 음성파일내용 음성파일내용 "
-        />
+        <MentoringRecord filename="" record="" />
       </Inner>
     </>
   );

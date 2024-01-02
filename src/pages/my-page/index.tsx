@@ -1,10 +1,9 @@
-import { Button } from '@/components/Elements';
+import { Button, Empty } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
 import Head from 'next/head';
 import Link from 'next/link';
 import {
   Buttons,
-  Email,
   Infomations,
   Inner,
   Nickname,
@@ -15,41 +14,62 @@ import {
   UserImage,
 } from '@/styles/pageStyles/my-page/index.style';
 
-import k8s from '@/assets/images/k8s.png';
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import { useEffect, useState } from 'react';
 import { DeleteAccount, Logout } from '@/features/auth';
-import { VerticalPost } from '@/features/posts';
 import { VerticalUser } from '@/features/users';
 import {
   CancelMentoringRequest,
+  CancelMentoringRequestProps,
   RecieveMentoring,
+  getReceivedRequests,
   getSendedRequests,
 } from '@/features/mentorings';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 export default function MyPage() {
-  const userUuid = useSelector(({ auth }) => auth.userUuid);
-  const profile = useSelector(({ profile }) => profile);
+  const { userUuid } = useSelector(({ auth }) => auth);
+  const { nickname, imageUrl } = useSelector(({ profile }) => profile);
+
   const router = useRouter();
+
+  const [selectedType, setSelectedType] = useState('sended');
+
+  const [sendedRequests, setSendedRequests] = useState<
+    CancelMentoringRequestProps[]
+  >([]);
+  const [receivedRequests, setReceivedRequests] = useState([]);
 
   useEffect(() => {
     if (!userUuid) {
       router.push('/auth/login');
+      return;
     }
+
     (async () => {
-      try {
-        const result = await getSendedRequests();
-        console.log(result);
-      } catch (error) {
-        console.error(error);
-      }
+      const result = await getSendedRequests();
+      setSendedRequests(result.data);
     })();
-  }, [userUuid]);
+    (async () => {
+      const result = await getReceivedRequests();
+      console.log(result);
+      setReceivedRequests(result.data);
+    })();
+  }, [router, userUuid]);
 
-  const [selectedList, setSelectedList] = useState('sended');
+  const searchParams = useSearchParams();
 
+  const tap = searchParams.get('tap');
+
+  useEffect(() => {
+    if (tap) {
+      setSelectedType(tap);
+    }
+  }, [tap]);
+
+  console.log(sendedRequests, receivedRequests);
   return (
     <>
       <Head>
@@ -63,11 +83,9 @@ export default function MyPage() {
         <Inner>
           <Profile>
             <Infomations>
-              <UserImage
-                src={profile.imageUrl ? profile.imageUrl : NoProfileUser.src}
-              />
+              <UserImage src={imageUrl ? imageUrl : NoProfileUser.src} />
               <TextInfomations>
-                <Nickname>{profile.nickname}</Nickname>
+                <Nickname>{nickname}</Nickname>
                 {/* <Email>daga4242@gmail.com</Email> */}
               </TextInfomations>
             </Infomations>
@@ -77,58 +95,62 @@ export default function MyPage() {
           </Profile>
           <Buttons>
             <Button
-              isoutlined={selectedList === 'sended' ? false : true}
-              onclick={() => setSelectedList('sended')}
+              isoutlined={selectedType === 'sended' ? false : true}
+              onclick={() => setSelectedType('sended')}
               justifycontent="center"
             >
               보낸 멘토링 신청
             </Button>
             <Button
-              isoutlined={selectedList === 'sended' ? true : false}
-              onclick={() => setSelectedList('received')}
+              isoutlined={selectedType === 'sended' ? true : false}
+              onclick={() => setSelectedType('received')}
               justifycontent="center"
             >
               받은 멘토링 신청
             </Button>
           </Buttons>
-          <Requests>
-            {selectedList === 'sended'
-              ? sendedRequests.map((post, i) => (
+          {selectedType === 'sended' ? (
+            <Requests>
+              {sendedRequests?.length ? (
+                sendedRequests.map((request, i) => (
                   <CancelMentoringRequest
                     key={i}
-                    id={post.id}
-                    triggerButton={
-                      <VerticalPost
-                        id={post.id}
-                        title={post.title}
-                        image={post.image}
-                        skill={post.skill}
-                        region={post.region}
-                        rightElement={
-                          <RequestState>{post.status}</RequestState>
-                        }
-                      />
-                    }
+                    postUuid={request.postUuid}
+                    postTitle={request.postTitle}
+                    postImageUrl={request.postImageUrl}
+                    stacks={request.stacks}
+                    address={request.address}
+                    postType={request.postType}
+                    unitTimeCount={request.unitTimeCount}
+                    onOffline={request.onOffline}
+                    applyStatus={request.applyStatus}
                   />
                 ))
-              : receivedRequests.map((user, i) => (
+              ) : (
+                <Empty />
+              )}
+            </Requests>
+          ) : (
+            <Requests>
+              {receivedRequests?.length ? (
+                receivedRequests.map((request, i) => (
                   <RecieveMentoring
                     key={i}
-                    id={user.id}
-                    triggerButton={
-                      <VerticalUser
-                        nickname={user.nickname}
-                        image={user.image}
-                        skill={user.skill}
-                        region={user.region}
-                        rightElement={
-                          <RequestState>{user.status}</RequestState>
-                        }
-                      />
-                    }
+                    nickname={request.nickname}
+                    profileImageUrl={request.profileImageUrl}
+                    stacks={request.stacks}
+                    address={request.address}
+                    githubAddress={request?.githubAddress}
+                    userUuid={request.fromUuid}
+                    applyUuid={request.applyUuid}
+                    applyStatus={request.applyStatus}
                   />
-                ))}
-          </Requests>
+                ))
+              ) : (
+                <Empty />
+              )}
+            </Requests>
+          )}
           <Buttons>
             <Logout />
             <DeleteAccount />
@@ -139,96 +161,45 @@ export default function MyPage() {
   );
 }
 
-const sendedRequests = [
-  {
-    id: '1',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '2',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '3',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '4',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '5',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '6',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-];
-
-const receivedRequests = [
-  {
-    id: '1',
-    image: NoProfileUser.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '2',
-    image: NoProfileUser.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '3',
-    image: NoProfileUser.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '4',
-    image: NoProfileUser.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-  {
-    id: '5',
-    image: NoProfileUser.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '동작구',
-    status: '수락 대기 중',
-  },
-];
+// const receivedRequests = [
+//   {
+//     id: '1',
+//     image: NoProfileUser.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '동작구',
+//     status: '수락 대기 중',
+//   },
+//   {
+//     id: '2',
+//     image: NoProfileUser.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '동작구',
+//     status: '수락 대기 중',
+//   },
+//   {
+//     id: '3',
+//     image: NoProfileUser.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '동작구',
+//     status: '수락 대기 중',
+//   },
+//   {
+//     id: '4',
+//     image: NoProfileUser.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '동작구',
+//     status: '수락 대기 중',
+//   },
+//   {
+//     id: '5',
+//     image: NoProfileUser.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '동작구',
+//     status: '수락 대기 중',
+//   },
+// ];

@@ -17,7 +17,7 @@ export const Image = styled.img`
   max-width: 700px;
   max-height: 400px;
 
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 export const Profile = styled.div`

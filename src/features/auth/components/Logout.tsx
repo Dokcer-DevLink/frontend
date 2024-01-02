@@ -5,6 +5,7 @@ import { storage } from '@/utils/storage';
 import { useRouter } from 'next/router';
 import { authSlice } from '..';
 import { profileSlice } from '@/features/users';
+import { chatSlice } from '@/features/chats';
 
 export const Logout = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ export const Logout = () => {
       const result = await logout();
       dispatch(authSlice.actions.clearAuth(null));
       dispatch(profileSlice.actions.clearProfile(null));
+      dispatch(chatSlice.actions.clearChatRooms(null));
+      dispatch(chatSlice.actions.clearCurrentChatRoom(null));
       storage.clearValue('accessToken');
       storage.clearValue('refreshToken');
       storage.clearValue('userUuid');

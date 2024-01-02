@@ -13,6 +13,7 @@ export const profileSlice = createSlice({
   },
   reducers: {
     setProfile(state, action) {
+      console.log(action);
       state.address = action.payload.address;
       state.nickname = action.payload.nickname;
       state.career = action.payload.career;

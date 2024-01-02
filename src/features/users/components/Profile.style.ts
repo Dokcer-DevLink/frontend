@@ -13,7 +13,6 @@ export const Wrapper = styled.div`
     ${(props) => props.theme.schemes.light.primaryContainer} 5%,
     ${(props) => props.theme.schemes.light.background}
   );
-  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.3));
 `;
 
 export const ButtonWrapper = styled.div`
@@ -26,6 +25,8 @@ export const Image = styled.img`
   background: ${(props) => props.theme.schemes.light.surfaceVariant};
 
   border-radius: 50%;
+
+  object-fit: cover;
 `;
 
 export const Box = styled.div`

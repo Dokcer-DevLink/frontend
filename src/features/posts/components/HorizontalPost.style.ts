@@ -9,7 +9,9 @@ export const Contents = styled.div`
 `;
 
 export const Image = styled.img`
+  height: 200px;
   width: 200px;
+  object-fit: cover;
 `;
 
 export const Tags = styled.ul`
@@ -19,6 +21,7 @@ export const Tags = styled.ul`
 
   display: flex;
   flex-direction: column;
+  align-items: start;
   gap: 2px;
 `;
 
@@ -38,10 +41,16 @@ export const Tag = styled.li`
 `;
 
 export const Title = styled.h5`
+  max-width: 200px;
+
   background: ${(props) => props.theme.schemes.light.background};
   color: ${(props) => props.theme.schemes.light.onBackground};
   font-size: ${(props) => props.theme.styles.label.large.fontSize}px;
   font-weight: ${(props) => props.theme.styles.label.large.fontWeight};
   line-height: ${(props) => props.theme.styles.label.large.lineHeight}px;
   letter-spacing: ${(props) => props.theme.styles.label.large.letterSpacing}px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;

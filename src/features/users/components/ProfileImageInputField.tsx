@@ -12,18 +12,21 @@ import {
   UseFormSetValue,
   useForm,
 } from 'react-hook-form';
+import { Button } from '@/components/Elements';
 
 type ProfileImageInputFieldProps = ImageInputFieldProps & {
   setValue: UseFormSetValue<any>;
   registration: Partial<UseFormRegisterReturn>;
+  defaultValue: string | null;
 };
 
 export const ProfileImageInputField = ({
   setValue,
+  defaultValue,
   registration,
   error,
 }: ProfileImageInputFieldProps) => {
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(defaultValue);
 
   useEffect(() => {
     setValue('imageUrl', imageUrl);
@@ -42,6 +45,15 @@ export const ProfileImageInputField = ({
         labelTextAlign="center"
         error={error}
       />
+      <Button
+        variant="secondary"
+        justifycontent="center"
+        onclick={() => {
+          setImageUrl(null);
+        }}
+      >
+        기본 이미지로 변경
+      </Button>
       <InputField
         display="none"
         error={error}

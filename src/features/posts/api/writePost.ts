@@ -2,7 +2,7 @@ import { axios } from '@/libraries/axios';
 
 type writePostProps = {
   postTitle: string;
-  postImageUrl: string;
+  postImage: string;
   postContent: string;
   stacks: string[];
   postType: 'MENTOR' | 'MENTEE';
@@ -13,7 +13,7 @@ type writePostProps = {
 
 export const writePost = ({
   postTitle,
-  postImageUrl,
+  postImage,
   postContent,
   stacks,
   postType,
@@ -21,26 +21,14 @@ export const writePost = ({
   address,
   runningTime,
 }: writePostProps) => {
-  console.log(
+  return axios.post('/post-service/api/post', {
     postTitle,
-    postImageUrl,
+    postImage,
     postContent,
     stacks,
     postType,
     onOffline,
     address,
-    runningTime
-  );
-  return axios.post('/post-service/api/post', {
-    postCreateRequest: {
-      postTitle,
-      postImageUrl,
-      postContent,
-      stacks,
-      postType,
-      onOffline,
-      address,
-      runningTime,
-    },
+    unitTimeCount: runningTime,
   });
 };

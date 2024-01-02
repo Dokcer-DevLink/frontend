@@ -50,6 +50,8 @@ export const Blank = styled.div`
 `;
 
 export const Message = styled.p`
+  max-width: 65%;
+
   padding: 5px;
   border-radius: 10px;
 
@@ -60,6 +62,9 @@ export const Message = styled.p`
   font-weight: ${(props) => props.theme.styles.body.medium.fontWeight};
   line-height: ${(props) => props.theme.styles.body.medium.lineHeight}px;
   letter-spacing: ${(props) => props.theme.styles.body.medium.letterSpacing}px;
+
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 export const ChatedAt = styled.span`
@@ -70,4 +75,19 @@ export const ChatedAt = styled.span`
   font-weight: ${(props) => props.theme.styles.label.small.fontWeight};
   line-height: ${(props) => props.theme.styles.label.small.lineHeight}px;
   letter-spacing: ${(props) => props.theme.styles.label.small.letterSpacing}px;
+
+  white-space: nowrap;
+`;
+
+export const ExitMessage = styled.p`
+  margin: 0 auto;
+  background: ${(props) => props.theme.schemes.light.background};
+  color: ${(props) => props.theme.schemes.light.onBackground};
+
+  font-size: ${(props) => props.theme.styles.body.medium.fontSize}px;
+  font-weight: ${(props) => props.theme.styles.body.medium.fontWeight};
+  line-height: ${(props) => props.theme.styles.body.medium.lineHeight}px;
+  letter-spacing: ${(props) => props.theme.styles.body.medium.letterSpacing}px;
+
+  white-space: nowrap;
 `;

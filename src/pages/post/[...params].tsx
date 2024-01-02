@@ -3,18 +3,76 @@ import { Inner } from '@/styles/pageStyles/post/[...params].style';
 import { Button } from '@/components/Elements';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import { MyActions, OpponentActions, PostDetail } from '@/features/posts';
+import {
+  MyActions,
+  OpponentActions,
+  PostDetail,
+  PostDetailProps,
+  getPostDetail,
+} from '@/features/posts';
 
 import Example from '@/assets/images/example.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { getUser } from '@/features/users';
 
 export default function Post() {
-  const [isMine, setIsMine] = useState(true);
   const router = useRouter();
+  const [postDetail, setPostDetail] = useState<PostDetailProps>();
+  const [userProfile, setUserProfile] = useState();
+
+  const [isMine, setIsMine] = useState<boolean>(false);
+  const myUserUuid = useSelector(({ auth }) => auth.userUuid);
+  const profile = useSelector(({ profile }) => profile);
+
+  useEffect(() => {
+    if (postDetail?.userUuid === myUserUuid) {
+      setIsMine(true);
+      setUserProfile(profile);
+    } else if (postDetail?.userUuid) {
+      (async () => {
+        try {
+          const result = await getUser({ userUuid: postDetail.userUuid });
+          console.log(result);
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+  }, [postDetail, myUserUuid, profile]);
+
+  const { params } = useParams();
+  const postUuid = params[0];
+  console.log(router);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await getPostDetail({ postUuid });
+        setPostDetail(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [postUuid]);
+
+  useEffect(() => {
+    console.log(postDetail);
+    if (router.query?.postStatus) {
+      setPostDetail((prev: any) => {
+        return { ...prev, postStatus: router.query?.postStatus };
+      });
+    }
+  }, [router]);
+
+  if (!postDetail) {
+    return;
+  }
   return (
     <>
       <Header
-        title={postDetail.title}
+        title={postDetail?.postTitle}
         leftbuttons={
           <Button
             textstyle="title"
@@ -26,24 +84,25 @@ export default function Post() {
           />
         }
         rightbuttons={
-          isMine ? <MyActions id={postDetail.id} /> : <OpponentActions />
+          isMine ? (
+            <MyActions postUuid={postDetail.postUuid} />
+          ) : (
+            <OpponentActions
+              userUuid={postDetail.userUuid}
+              myUserUuid={myUserUuid}
+              runningTime={postDetail.unitTimeCount}
+              postType={postDetail.postType}
+              postUuid={postDetail.postUuid}
+              onOffline={postDetail.onOffline}
+              address={postDetail.address?.addressName}
+            />
+          )
         }
         isDisplayInMobile={true}
       />
       <Inner>
-        <PostDetail
-          imageUrl={postDetail.imageUrl}
-          isMine={isMine}
-          userId={postDetail.user.id}
-        />
+        <PostDetail {...postDetail} />
       </Inner>
     </>
   );
 }
-
-const postDetail = {
-  id: '1',
-  title: '리액트 멘토링 해주세요',
-  imageUrl: Example.src,
-  user: { id: '1' },
-};

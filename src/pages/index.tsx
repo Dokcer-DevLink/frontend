@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
-import { Button, Slider } from '@/components/Elements';
+import { Button, Empty, Slider } from '@/components/Elements';
 import { Header, MainLayout } from '@/components/Layout';
 import { HorizontalPost, WritePost, getPosts } from '@/features/posts';
 import { HorizontalUser, getRecomendedUsers } from '@/features/users';
@@ -14,31 +14,44 @@ import { AlertsMenu } from '@/features/alert';
 import { useSelector } from 'react-redux';
 import { getRecomendedPosts } from '@/features/posts/api/getRecommendedPosts';
 import { axios } from '@/libraries/axios';
+import { PostType } from '@/features/posts/type';
+import { UserType } from '@/features/users/type';
 
 const inter = Inter({ subsets: ['latin'] });
 
-type HomeProps = {
-  result: any;
-};
+export default function Home() {
+  const [recomendedMentorPosts, setRecomendedMentorPosts] = useState<
+    PostType[]
+  >([]);
+  const [recomendedMenteePosts, setRecomendedMenteePosts] = useState<
+    PostType[]
+  >([]);
 
-export default function Home({ result }: HomeProps) {
+  const [recomendedMentors, setRecomendedMentors] = useState<UserType[]>([]);
+  const [recomendedMentees, setRecomendedMentees] = useState<UserType[]>([]);
+
   const userUuid = useSelector(({ auth }) => auth.userUuid);
   useEffect(() => {
-    // 400 with guest
-    // (async () => {
-    //   const result = await getRecomendedPosts({ postType: 'MENTOR' });
-    //   console.log(result);
-    // })();
-    // (async () => {
-    //   const result = await getRecomendedPosts({ postType: 'MENTEE' });
-    //   console.log(result);
-    // })();
-    // 400 cause keyword params
-    // (async () => {
-    //   const result = await getRecomendedUsers({ profileType: 'MENTOR' });
-    //   console.log(result);
-    // })();
-    console.log(result);
+    (async () => {
+      const result = await getRecomendedPosts({ postType: 'MENTOR' });
+      setRecomendedMentorPosts(result.data.content);
+    })();
+    (async () => {
+      const result = await getRecomendedPosts({ postType: 'MENTEE' });
+      setRecomendedMenteePosts(result.data.content);
+    })();
+
+    (async () => {
+      const result = await getRecomendedUsers({ profileType: 'MENTOR' });
+      console.log(result);
+      setRecomendedMentors(result.data);
+    })();
+
+    (async () => {
+      const result = await getRecomendedUsers({ profileType: 'MENTEE' });
+      console.log(result);
+      setRecomendedMentees(result.data);
+    })();
   }, []);
   return (
     <>
@@ -81,65 +94,113 @@ export default function Home({ result }: HomeProps) {
             title="추천 멘토 게시물"
             link="/search?list=posts&role=mentor"
           >
-            <>
-              {posts.map((post, i) => (
-                <Link href={`/post/${post.id}`} key={i}>
-                  <HorizontalPost />
+            {recomendedMentorPosts.length ? (
+              <>
+                {recomendedMentorPosts.map((post, i) => (
+                  <Link href={`/post/${post.postUuid}`} key={i}>
+                    <HorizontalPost
+                      postUuid={post.postUuid}
+                      postImageUrl={post.postImageUrl}
+                      address={post.address}
+                      postTitle={post.postTitle}
+                      stacks={post.stacks}
+                      postType={post.postType}
+                    />
+                  </Link>
+                ))}
+                <Link href="/search?list=posts&role=mentor">
+                  <PostSeeAll>추천멘토 게시물 모두 보기</PostSeeAll>
                 </Link>
-              ))}
-              <Link href="/search?list=posts&role=mentor">
-                <PostSeeAll>추천멘토 게시물 모두 보기</PostSeeAll>
-              </Link>
-            </>
+              </>
+            ) : (
+              <>
+                <PostSeeAll>
+                  <Empty />
+                </PostSeeAll>
+              </>
+            )}
           </Slider>
           <Slider
             title="추천 멘티 게시물"
             link="/search?list=posts&role=mentee"
           >
-            <>
-              {posts.map((post, i) => (
-                <Link href={`/post/${post.id}`} key={i}>
-                  <HorizontalPost />
+            {recomendedMenteePosts.length ? (
+              <>
+                {recomendedMenteePosts.map((post, i) => (
+                  <Link href={`/post/${post.postUuid}`} key={i}>
+                    <HorizontalPost
+                      postUuid={post.postUuid}
+                      postImageUrl={post.postImageUrl}
+                      address={post.address}
+                      postTitle={post.postTitle}
+                      stacks={post.stacks}
+                      postType={post.postType}
+                    />
+                  </Link>
+                ))}
+                <Link href="/search?list=posts&role=mentee">
+                  <PostSeeAll>추천멘티 게시물 모두 보기</PostSeeAll>
                 </Link>
-              ))}
-              <Link href="/search?list=posts&role=mentee">
-                <PostSeeAll>추천멘티 게시물 모두 보기</PostSeeAll>
-              </Link>
-            </>
+              </>
+            ) : (
+              <>
+                <PostSeeAll>
+                  <Empty />
+                </PostSeeAll>
+              </>
+            )}
           </Slider>
           <Slider title="추천 멘토" link="/search?list=users&role=mentor">
-            <>
-              {users.map((user, i) => (
-                <Link key={i} href={`/user/${user.id}`}>
-                  <HorizontalUser
-                    image={user.image}
-                    nickname={user.nickname}
-                    skill={user.skill}
-                    region={user.region}
-                  />
+            {recomendedMentors.length ? (
+              <>
+                {recomendedMentors.map((user, i) => (
+                  <Link key={i} href={`/user/${user.userUuid}`}>
+                    <HorizontalUser
+                      userUuid={user.userUuid}
+                      profileImageUrl={user.profileImageUrl}
+                      nickname={user.nickname}
+                      stacks={user.stacks}
+                      address={user.address}
+                      githubAddress={user.githubAddress}
+                    />
+                  </Link>
+                ))}
+                <Link href="/search?list=users&role=mentor">
+                  <UserSeeAll>추천 멘토 모두 보기</UserSeeAll>
                 </Link>
-              ))}
-              <Link href="/search?list=users&role=mentor">
-                <UserSeeAll>추천 멘토 모두 보기</UserSeeAll>
-              </Link>
-            </>
+              </>
+            ) : (
+              <>
+                <UserSeeAll>
+                  <Empty />
+                </UserSeeAll>
+              </>
+            )}
           </Slider>
           <Slider title="추천 멘티" link="/search?list=users&role=mentee">
-            <>
-              {users.map((user, i) => (
-                <Link key={i} href={`/user/${user.id}`}>
-                  <HorizontalUser
-                    image={user.image}
-                    nickname={user.nickname}
-                    skill={user.skill}
-                    region={user.region}
-                  />
+            {recomendedMentees.length ? (
+              <>
+                {recomendedMentees.map((user, i) => (
+                  <Link key={i} href={`/user/${user.userUuid}`}>
+                    <HorizontalUser
+                      userUuid={user.userUuid}
+                      profileImageUrl={user.profileImageUrl}
+                      nickname={user.nickname}
+                      stacks={user.stacks}
+                      address={user.address}
+                      githubAddress={user.githubAddress}
+                    />
+                  </Link>
+                ))}
+                <Link href="/search?list=users&role=mentee">
+                  <UserSeeAll>추천 멘티 모두 보기</UserSeeAll>
                 </Link>
-              ))}
-              <Link href="/search?list=users&role=mentee">
-                <UserSeeAll>추천 멘티 모두 보기</UserSeeAll>
-              </Link>
-            </>
+              </>
+            ) : (
+              <UserSeeAll>
+                <Empty />
+              </UserSeeAll>
+            )}
           </Slider>
         </Inner>
       </MainLayout>
@@ -147,161 +208,3 @@ export default function Home({ result }: HomeProps) {
     </>
   );
 }
-
-export async function getServerSideProps() {
-  const result = await (
-    await getPosts({ postType: 'MENTEE', keyword: '' })
-  ).data;
-  // console.log('result!', result);
-  return {
-    props: {
-      result,
-    },
-  };
-}
-
-const posts = [
-  {
-    id: '1',
-    image: k8s.src,
-    title: '멘토 급구! ',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '2',
-    image: null,
-    title: '멘토 급구! ',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '3',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '4',
-    image: null,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '5',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '6',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '7',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '8',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '9',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-  {
-    id: '10',
-    image: k8s.src,
-    title: '멘토 급구! 멘토멘토',
-    skill: 'React',
-    region: '동작구',
-  },
-];
-
-const users = [
-  {
-    id: '55db0e9a-3605-47b8-8e34-e1f96b8ef417',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: 'e792bdd7-a3d5-43fc-9e55-2a87939f272c',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '3',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '4',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '5',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '6',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '7',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '8',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '9',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '10',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-];

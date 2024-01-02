@@ -4,18 +4,25 @@ import { Wrapper } from './VerticalUsers.style';
 
 import k8s from '@/assets/images/k8s.png';
 import Link from 'next/link';
+import { UserType } from '../type';
 
-export const VerticalUsers = () => {
+type VerticalUsersProps = {
+  users: UserType[];
+};
+
+export const VerticalUsers = ({ users }: VerticalUsersProps) => {
   return (
     <Wrapper>
-      {users.length ? (
+      {users?.length ? (
         users.map((user, i) => (
-          <Link href={`/user/${user.id}`} key={i}>
+          <Link href={`/user/${user.userUuid}`} key={i}>
             <VerticalUser
-              image={user.image}
+              profileImageUrl={user.profileImageUrl}
               nickname={user.nickname}
-              skill={user.skill}
-              region={user.region}
+              stacks={user.stacks}
+              address={user.address}
+              userUuid={user.userUuid}
+              githubAddress={user.githubAddress}
             />
           </Link>
         ))
@@ -28,75 +35,75 @@ export const VerticalUsers = () => {
 
 const emptyUsers = [];
 
-const users = [
-  {
-    id: '1',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '2',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '3',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '4',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '5',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '6',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '7',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '8',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '9',
-    image: k8s.src,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-  {
-    id: '10',
-    image: null,
-    nickname: '김재만',
-    skill: 'React',
-    region: '서울특별시 동작구 노량진동',
-  },
-];
+// const users = [
+//   {
+//     id: '1',
+//     image: k8s.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '2',
+//     image: null,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '3',
+//     image: k8s.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '4',
+//     image: null,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '5',
+//     image: k8s.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '6',
+//     image: null,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '7',
+//     image: k8s.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '8',
+//     image: null,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '9',
+//     image: k8s.src,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+//   {
+//     id: '10',
+//     image: null,
+//     nickname: '김재만',
+//     skill: 'React',
+//     region: '서울특별시 동작구 노량진동',
+//   },
+// ];

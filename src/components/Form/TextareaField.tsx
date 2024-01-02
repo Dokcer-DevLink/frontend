@@ -8,6 +8,7 @@ type TextareaFieldProps = FieldWrapperPassThroughProps & {
   variant?: keyof typeof theme.schemes.light;
   texttype?: keyof typeof theme.styles;
   size?: 'large' | 'medium' | 'small';
+  defaultValue?: string;
 
   registration: Partial<UseFormRegisterReturn>;
 };
@@ -23,6 +24,7 @@ export const TextareaField = (props: TextareaFieldProps) => {
     label,
     error,
     registration,
+    defaultValue,
   } = props;
   return (
     <FieldWrapper label={label} error={error}>
@@ -31,6 +33,7 @@ export const TextareaField = (props: TextareaFieldProps) => {
         texttype={texttype}
         size={size}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         {...registration}
       />
     </FieldWrapper>

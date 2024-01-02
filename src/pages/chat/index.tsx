@@ -4,14 +4,22 @@ import { Inner } from '@/styles/pageStyles/chat/index.style';
 import { Chats, chatSlice, getChatRooms } from '@/features/chats';
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 export default function MyChats() {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { userUuid } = useSelector(({ auth }) => auth);
   useEffect(() => {
+    if (!userUuid) {
+      router.push('/auth/login');
+      return;
+    }
     (async () => {
       try {
         const result = await getChatRooms();
+        console.log(result);
         dispatch(chatSlice.actions.setChatRooms(result.data));
       } catch (error) {
         console.error(error);
