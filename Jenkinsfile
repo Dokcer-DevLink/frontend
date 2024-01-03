@@ -34,6 +34,7 @@ pipeline {
             steps {
                 // sh 'npm install'
                 sh 'yarn install'
+                sh 'touch .env'
             }
         }
 
