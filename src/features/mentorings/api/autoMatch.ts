@@ -1,5 +1,22 @@
 import { axios } from '@/libraries/axios';
 
-export const autoMatch = () => {
-  return axios.get('/matching-service/api/matching');
+type autoMatchProps = {
+  place: string;
+  type: 'MENTOR' | 'MENTEE';
+  unitTimeCount: number;
+  startTime: string;
+};
+
+export const autoMatch = ({
+  place,
+  type,
+  unitTimeCount,
+  startTime,
+}: autoMatchProps) => {
+  return axios.post('/matching-service/api/matching', {
+    place,
+    type,
+    unitTimeCount,
+    startTime,
+  });
 };

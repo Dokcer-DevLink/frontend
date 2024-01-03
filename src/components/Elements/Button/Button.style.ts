@@ -63,6 +63,8 @@ export const Wrapper = styled.button<Wrapper>`
   white-space: nowrap;
   cursor: pointer;
 
+  overflow: hidden;
+
   &:hover {
     background-color: ${(props) =>
       props.isoutlined

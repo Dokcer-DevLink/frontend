@@ -27,9 +27,6 @@ export const MentoringRecord = ({
   mentoringUuid,
   setCurrentMentoring,
 }: MentoringRecordProps) => {
-  const [recordFilename, setRecordFilename] = useState(
-    filename ? filename : '등록된 파일이 없습니다'
-  );
   const [audioUrl, setAudioUrl] = useState<string>();
   const handleSubmit = async (
     values: any,
@@ -46,10 +43,6 @@ export const MentoringRecord = ({
       setAudioUrl('');
       event.target.reset();
     }
-  };
-
-  const handleAudioFileInputChange = (event: Event) => {
-    setRecordFilename(event.target.files[0].name);
   };
 
   return (

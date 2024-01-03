@@ -12,6 +12,8 @@ export const Wrapper = styled.div`
 export const FormInner = styled.div`
   display: flex;
   flex-direction: column;
+
+  gap: 20px;
 `;
 
 export const Title = styled.h3`
@@ -34,7 +36,9 @@ export const Description = styled.p`
 `;
 
 export const Buttons = styled.div`
-  display: flex;
+  max-width: 330px;
 
-  margin-bottom: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
