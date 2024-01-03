@@ -4,9 +4,8 @@ import { useRouter } from 'next/router';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Inner } from '@/styles/pageStyles/mentoring/[...params].style';
 import { Mentoring } from '@/features/mentorings/components/Mentoring';
-import { VerticalUser, getUser } from '@/features/users';
+import { getUser } from '@/features/users';
 
-import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import Link from 'next/link';
 import { EditMentoringStatus, MentoringRecord } from '@/features/mentorings';
 import { useEffect, useState } from 'react';
@@ -26,9 +25,10 @@ export default function MentoringDetail() {
   const [opponent, setOpponent] = useState<UserType>();
 
   useEffect(() => {
-    if (params?.length) {
-      setMentoringUuid(params[0]);
+    if (typeof params?.length !== 'number') {
+      return;
     }
+    setMentoringUuid(params[0]);
   }, [params]);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function MentoringDetail() {
         }
       })();
     }
-  }, [userUuid]);
+  }, [currentMentoring, userUuid]);
 
   useEffect(() => {
     if (router.query?.status && currentMentoring) {
@@ -64,60 +64,60 @@ export default function MentoringDetail() {
         return { ...prev, status: router.query?.status };
       });
     }
-  }, [router]);
-
-  if (!mentoringUuid) {
-    return;
-  }
-  if (!currentMentoring) {
-    return;
-  }
-
-  if (!opponent) {
-    return;
-  }
+  }, [currentMentoring, router]);
 
   return (
     <>
-      <Header
-        title="멘토링 정보"
-        leftbuttons={
-          <Button
-            textstyle="title"
-            size="large"
-            variant="background"
-            padding="2px"
-            startIcon={<FaArrowLeft />}
-            onclick={() => router.back()}
+      {mentoringUuid && currentMentoring && opponent ? (
+        <>
+          <Header
+            title="멘토링 정보"
+            leftbuttons={
+              <Button
+                textstyle="title"
+                size="large"
+                variant="background"
+                padding="2px"
+                startIcon={<FaArrowLeft />}
+                onclick={() => router.back()}
+              />
+            }
+            rightbuttons={
+              <EditMentoringStatus
+                mentoringUuid={mentoringUuid}
+                setCurrentMentoring={setCurrentMentoring}
+              />
+            }
+            isDisplayInMobile={true}
           />
-        }
-        rightbuttons={<EditMentoringStatus mentoringUuid={mentoringUuid} />}
-        isDisplayInMobile={true}
-      />
-      <Inner>
-        <Mentoring
-          menteeUuid={currentMentoring.menteeUuid}
-          mentorUuid={currentMentoring.mentorUuid}
-          mentoringPlace={currentMentoring.mentoringPlace}
-          mentoringUuid={currentMentoring.mentoringUuid}
-          onOffline={currentMentoring.onOffline}
-          postUuid={currentMentoring.postUuid}
-          startTime={currentMentoring.startTime}
-          status={currentMentoring.status}
-          unitTimeCount={currentMentoring.unitTimeCount}
-        />
-        <Link href={`/user/${currentMentoring.mentorUuid}`}>
-          <VerticalUser
-            userUuid={opponent.userUuid}
-            profileImageUrl={opponent.profileImageUrl}
-            nickname={opponent.nickname}
-            stacks={opponent.stacks}
-            address={opponent.address}
-            githubAddress={opponent.githubAddress}
-          />
-        </Link>
-        <MentoringRecord filename="" record="" />
-      </Inner>
+          <Inner>
+            <Link href={`/user/${currentMentoring.mentorUuid}`}>
+              <Mentoring
+                menteeUuid={currentMentoring.menteeUuid}
+                mentorUuid={currentMentoring.mentorUuid}
+                mentoringPlace={currentMentoring.mentoringPlace}
+                mentoringUuid={currentMentoring.mentoringUuid}
+                onOffline={currentMentoring.onOffline}
+                postUuid={currentMentoring.postUuid}
+                startTime={currentMentoring.startTime}
+                status={currentMentoring.status}
+                unitTimeCount={currentMentoring.unitTimeCount}
+                recordContent={currentMentoring.recordContent}
+                targetImageUrl={opponent.profileImageUrl}
+                targetNickname={opponent.nickname}
+              />
+            </Link>
+            <MentoringRecord
+              filename=""
+              record={currentMentoring.recordContent}
+              mentoringUuid={mentoringUuid}
+              setCurrentMentoring={setCurrentMentoring}
+            />
+          </Inner>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 }

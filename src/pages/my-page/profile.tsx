@@ -35,7 +35,7 @@ export default function MyProfile() {
     if (!userUuid) {
       router.push('/');
     }
-  }, [userUuid]);
+  }, [router, userUuid]);
 
   useEffect(() => {
     (async () => {

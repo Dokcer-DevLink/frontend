@@ -87,7 +87,8 @@ export const ChatDetail = () => {
     userUuidRef.current = userUuid;
   }, []);
 
-  const stompUrl = 'http://34.31.160.98/ws-stomp/';
+  const stompUrl =
+    'http://a7060712d3723400fab30f02a3dfe536-ee295aeb3a83ef10.elb.ap-northeast-2.amazonaws.com/ws-stomp/';
   const stompClient = useRef<CompatClient>();
 
   const onConnected = () => {

@@ -45,7 +45,7 @@ export const RequestMentoring = ({
   }, [targetUuid]);
 
   useEffect(() => {
-    if (!schedules?.length) {
+    if (typeof schedules?.length !== 'number') {
       return;
     }
     console.log(schedules);
@@ -77,41 +77,6 @@ export const RequestMentoring = ({
           schedules: newSchedules,
           dates,
         },
-        // settings: schedules.map((schedule, i) => {
-        //   let newSchedules = [];
-        //   const dates = [];
-        //   const date = schedule.startTime.slice(0, 10);
-        //   const startTime = schedule.startTime.slice(11, 16);
-        //   const dateIndex = dates.indexOf(date);
-        //   if (dateIndex === -1) {
-        //     newSchedules.push([
-        //       { startTime, runningTime: schedule.runningTime },
-        //     ]);
-        //     dates.push(date);
-        //   } else {
-        //     newSchedules[dateIndex].push({
-        //       startTime,
-        //       runningTime: schedule.runningTime,
-        //     });
-        //   }
-        //   console.log(date, startTime);
-        //   console.log(schedule);
-        //   return { schedules: newSchedules, dates };
-        // }),
-        // {
-        //   startTime: schedule.startTime.slice(12, 16),
-        //   runningTime: schedule.unitTimeCount
-        // }),
-        // // [
-        //   [
-        //     { startTime: '09:00', runningTime: 1 },
-        //     { startTime: '13:00', runningTime: 1 },
-        //   ],
-        //   [{ startTime: '11:00', runningTime: 2 }],
-        //   [{ startTime: '09:00', runningTime: 5 }],
-        //   [{ startTime: '11:00', runningTime: 3 }],
-        // ],
-        // dates: ['2023-12-26', '2023-12-27', '2023-12-28', '2023-12-29'],
       },
     ]);
   }, [schedules]);
@@ -122,16 +87,28 @@ export const RequestMentoring = ({
 
   const handleSubmit = async (values: any) => {
     const { date, time } = values;
+    console.log(values);
+    if (!date || !time) {
+      return;
+    }
     const offset = new Date().getTimezoneOffset() * 60000;
     const startTimeMilliseconds =
       new Date(`${date}T${time}`).getTime() - offset;
-    const startTime = new Date(startTimeMilliseconds).toISOString();
+    console.log(
+      `${date}T${time}`,
+      new Date(`${date}T${time}`),
+      offset,
+      startTimeMilliseconds
+    );
+    const startTime = new Date(Number(startTimeMilliseconds));
+    console.log(startTime);
+    const startISOString = startTime.toISOString();
 
     const result = await sendMentoringRequest({
       postUuid,
       targetUuid,
       targetType: postType,
-      startTime,
+      startTime: startISOString,
       unitTimeCount: runningTime,
       mentoringPlace: address,
       onOffline,

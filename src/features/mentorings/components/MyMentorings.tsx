@@ -21,7 +21,7 @@ export const MyMentorings = () => {
       (async () => {
         try {
           const result = await getMyMentorings({ mentoringType: 'MENTOR' });
-          setMentorings(result.data.content);
+          setMentorings(result.data);
           console.log(result);
         } catch (error) {
           console.error(error);
@@ -39,9 +39,9 @@ export const MyMentorings = () => {
     }
   }, [isSelectedRoleEqualsMentor, userUuid]);
 
-  // useEffect(() => {
-  //   console.log(mentorings);
-  // }, [mentorings]);
+  useEffect(() => {
+    console.log(mentorings);
+  }, [mentorings]);
 
   return (
     <Wrapper>
@@ -79,6 +79,9 @@ export const MyMentorings = () => {
                 startTime={mentoring.startTime}
                 status={mentoring.status}
                 unitTimeCount={mentoring.unitTimeCount}
+                recordContent={''}
+                targetNickname={mentoring.targetNickname}
+                targetImageUrl={mentoring.targetImageUrl}
               />
             </Link>
           ))}

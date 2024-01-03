@@ -1,21 +1,26 @@
 import { Button, FormDialog, Input } from '@/components/Elements';
 import { useRouter } from 'next/router';
 import { editMentoringStatus } from '../api/editMentoringStatus';
+import { Dispatch, SetStateAction } from 'react';
+import { MentoringType } from '../type';
 
 type EditMentoringStatusProps = {
   mentoringUuid: string;
+  setCurrentMentoring: Dispatch<SetStateAction<MentoringType | undefined>>;
 };
 
 export const EditMentoringStatus = ({
   mentoringUuid,
+  setCurrentMentoring,
 }: EditMentoringStatusProps) => {
-  const router = useRouter();
   const handleSubmit = async (values: any) => {
     const result = await editMentoringStatus({
       mentoringUuid,
       status: values.status,
     });
-    router.replace(`/mentoring/${mentoringUuid}?status=${values.status}`);
+    setCurrentMentoring((prev: any) => {
+      return { ...prev, status: values.status };
+    });
   };
   return (
     <FormDialog
