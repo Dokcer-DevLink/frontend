@@ -39,7 +39,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'yarn run build' // 또는 'yarn build' (yarn 사용시)
+                configFileProvider([configFile(fileId: 'f51d1da7-9da2-40b0-9903-5670116a90b3', targetLocation: '.env', variable: 'NEXT_PUBLIC_API_URL, NEXT_PUBLIC_ADDRESS_API_URL, NEXT_PUBLIC_SOCKE_API_URL')]) {
+                    sh 'yarn run build' // 또는 'yarn build' (yarn 사용시)   
+                }
             }
         }
 
