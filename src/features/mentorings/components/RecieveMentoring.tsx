@@ -5,6 +5,7 @@ import React from 'react';
 import { RequestState } from './RecieveMentoring.style';
 import { acceptMentoringRequest } from '../api/acceptMentoringRequest';
 import { rejectMentoringRequest } from '../api/rejectMentoringRequest';
+import { useRouter } from 'next/router';
 
 type RecieveMentoringProps = UserType & {
   applyUuid: string;
@@ -21,9 +22,11 @@ export const RecieveMentoring = ({
   applyUuid,
   applyStatus,
 }: RecieveMentoringProps) => {
+  const router = useRouter();
   const handleClickAccept = async () => {
     try {
       const result = await acceptMentoringRequest({ applyUuid });
+      router.push(`/mentoring/${result.data.mentoringUuid}`);
       console.log(result);
     } catch (error) {
       console.error(error);
@@ -32,7 +35,7 @@ export const RecieveMentoring = ({
   const handleClickReject = async () => {
     try {
       const result = await rejectMentoringRequest({ applyUuid });
-      console.log(result);
+      router.reload();
     } catch (error) {
       console.error(error);
     }

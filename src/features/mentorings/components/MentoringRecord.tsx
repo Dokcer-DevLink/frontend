@@ -10,20 +10,35 @@ import {
   Wrapper,
 } from './MentoringRecord.style';
 import { Button, Empty } from '@/components/Elements';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { recordMentoring } from '../api/recordMentoring';
+import { MentoringType } from '../type';
 
 type MentoringRecordProps = {
   filename?: string;
   record?: string;
+  mentoringUuid: string;
+  setCurrentMentoring: Dispatch<SetStateAction<MentoringType | undefined>>;
 };
 
-export const MentoringRecord = ({ filename, record }: MentoringRecordProps) => {
+export const MentoringRecord = ({
+  filename,
+  record,
+  mentoringUuid,
+}: MentoringRecordProps) => {
   const [recordFilename, setRecordFilename] = useState(
     filename ? filename : '등록된 파일이 없습니다'
   );
-  const handleSubmit = (values: any) => {
-    console.log('Submit');
-    console.log(values);
+  const [audioUrl, setAudioUrl] = useState<string>();
+  const handleSubmit = async (values: any) => {
+    const result = await recordMentoring({
+      mentoringUuid,
+      content: audioUrl as string,
+    });
+    // setCurrentMentoring((prev) => {
+    //   return {};
+    // });
+    console.log(result);
   };
 
   const handleAudioFileInputChange = (event: Event) => {
@@ -40,9 +55,10 @@ export const MentoringRecord = ({ filename, record }: MentoringRecordProps) => {
               <AudioFileInputField
                 label={<SelectFile>파일 선택하기</SelectFile>}
                 registration={register('audio', {
-                  onChange: (event) => handleAudioFileInputChange(event),
+                  // onChange: (event) => handleAudioFileInputChange(event),
                 })}
                 error={formState.errors['audio']?.root}
+                setAudioUrl={setAudioUrl}
               />
               <Button
                 width="100px"

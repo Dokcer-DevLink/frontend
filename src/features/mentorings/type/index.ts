@@ -8,4 +8,7 @@ export type MentoringType = {
   startTime: string;
   status: 'ONGOING' | 'COMPLETED';
   unitTimeCount: number;
+  recordContent: string;
+  targetNickname?: string;
+  targetImageUrl?: string | null;
 };

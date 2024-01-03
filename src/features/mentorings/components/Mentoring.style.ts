@@ -26,7 +26,24 @@ export const Title = styled.h5`
   letter-spacing: ${(props) => props.theme.styles.body.large.letterSpacing}px;
 `;
 
-export const Contents = styled.div``;
+export const Image = styled.img`
+  width: 80px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  background-color: ${(props) => props.theme.schemes.light.surfaceVariant};
+
+  object-fit: cover;
+`;
+
+export const Contents = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const Infomations = styled.div``;
 
 export const PromisedAt = styled.span`
   margin-right: 5px;
