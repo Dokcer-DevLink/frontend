@@ -37,7 +37,7 @@ export const MyMentorings = () => {
         }
       })();
     }
-  }, [isSelectedRoleEqualsMentor]);
+  }, [isSelectedRoleEqualsMentor, userUuid]);
 
   // useEffect(() => {
   //   console.log(mentorings);
@@ -65,7 +65,7 @@ export const MyMentorings = () => {
           내가 받은 멘토링
         </Button>
       </Buttons>
-      {mentorings.length ? (
+      {mentorings?.length ? (
         <Mentorings>
           {mentorings.map((mentoring, i) => (
             <Link href={`/mentoring/${mentoring.mentoringUuid}`} key={i}>
