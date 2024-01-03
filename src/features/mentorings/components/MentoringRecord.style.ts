@@ -17,10 +17,8 @@ export const FormInner = styled.div`
 `;
 
 export const Filename = styled.span`
-  width: 100%;
+  width: 400px;
 
-  display: flex;
-  align-items: center;
   padding: 5px;
 
   color: ${(props) => props.theme.schemes.light.onPrimaryContainer};
@@ -32,6 +30,10 @@ export const Filename = styled.span`
   font-weight: ${(props) => props.theme.styles.body.medium.fontWeight};
   line-height: ${(props) => props.theme.styles.body.medium.lineHeight}px;
   letter-spacing: ${(props) => props.theme.styles.body.medium.letterSpacing}px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const Buttons = styled.div`
