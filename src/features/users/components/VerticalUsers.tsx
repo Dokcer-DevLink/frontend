@@ -8,24 +8,28 @@ import { UserType } from '../type';
 
 type VerticalUsersProps = {
   users: UserType[];
+  observer?: React.ReactNode;
 };
 
-export const VerticalUsers = ({ users }: VerticalUsersProps) => {
+export const VerticalUsers = ({ users, observer }: VerticalUsersProps) => {
   return (
     <Wrapper>
       {users?.length ? (
-        users.map((user, i) => (
-          <Link href={`/user/${user.userUuid}`} key={i}>
-            <VerticalUser
-              profileImageUrl={user.profileImageUrl}
-              nickname={user.nickname}
-              stacks={user.stacks}
-              address={user.address}
-              userUuid={user.userUuid}
-              githubAddress={user.githubAddress}
-            />
-          </Link>
-        ))
+        <>
+          {users.map((user, i) => (
+            <Link href={`/user/${user.userUuid}`} key={i}>
+              <VerticalUser
+                profileImageUrl={user.profileImageUrl}
+                nickname={user.nickname}
+                stacks={user.stacks}
+                address={user.address}
+                userUuid={user.userUuid}
+                githubAddress={user.githubAddress}
+              />
+            </Link>
+          ))}
+          {observer}
+        </>
       ) : (
         <Empty />
       )}

@@ -32,6 +32,17 @@ export const chatSlice = createSlice({
         messages: newMessages,
       };
     },
+    addCurrentChatRoomMessages(state, action) {
+      console.log(state, action);
+      const newMessages = [
+        ...action.payload,
+        ...state.currentChatRoom.messages,
+      ];
+      state.currentChatRoom = {
+        ...state.currentChatRoom,
+        messages: newMessages,
+      };
+    },
     setCurrentStompClient(state, action) {
       state.currentChatRoom.stompClient = action.payload;
     },

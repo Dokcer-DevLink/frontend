@@ -71,7 +71,11 @@ export const MentoringRecord = ({
         )}
       </Form>
       <Record>
-        {true ? <RecordContent>{record}</RecordContent> : <Empty />}
+        {true ? (
+          <RecordContent>{record?.split('\n').join('\n\n\n')}</RecordContent>
+        ) : (
+          <Empty />
+        )}
       </Record>
     </Wrapper>
   );

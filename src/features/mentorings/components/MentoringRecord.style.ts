@@ -71,6 +71,8 @@ export const Record = styled.div`
 
   height: 60vh;
   background-color: ${(props) => props.theme.schemes.light.surfaceVariant};
+
+  white-space: pre-wrap;
 `;
 
 export const RecordContent = styled.p`

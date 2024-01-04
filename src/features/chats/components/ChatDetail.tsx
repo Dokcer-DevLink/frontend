@@ -18,7 +18,7 @@ import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import { Button, Empty } from '@/components/Elements';
 import SockJS from 'sockjs-client';
 import { getNowKr } from '@/utils/getNowKr';
-import { chatSlice } from '..';
+import { chatSlice, getMessages } from '..';
 import { UserType } from '@/features/users/type';
 import { getUser } from '@/features/users';
 
@@ -57,7 +57,11 @@ export const ChatDetail = () => {
 
   useEffect(() => {
     if (ChatDetailRef?.current) {
-      ChatDetailRef.current.scrollTop = 99999;
+      if (isLoading) {
+        ChatDetailRef.current.scrollTop = 0;
+      } else {
+        ChatDetailRef.current.scrollTop = 99999;
+      }
     }
   }, [ChatDetailRef, messages]);
 
@@ -85,7 +89,7 @@ export const ChatDetail = () => {
 
   useEffect(() => {
     userUuidRef.current = userUuid;
-  }, []);
+  }, [userUuid]);
 
   const stompUrl =
     'http://a7060712d3723400fab30f02a3dfe536-ee295aeb3a83ef10.elb.ap-northeast-2.amazonaws.com/ws-stomp/';
@@ -159,12 +163,77 @@ export const ChatDetail = () => {
     }
   };
 
+  // Infinity Scroll
+
+  const target = useRef(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLast, setIsLast] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(isLoading);
+    if (isLoading) {
+      return;
+    }
+  }, [isLoading]);
+
+  const getItems = async () => {
+    try {
+      const result = await getMessages({
+        roomUuid,
+        beforeTime: messages[0].messageTime,
+      });
+      if (result.data.last) {
+        setIsLast(true);
+        console.log('Last!!!!');
+      }
+      console.log(result);
+      dispatch(
+        chatSlice.actions.addCurrentChatRoomMessages(result.data.content)
+      );
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onIntersect = async (
+    [entry]: any,
+    observer: { observe: (arg0: any) => void }
+  ) => {
+    if (entry.isIntersecting) {
+      if (isLoading || isLast) {
+        return;
+      }
+      setIsLoading(true);
+      (async () => {
+        setTimeout(() => getItems(), 500);
+      })();
+      console.log('intersect');
+    }
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target.current) {
+      if (target) {
+        observer = new IntersectionObserver(onIntersect, {
+          threshold: 0.4,
+        });
+        observer.observe(target.current);
+      }
+    }
+    return () => observer && observer.disconnect();
+  }, [onIntersect, target]);
+
   if (messages.length === 0) {
     return <Empty />;
   }
 
   return (
     <Wrapper ref={ChatDetailRef}>
+      <div ref={target}></div>
       {messages.map((message: Message, i: number) => {
         if (message?.senderUuid === targetUuid) {
           console.log(message);

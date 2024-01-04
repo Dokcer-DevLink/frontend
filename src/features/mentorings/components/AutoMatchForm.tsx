@@ -42,7 +42,7 @@ export const AutoMatchForm = () => {
       try {
         const startTime = new Date(`${date}T${values.time}`).toISOString();
         const result = await autoMatch({
-          place: selectedPlace.place,
+          address: selectedPlace.address,
           type: role,
           unitTimeCount: values.unitTimeCount,
           startTime,
