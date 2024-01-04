@@ -106,7 +106,7 @@ export const PostForm = ({ defaultPost }: PostFormProps) => {
         {({ register, formState, setValue }) => (
           <FormInner>
             <InputSection>
-              <InputSectionTitle>찾는 사람</InputSectionTitle>
+              <InputSectionTitle>작성자 역할</InputSectionTitle>
               <Buttons>
                 <Button
                   isoutlined={postType !== 'MENTOR'}
