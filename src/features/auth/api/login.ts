@@ -14,3 +14,17 @@ export const loginWithEmailAndPassword = ({
     password,
   });
 };
+
+export const loginWithGithub = () => {
+  return axios.get('/auth-service/api/login/github');
+};
+
+type loginWithGithubCode = {
+  code: string;
+};
+
+export const loginWithGithubCode = ({ code }: loginWithGithubCode) => {
+  return axios.get('/auth-service/auth/github/callback', {
+    params: { code },
+  });
+};
