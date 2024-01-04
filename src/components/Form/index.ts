@@ -10,3 +10,4 @@ export * from './RangeInputField';
 export * from './RegionSelectField';
 export * from './SelectField';
 export * from './TextareaField';
+export * from './TimeSelectField';

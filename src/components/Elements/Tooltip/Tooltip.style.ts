@@ -1,20 +1,30 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  position: relative;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  span {
+    display: none;
+  }
 
-  padding: 20px;
-
-  background: ${(props) => props.theme.schemes.light.surfaceVariant};
+  &:hover {
+    span {
+      display: flex;
+    }
+  }
 `;
 
-export const Description = styled.p`
-  color: ${(props) => props.theme.schemes.light.onSurfaceVariant};
+export const Tips = styled.span`
+  position: absolute;
+  z-index: 10;
+  top: 110%;
+
+  border-radius: 5px;
+  padding: 5px;
+
+  background-color: ${(props) => props.theme.schemes.light.secondary};
+  color: ${(props) => props.theme.schemes.light.onSecondary};
+
   font-size: ${(props) => props.theme.styles.label.small.fontSize}px;
   font-weight: ${(props) => props.theme.styles.label.small.fontWeight};
   line-height: ${(props) => props.theme.styles.label.small.lineHeight}px;

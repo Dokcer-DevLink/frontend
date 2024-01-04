@@ -5,14 +5,12 @@ import { ChangeEvent } from 'react';
 
 export type AudioFileInputFieldProps = FieldWrapperPassThroughProps & {
   label?: React.ReactNode;
-  registration: Partial<UseFormRegisterReturn>;
   setAudioUrl?: (props: string) => void;
 };
 
 export const AudioFileInputField = ({
   label,
   error,
-  registration,
   setAudioUrl,
 }: AudioFileInputFieldProps) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

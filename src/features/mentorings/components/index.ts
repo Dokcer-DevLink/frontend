@@ -7,3 +7,4 @@ export * from './MyMentorings';
 
 export * from './RecieveMentoring';
 export * from './RequestMentoring';
+export * from './SearchPlace';

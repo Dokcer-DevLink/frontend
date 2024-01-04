@@ -8,7 +8,6 @@ import {
   Inner,
   Nickname,
   Profile,
-  RequestState,
   Requests,
   TextInfomations,
   UserImage,
@@ -17,7 +16,6 @@ import {
 import NoProfileUser from '@/assets/icons/no-profile-user.svg';
 import { useEffect, useState } from 'react';
 import { DeleteAccount, Logout } from '@/features/auth';
-import { VerticalUser } from '@/features/users';
 import {
   CancelMentoringRequest,
   CancelMentoringRequestProps,

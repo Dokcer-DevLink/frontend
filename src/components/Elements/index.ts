@@ -8,3 +8,4 @@ export * from './Menu';
 
 export * from './Slider';
 export * from './Spinner';
+export * from './Tooltip';

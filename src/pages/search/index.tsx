@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -35,10 +35,12 @@ export default function Search() {
   const [users, setUsers] = useState<UserType[]>([]);
 
   useEffect(() => {
+    setIsLast(false);
     (async () => {
       const result = await getPosts({
         postType: isMentor ? 'MENTOR' : 'MENTEE',
         keyword,
+        page: 0,
       });
       setPosts(result.data.content);
     })();
@@ -46,10 +48,99 @@ export default function Search() {
       const result = await getUsers({
         profileType: isMentor ? 'MENTOR' : 'MENTEE',
         keyword,
+        page: 0,
       });
       setUsers(result.data.content);
     })();
+    setCount(0);
   }, [isMentor, keyword]);
+
+  // Infinity Scroll
+
+  const target = useRef(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [count, setCount] = useState(0);
+  const [isLast, setIsLast] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(isLoading);
+    if (isLoading) {
+      return;
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log(count);
+    // setIsLoading(true);
+  }, [count]);
+
+  const getItems = async () => {
+    try {
+      if (isPosts) {
+        const result = await getPosts({
+          postType: isMentor ? 'MENTOR' : 'MENTEE',
+          keyword,
+          page: count,
+        });
+        if (result.data.last) {
+          setIsLast(true);
+        }
+        if (count === 0) {
+          setPosts(result.data.content);
+        } else {
+          setPosts((prev) => [...prev, ...result.data.content]);
+        }
+      } else {
+        const result = await getUsers({
+          profileType: isMentor ? 'MENTOR' : 'MENTEE',
+          keyword,
+          page: count,
+        });
+        if (result.data.last) {
+          setIsLast(true);
+        }
+        if (count === 0) {
+          setUsers(result.data.content);
+        } else {
+          setUsers((prev) => [...prev, ...result.data.content]);
+        }
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onIntersect = async (
+    [entry]: any,
+    observer: { observe: (arg0: any) => void }
+  ) => {
+    if (entry.isIntersecting) {
+      if (isLoading || isLast) {
+        return;
+      }
+      setIsLoading(true);
+      (async () => {
+        setTimeout(() => getItems(), 500);
+      })();
+      console.log('intersect');
+      setCount((prev) => prev + 1);
+    }
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target.current) {
+      if (target) {
+        observer = new IntersectionObserver(onIntersect, {
+          threshold: 0.4,
+        });
+        observer.observe(target.current);
+      }
+    }
+    return () => observer && observer.disconnect();
+  }, [onIntersect, target]);
 
   return (
     <>
@@ -114,9 +205,9 @@ export default function Search() {
             </Buttons>
           </ButtonBox>
           {isPosts ? (
-            <VerticalPosts posts={posts} />
+            <VerticalPosts posts={posts} observer={<div ref={target}></div>} />
           ) : (
-            <VerticalUsers users={users} />
+            <VerticalUsers users={users} observer={<div ref={target}></div>} />
           )}
         </Inner>
       </MainLayout>

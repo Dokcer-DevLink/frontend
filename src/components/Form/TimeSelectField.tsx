@@ -47,11 +47,12 @@ export const TimeSelectField = ({
     } else {
       setDateSchedules([]);
     }
-  }, [date, settings?.dates, settings?.schedules]);
+  }, [date, settings, settings?.dates, settings?.schedules]);
 
   useEffect(() => {
+    console.log(runningTime, time);
     setEndTime(getEndTime({ time, runningTime }));
-  }, [time]);
+  }, [runningTime, time]);
 
   useEffect(() => {
     console.log(dateSchedules);
@@ -73,6 +74,10 @@ export const TimeSelectField = ({
       setValue(name, String(fiteredOptions[0].value));
     }
   }, [fiteredOptions, name, setValue]);
+
+  useEffect(() => {
+    console.log(endTime);
+  }, [endTime]);
   return (
     <Wrapper>
       <SelectField
@@ -98,8 +103,7 @@ type getEndTimeProps = {
 };
 
 const getEndTime = ({ time, runningTime }: getEndTimeProps) => {
-  console.log(options, time, runningTime);
-  return options[options.indexOf(time) + runningTime];
+  return options[options.indexOf(time) + Number(runningTime)];
 };
 
 type getFilteredOptionsProps = {

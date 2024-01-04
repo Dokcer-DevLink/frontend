@@ -10,7 +10,7 @@ import {
   Wrapper,
 } from './MentoringRecord.style';
 import { Button, Empty } from '@/components/Elements';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { BaseSyntheticEvent, Dispatch, SetStateAction, useState } from 'react';
 import { recordMentoring } from '../api/recordMentoring';
 import { MentoringType } from '../type';
 
@@ -25,38 +25,36 @@ export const MentoringRecord = ({
   filename,
   record,
   mentoringUuid,
+  setCurrentMentoring,
 }: MentoringRecordProps) => {
-  const [recordFilename, setRecordFilename] = useState(
-    filename ? filename : '등록된 파일이 없습니다'
-  );
   const [audioUrl, setAudioUrl] = useState<string>();
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (
+    values: any,
+    event: BaseSyntheticEvent<object, any, any> | undefined
+  ) => {
     const result = await recordMentoring({
       mentoringUuid,
       content: audioUrl as string,
     });
-    // setCurrentMentoring((prev) => {
-    //   return {};
-    // });
-    console.log(result);
+    setCurrentMentoring((prev: any) => {
+      return { ...prev, recordContent: result.data.content };
+    });
+    if (event) {
+      setAudioUrl('');
+      event.target.reset();
+    }
   };
 
-  const handleAudioFileInputChange = (event: Event) => {
-    setRecordFilename(event.target.files[0].name);
-  };
   return (
     <Wrapper>
       <Title>멘토링 기록하기</Title>
       <Form onSubmit={handleSubmit}>
         {({ register, formState }) => (
           <FormInner>
-            <Filename>{recordFilename}</Filename>
+            <Filename>{audioUrl}</Filename>
             <Buttons>
               <AudioFileInputField
                 label={<SelectFile>파일 선택하기</SelectFile>}
-                registration={register('audio', {
-                  // onChange: (event) => handleAudioFileInputChange(event),
-                })}
                 error={formState.errors['audio']?.root}
                 setAudioUrl={setAudioUrl}
               />
@@ -73,7 +71,11 @@ export const MentoringRecord = ({
         )}
       </Form>
       <Record>
-        {true ? <RecordContent>{record}</RecordContent> : <Empty />}
+        {true ? (
+          <RecordContent>{record?.split('\n').join('\n\n\n')}</RecordContent>
+        ) : (
+          <Empty />
+        )}
       </Record>
     </Wrapper>
   );
